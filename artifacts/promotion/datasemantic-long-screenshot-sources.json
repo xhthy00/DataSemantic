@@ -1,0 +1,45 @@
+{
+  "screenshots": [
+    {
+      "name": "workspace-list.png",
+      "original": [
+        1440,
+        1000
+      ],
+      "rect": [
+        448,
+        1464,
+        1056,
+        733.3333333333333
+      ]
+    },
+    {
+      "name": "relation-canvas.jpg",
+      "original": [
+        1470,
+        746
+      ],
+      "rect": [
+        96,
+        2443,
+        1408,
+        714.5360544217688
+      ]
+    },
+    {
+      "name": "semantic-view-test.jpg",
+      "original": [
+        1470,
+        746
+      ],
+      "rect": [
+        96,
+        3407,
+        1408,
+        714.5360544217688
+      ]
+    }
+  ],
+  "uiRedrawn": false,
+  "artwork": "datasemantic-cow-editorial.png"
+}

@@ -1,0 +1,530 @@
+{
+  "date": "2026-11-03",
+  "native_wren_planning": [
+    {
+      "id": "V01",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V02",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V03",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V04",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V05",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V06",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V07",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V08",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V09",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V10",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V11",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V12",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V13",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V14",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V15",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V16",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V17",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V18",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V19",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V20",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V21",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V22",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V23",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V24",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V25",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V26",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V27",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V28",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V29",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V30",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V31",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V32",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V33",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V34",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V35",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V36",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V37",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V38",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V39",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V40",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V41",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V42",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    },
+    {
+      "id": "V43",
+      "planning": {
+        "postgres": {
+          "ok": true
+        },
+        "duckdb": {
+          "ok": true
+        }
+      },
+      "synthetic_execution": "通过"
+    }
+  ],
+  "synthetic_data_only": true,
+  "business_database_accessed": false,
+  "studio_changed": false,
+  "note": "规划与虚构数据测试不等于业务口径已确认、物理键唯一性已检查或真实数据已对账。",
+  "combined_43_view_manifest_validation": "通过",
+  "sql_draft_count": 43,
+  "new_nonempty_fixture_checks": "新增27份SQL_非空样本校验.json",
+  "complete_rule_mapping_count": 153,
+  "sql_files_catalog_and_form_consistency": "通过"
+}

@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-03",
+  "rules": 153,
+  "groups": 14,
+  "source_references": 259,
+  "sql_examples": 30,
+  "indexed_files": 523,
+  "source_files_unchanged_since_scan": true,
+  "reference_paths_and_lines_valid": true,
+  "markdown_local_links_valid": true,
+  "markdown_code_fences_paired": true,
+  "database_queries_executed": false,
+  "sql_execution_or_wren_compatibility_verified": false,
+  "verification": "校验目录结构、引用、原始源码哈希及示例覆盖；没有执行源项目或数据库SQL。"
+}

@@ -1,0 +1,26 @@
+Use case: ads-marketing.
+Create ONE polished finished Simplified Chinese promotional poster for DataSemantic, a supporting business-data semantic infrastructure for MyCoWork. EXACT 16:9 horizontal aspect ratio, target 3840x2160 pixels, full bleed, no mockup border.
+INPUT REFERENCES: Image 1 is MyCoWork's existing promotional cover, to match its light blue background, rich dark navy Chinese typography, crisp blue accents, generous whitespace, round white information cards, approachable 3D cow mascot and professional yet friendly visual identity. Image 2 is its architecture graphic for clean card typography and blue connectors. Use these as STYLE REFERENCES ONLY. Create an entirely new DataSemantic composition and illustration; do not reproduce the original poster or its technical-stack copy.
+DESIGN: bright near-white ice blue background with an extremely subtle sky-blue gradient, navy #234456 titles, azure #0089D7 accents, thin pale blue card borders, soft restrained shadows. Clear reading order, editorial alignment, beautifully typeset large legible Chinese sans serif. Friendly enterprise product campaign. No neon, no dark cyberpunk, no stock-photo people, no gratuitous gradients.
+LAYOUT: generous 4% safe margins. Small identity row at top: an elegant small blue connected-data icon, wordmark 'DataSemantic' in large navy, and a small right-aligned pill 'MyCoWork 配套 · 业务数据语义层'. Main hero region from y=18% to 62%: left approx 58% contains a bold two-line headline, supporting sentence, and a simple three-node horizontal conceptual connection strip. Right approx 38% contains an exquisite soft 3D illustration in the SAME cute cow character universe as the reference: ONE small cream and navy cow with golden horns, coral pink muzzle, big warm eyes, operating a blue laptop next to a beautiful blue cylindrical database and floating clean semantic-model cards connected by blue lines. Blue transparent-acrylic and matte ceramic material mix, cohesive gentle studio lighting. Floating cards use abstract clean table rows and relation nodes rather than illegible pseudo text. Illustration is contained in its region and never overlaps copy; subtle blue and white flowers at base echo reference sparingly. This is a data infrastructure visual, not a large cow team scene.
+Below hero, arrange THREE equally sized WHITE rounded cards side by side at y~67%-88%, each with a tiny blue line icon, small muted pain-point line, bold navy solution title, and one blue-grey capability line. Exact consistent spacing; align baselines. No fourth card.
+Footer at y~94% separated by a subtle hairline: blue closing statement at left, small subdued English 'DataSemantic × MyCoWork' at right.
+EXACT TEXT TO RENDER, with no additional claims or invented URLs:
+Identity wordmark: 'DataSemantic'
+Top pill: 'MyCoWork 配套 · 业务数据语义层'
+Hero headline, first line: '让 AI 读懂业务数据'
+Hero headline, second line: '让查询有据可依'
+Supporting sentence, can wrap into two lines if needed: '把表结构、业务口径与关联关系，沉淀为可复用的语义模型'
+Three-node strip labels, connected left to right by small blue arrows: 'MyCoWork' → 'DataSemantic' → '业务数据库'
+First card small pain line: '表多、字段杂，理解成本高'
+First card main solution: '可视化语义建模'
+First card capability line: '数据库扫描 · DDL 导入 · 关联配置'
+Second card small pain line: '同一指标，多种算法'
+Second card main solution: '统一业务口径'
+Second card capability line: '计算字段 · 语义视图 · 集中维护'
+Third card small pain line: '查询逻辑难复核'
+Third card main solution: '验证查询，追溯版本'
+Third card capability line: 'SQL 预览 · 只读执行 · 版本发布'
+Footer left: '连接 AI 能力与业务数据，让行业分析有章可循'
+Footer right: 'DataSemantic × MyCoWork'
+FACTUAL CONSTRAINTS: The service provides explicit semantic modeling, semantic SQL to physical SQL planning and optional read-only execution. It is not itself a natural language question-answering chatbot and does not automatically determine correct business metrics. Do not add claims like natural language directly querying all databases, automatic metric discovery, guaranteed accuracy, full autonomous permissions, already shipped integration, or performance statistics. No QR codes or fake websites. Exact Chinese text must be sharp, correct and easily readable, all copy entirely inside the frame. Strong visual craft and restraint: more negative space, fewer decorations, balanced text and illustration.

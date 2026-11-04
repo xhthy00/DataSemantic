@@ -1,0 +1,144 @@
+{
+  "date": "2026-11-03",
+  "scope": "新增27份SQL的非空虚构数据执行和边界检查",
+  "views": [
+    {
+      "id": "V17",
+      "nonempty_row_count": 24,
+      "executed": true
+    },
+    {
+      "id": "V18",
+      "nonempty_row_count": 24,
+      "executed": true
+    },
+    {
+      "id": "V19",
+      "nonempty_row_count": 12,
+      "executed": true
+    },
+    {
+      "id": "V20",
+      "nonempty_row_count": 92,
+      "executed": true
+    },
+    {
+      "id": "V21",
+      "nonempty_row_count": 36,
+      "executed": true
+    },
+    {
+      "id": "V22",
+      "nonempty_row_count": 48,
+      "executed": true
+    },
+    {
+      "id": "V23",
+      "nonempty_row_count": 16,
+      "executed": true
+    },
+    {
+      "id": "V24",
+      "nonempty_row_count": 56,
+      "executed": true
+    },
+    {
+      "id": "V25",
+      "nonempty_row_count": 24,
+      "executed": true
+    },
+    {
+      "id": "V26",
+      "nonempty_row_count": 184,
+      "executed": true
+    },
+    {
+      "id": "V27",
+      "nonempty_row_count": 8,
+      "executed": true
+    },
+    {
+      "id": "V28",
+      "nonempty_row_count": 24,
+      "executed": true
+    },
+    {
+      "id": "V29",
+      "nonempty_row_count": 48,
+      "executed": true
+    },
+    {
+      "id": "V30",
+      "nonempty_row_count": 84,
+      "executed": true
+    },
+    {
+      "id": "V31",
+      "nonempty_row_count": 72,
+      "executed": true
+    },
+    {
+      "id": "V32",
+      "nonempty_row_count": 72,
+      "executed": true
+    },
+    {
+      "id": "V33",
+      "nonempty_row_count": 24,
+      "executed": true
+    },
+    {
+      "id": "V34",
+      "nonempty_row_count": 24,
+      "executed": true
+    },
+    {
+      "id": "V35",
+      "nonempty_row_count": 60,
+      "executed": true
+    },
+    {
+      "id": "V36",
+      "nonempty_row_count": 357,
+      "executed": true
+    },
+    {
+      "id": "V37",
+      "nonempty_row_count": 273,
+      "executed": true
+    },
+    {
+      "id": "V38",
+      "nonempty_row_count": 273,
+      "executed": true
+    },
+    {
+      "id": "V39",
+      "nonempty_row_count": 255,
+      "executed": true
+    },
+    {
+      "id": "V40",
+      "nonempty_row_count": 13,
+      "executed": true
+    },
+    {
+      "id": "V41",
+      "nonempty_row_count": 8,
+      "executed": true
+    },
+    {
+      "id": "V42",
+      "nonempty_row_count": 48,
+      "executed": true
+    },
+    {
+      "id": "V43",
+      "nonempty_row_count": 75,
+      "executed": true
+    }
+  ],
+  "boundary_assertions_passed": true,
+  "business_database_accessed": false,
+  "fixture": "2学校×2班×12学生×2同届考试，另有不同届次、未知时间、真实0、缺小题、NULL小题、赋分缺档、缺学校映射、歧义学校名、不同满分等样本。"
+}

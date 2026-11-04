@@ -1,0 +1,1941 @@
+{
+  "date": "2026-11-03",
+  "source": "此前本地扫描的18表MDL快照及awesome-project源码",
+  "live_database_catalog_checked": false,
+  "physical_foreign_keys_verified": false,
+  "scope_note": "字段存在已对照扫描快照检查；基数是业务预期，仍需右侧唯一性、空值和孤儿记录验证；不是可直接导入MDL的文件。",
+  "tables": [
+    {
+      "table": "tb_assign_band",
+      "name": "再选科目赋分档",
+      "grain": "考试×科目×等级",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "subject",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "grade",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "raw_hi",
+          "type": "decimal(8, 2)",
+          "description": ""
+        },
+        {
+          "name": "raw_lo",
+          "type": "decimal(8, 2)",
+          "description": ""
+        },
+        {
+          "name": "conv_hi",
+          "type": "decimal(8, 2)",
+          "description": ""
+        },
+        {
+          "name": "conv_lo",
+          "type": "decimal(8, 2)",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "table": "tb_elite_class",
+      "name": "尖子班名单",
+      "grain": "考试×学校×班级×方向",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "class_name",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "track",
+          "type": "varchar",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "table": "tb_exam",
+      "name": "单科试卷",
+      "grain": "该批次下的一份单科试卷",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": "试卷名称"
+        },
+        {
+          "name": "exam_time",
+          "type": "date",
+          "description": "考试时间"
+        },
+        {
+          "name": "subject",
+          "type": "varchar",
+          "description": "科目"
+        },
+        {
+          "name": "exam_score",
+          "type": "decimal(4, 1)",
+          "description": "试卷分值"
+        },
+        {
+          "name": "exam_type",
+          "type": "varchar",
+          "description": "试卷类型: city=全市统考, school=学校自建, teacher=教师自建"
+        },
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "description": "所属学校编号，全市统考为空"
+        },
+        {
+          "name": "owner_id",
+          "type": "varchar",
+          "description": "创建教师编号，仅 teacher 类型有效"
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "description": "考试批次ID，关联 tb_exam_batch.id"
+        },
+        {
+          "name": "jc",
+          "type": "varchar",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "table": "tb_exam_batch",
+      "name": "考试批次",
+      "grain": "一场考试批次",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": "自增主键"
+        },
+        {
+          "name": "batch_name",
+          "type": "varchar",
+          "description": "考试名称，如 2026届高三11月期中"
+        },
+        {
+          "name": "exam_time",
+          "type": "date",
+          "description": "考试时间年月"
+        },
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "owner_id",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "exam_type",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "jc",
+          "type": "varchar",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "table": "tb_exam_match_item",
+      "name": "匹配任务题目结果",
+      "grain": "一次任务中的一道题结果（推断）",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "task_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "question_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "question_no",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "content",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "current_links",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "add_suggestions",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "remove_suggestions",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "verdict",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "adopted",
+          "type": "boolean",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "table": "tb_exam_match_task",
+      "name": "知识点匹配任务",
+      "grain": "一次匹配任务（推断）",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "exam_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "scope",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "question_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "status",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "total_count",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "done_count",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "failed_count",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "summary",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "error",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "table": "tb_exam_question",
+      "name": "试卷题目",
+      "grain": "一份试卷的一道题",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": "试卷名称"
+        },
+        {
+          "name": "question_no",
+          "type": "varchar",
+          "description": "题号字符串，如 24-1/单选1/语法填空"
+        },
+        {
+          "name": "content",
+          "type": "varchar",
+          "description": "题目内容"
+        },
+        {
+          "name": "question_score",
+          "type": "decimal(4, 1)",
+          "description": "题目分值"
+        },
+        {
+          "name": "exam_id",
+          "type": "integer",
+          "description": "试卷编号"
+        },
+        {
+          "name": "question_type",
+          "type": "varchar",
+          "description": "题型：选择/填空/解答等"
+        },
+        {
+          "name": "difficulty",
+          "type": "decimal(4, 2)",
+          "description": "预设难度，可选；无则运行时由得分率推算"
+        },
+        {
+          "name": "sort_no",
+          "type": "integer",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "table": "tb_exam_question_knowledge",
+      "name": "题目—知识点关联",
+      "grain": "一道题×一个知识点",
+      "snapshot_mdl_primary_key": null,
+      "fields": [
+        {
+          "name": "question_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "knowledge_id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "weight",
+          "type": "decimal(8, 4)",
+          "description": "关联权重，题内归一化：w_norm = weight / SUM(weight)"
+        }
+      ]
+    },
+    {
+      "table": "tb_fraction_bar",
+      "name": "预测分数线",
+      "grain": "一场考试的各方向分数线配置（业务预期）",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": "考试名称"
+        },
+        {
+          "name": "wl_score_bk",
+          "type": "integer",
+          "description": "物理方向本科线"
+        },
+        {
+          "name": "wl_score_tz",
+          "type": "integer",
+          "description": "物理方向特招线"
+        },
+        {
+          "name": "ls_score_bk",
+          "type": "integer",
+          "description": "历史方向本科线"
+        },
+        {
+          "name": "ls_score_tz",
+          "type": "integer",
+          "description": "历史方向特招线"
+        },
+        {
+          "name": "wl_score_ty",
+          "type": "integer",
+          "description": "物理方向体育类"
+        },
+        {
+          "name": "wl_socre_ms",
+          "type": "integer",
+          "description": "物理方向美术类"
+        },
+        {
+          "name": "wl_score_yy",
+          "type": "integer",
+          "description": "物理方向音乐类"
+        },
+        {
+          "name": "ls_score_ty",
+          "type": "integer",
+          "description": "历史方向体育类"
+        },
+        {
+          "name": "ls_score_ms",
+          "type": "integer",
+          "description": "历史方向美术类"
+        },
+        {
+          "name": "ls_score_yy",
+          "type": "integer",
+          "description": "历史方向音乐类"
+        },
+        {
+          "name": "wl_score_211",
+          "type": "integer",
+          "description": "物理方向211线"
+        },
+        {
+          "name": "wl_score_qb",
+          "type": "integer",
+          "description": "物理方向清北线"
+        },
+        {
+          "name": "wl_score_nd",
+          "type": "integer",
+          "description": "物理方向南大线"
+        },
+        {
+          "name": "wl_score_985",
+          "type": "integer",
+          "description": "物理方向985线"
+        },
+        {
+          "name": "ls_score_211",
+          "type": "integer",
+          "description": "历史方向211线"
+        },
+        {
+          "name": "ls_score_qb",
+          "type": "integer",
+          "description": "历史方向清北线"
+        },
+        {
+          "name": "ls_score_nd",
+          "type": "integer",
+          "description": "历史方向南大线"
+        },
+        {
+          "name": "ls_score_985",
+          "type": "integer",
+          "description": "历史方向985线"
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "description": "考试批次ID"
+        }
+      ]
+    },
+    {
+      "table": "tb_knowledge",
+      "name": "知识点",
+      "grain": "一个知识点身份",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "stage",
+          "type": "varchar",
+          "description": "学段：小学/初中/高中"
+        },
+        {
+          "name": "grade",
+          "type": "varchar",
+          "description": "年级：如 高一/高二/高三、初一…"
+        },
+        {
+          "name": "subject_no",
+          "type": "varchar",
+          "description": "学科编码"
+        },
+        {
+          "name": "subject",
+          "type": "varchar",
+          "description": "学科"
+        },
+        {
+          "name": "module_no",
+          "type": "varchar",
+          "description": "大概念编码"
+        },
+        {
+          "name": "module",
+          "type": "varchar",
+          "description": "模块：如 函数/三角/数列"
+        },
+        {
+          "name": "chapter_no",
+          "type": "varchar",
+          "description": "重要概念编码"
+        },
+        {
+          "name": "chapter",
+          "type": "varchar",
+          "description": "章节：模块下的章节名"
+        },
+        {
+          "name": "secondary_no",
+          "type": "varchar",
+          "description": "次位概念编码"
+        },
+        {
+          "name": "secondary",
+          "type": "varchar",
+          "description": "次位概念"
+        },
+        {
+          "name": "knowledge_no",
+          "type": "varchar",
+          "description": "知识点编码"
+        },
+        {
+          "name": "knowledge_name",
+          "type": "varchar",
+          "description": "知识点名称"
+        },
+        {
+          "name": "knowledge_content",
+          "type": "varchar",
+          "description": "知识点内容，可空"
+        },
+        {
+          "name": "ability_level",
+          "type": "varchar",
+          "description": "能力层级：basic/applied/advanced，可空"
+        }
+      ]
+    },
+    {
+      "table": "tb_knowledge_version",
+      "name": "知识点版本",
+      "grain": "一个知识点的一次版本快照",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "knowledge_id",
+          "type": "bigint",
+          "description": "关联 tb_knowledge.id，身份恒定"
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "description": "该知识点的第几版，从 1 起"
+        },
+        {
+          "name": "knowledge_content",
+          "type": "varchar",
+          "description": "本版的知识点内容快照"
+        },
+        {
+          "name": "change_type",
+          "type": "varchar",
+          "description": "create/update/import/delete/migrate"
+        },
+        {
+          "name": "operator",
+          "type": "varchar",
+          "description": "操作人账号，未接入登录态时为 system/legacy"
+        },
+        {
+          "name": "source",
+          "type": "varchar",
+          "description": "manual/import/migrate"
+        },
+        {
+          "name": "operated_at",
+          "type": "timestamptz",
+          "description": "操作时间"
+        }
+      ]
+    },
+    {
+      "table": "tb_school",
+      "name": "学校",
+      "grain": "一所学校/校区",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "varchar",
+          "description": "学校编号"
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "description": "学校名称(密文)"
+        },
+        {
+          "name": "district",
+          "type": "varchar",
+          "description": "区县维度，用于区域聚合"
+        },
+        {
+          "name": "s_name",
+          "type": "varchar",
+          "description": "学校名称(明文)"
+        },
+        {
+          "name": "stage",
+          "type": "varchar",
+          "description": "学段"
+        },
+        {
+          "name": "type",
+          "type": "varchar",
+          "description": "学校类型"
+        }
+      ]
+    },
+    {
+      "table": "tb_score",
+      "name": "学生科目成绩",
+      "grain": "一名学生×一份试卷",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "exam_id",
+          "type": "integer",
+          "description": "试卷ID"
+        },
+        {
+          "name": "student_id",
+          "type": "varchar",
+          "description": "学生编号"
+        },
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "description": "学校编号"
+        },
+        {
+          "name": "class",
+          "type": "varchar",
+          "description": "班级"
+        },
+        {
+          "name": "exam_score",
+          "type": "decimal(4, 1)",
+          "description": "试卷总分"
+        },
+        {
+          "name": "subject_name",
+          "type": "varchar",
+          "description": "考试科目"
+        },
+        {
+          "name": "score",
+          "type": "decimal(4, 1)",
+          "description": "真实得分"
+        },
+        {
+          "name": "exam_time",
+          "type": "date",
+          "description": "考试时间"
+        }
+      ]
+    },
+    {
+      "table": "tb_score_contribution",
+      "name": "切线贡献分",
+      "grain": "考试×方向×线种（依字段含义推导）",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": "考试名称，与 tb_exam_batch.batch_name / tb_fraction_bar.exam_name 一致"
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "description": "考试批次ID，关联 tb_exam_batch.id"
+        },
+        {
+          "name": "track",
+          "type": "varchar",
+          "description": "选科方向：物理类 / 历史类"
+        },
+        {
+          "name": "line_code",
+          "type": "varchar",
+          "description": "线种代码 tz/bk/211；特招线=特控线 tz"
+        },
+        {
+          "name": "line_name",
+          "type": "varchar",
+          "description": "线种名称：特控线/本科线/211线"
+        },
+        {
+          "name": "threshold",
+          "type": "decimal(8, 2)",
+          "description": "该选科该线预测分数线，对应 Excel ZF6 贡献分"
+        },
+        {
+          "name": "reached_count",
+          "type": "integer",
+          "description": "全市该选科达线人数（总分≥threshold）"
+        },
+        {
+          "name": "yw",
+          "type": "decimal(8, 2)",
+          "description": "语文贡献分"
+        },
+        {
+          "name": "sx",
+          "type": "decimal(8, 2)",
+          "description": "数学贡献分"
+        },
+        {
+          "name": "yy",
+          "type": "decimal(8, 2)",
+          "description": "英语贡献分"
+        },
+        {
+          "name": "wl",
+          "type": "decimal(8, 2)",
+          "description": "物理贡献分；历史类为空"
+        },
+        {
+          "name": "ls",
+          "type": "decimal(8, 2)",
+          "description": "历史贡献分；物理类为空"
+        },
+        {
+          "name": "hxzh",
+          "type": "decimal(8, 2)",
+          "description": "化学转换分贡献分"
+        },
+        {
+          "name": "swzh",
+          "type": "decimal(8, 2)",
+          "description": "生物转换分贡献分"
+        },
+        {
+          "name": "zzzh",
+          "type": "decimal(8, 2)",
+          "description": "政治转换分贡献分"
+        },
+        {
+          "name": "dlzh",
+          "type": "decimal(8, 2)",
+          "description": "地理转换分贡献分"
+        },
+        {
+          "name": "source",
+          "type": "varchar",
+          "description": "import=基础分析表导入；computed=系统现算回填"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "description": "最近一次写入时间"
+        }
+      ]
+    },
+    {
+      "table": "tb_score_detail",
+      "name": "学生小题得分",
+      "grain": "一名学生×一份试卷×一个题号",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer",
+          "description": ""
+        },
+        {
+          "name": "exam_id",
+          "type": "integer",
+          "description": "试卷编号"
+        },
+        {
+          "name": "student_id",
+          "type": "varchar",
+          "description": "学生编号"
+        },
+        {
+          "name": "question_no",
+          "type": "varchar",
+          "description": "题目编号"
+        },
+        {
+          "name": "score",
+          "type": "decimal(4, 1)",
+          "description": "真实得分"
+        },
+        {
+          "name": "class",
+          "type": "varchar",
+          "description": "班级"
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "description": "题目id"
+        },
+        {
+          "name": "question_score",
+          "type": "decimal(4, 1)",
+          "description": "问题总分"
+        }
+      ]
+    },
+    {
+      "table": "tb_score_indicator",
+      "name": "学校达线汇总",
+      "grain": "考试×学校×方向×线种",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": ""
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": "考试名称，与 tb_exam_batch.batch_name 一致"
+        },
+        {
+          "name": "track",
+          "type": "varchar",
+          "description": "选科方向：物理类 / 历史类"
+        },
+        {
+          "name": "district",
+          "type": "varchar",
+          "description": "区县"
+        },
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "description": "脱敏校码，与 overview.xx、权限 school_id 对齐"
+        },
+        {
+          "name": "school_name",
+          "type": "varchar",
+          "description": "学校展示名"
+        },
+        {
+          "name": "line_code",
+          "type": "varchar",
+          "description": "线种代码 tz/bk/ty/ms/yy/211/985/qb/nd"
+        },
+        {
+          "name": "line_name",
+          "type": "varchar",
+          "description": "线种名称"
+        },
+        {
+          "name": "threshold",
+          "type": "decimal(8, 2)",
+          "description": "该选科该线预测分数线"
+        },
+        {
+          "name": "candidates",
+          "type": "integer",
+          "description": "该校该选科参考人数"
+        },
+        {
+          "name": "reached_count",
+          "type": "integer",
+          "description": "达线人数（总分≥threshold）"
+        },
+        {
+          "name": "reach_rate",
+          "type": "decimal(8, 4)",
+          "description": "学校粒度达线率 0-100；区县/全市禁止对本列求平均"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp",
+          "description": "最近一次按分数线重算时间"
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "description": "考试批次ID，关联 tb_exam_batch.id，与 exam_name 对应"
+        }
+      ]
+    },
+    {
+      "table": "tb_score_overview",
+      "name": "学生考试总览",
+      "grain": "一名学生×一场考试（业务预期）",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "description": "自增主键"
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "description": "考试批次名称"
+        },
+        {
+          "name": "jc",
+          "type": "integer",
+          "description": "届次"
+        },
+        {
+          "name": "ksh",
+          "type": "varchar",
+          "description": "考生号"
+        },
+        {
+          "name": "sfzh",
+          "type": "varchar",
+          "description": "学号"
+        },
+        {
+          "name": "xm",
+          "type": "varchar",
+          "description": "姓名"
+        },
+        {
+          "name": "bj",
+          "type": "varchar",
+          "description": "班级"
+        },
+        {
+          "name": "xx",
+          "type": "varchar",
+          "description": "学校"
+        },
+        {
+          "name": "xh",
+          "type": "smallint",
+          "description": "学校编号"
+        },
+        {
+          "name": "xsxz",
+          "type": "varchar",
+          "description": "学生性质"
+        },
+        {
+          "name": "xxlb",
+          "type": "varchar",
+          "description": "学校类别"
+        },
+        {
+          "name": "dq",
+          "type": "varchar",
+          "description": "地区"
+        },
+        {
+          "name": "qh",
+          "type": "varchar",
+          "description": "地区编号"
+        },
+        {
+          "name": "xkkm",
+          "type": "varchar",
+          "description": "选考科目组合"
+        },
+        {
+          "name": "xkqk",
+          "type": "varchar",
+          "description": "选科编码"
+        },
+        {
+          "name": "zf3m",
+          "type": "decimal(5, 1)",
+          "description": "语数英总分"
+        },
+        {
+          "name": "zf4m",
+          "type": "decimal(5, 1)",
+          "description": "语数英加首选科总分"
+        },
+        {
+          "name": "zf6m",
+          "type": "decimal(5, 1)",
+          "description": "全科总分"
+        },
+        {
+          "name": "yw",
+          "type": "decimal(4, 1)",
+          "description": "语文"
+        },
+        {
+          "name": "ywzw",
+          "type": "decimal(4, 1)",
+          "description": "语文作文"
+        },
+        {
+          "name": "sx",
+          "type": "decimal(4, 1)",
+          "description": "数学"
+        },
+        {
+          "name": "sxkg",
+          "type": "decimal(4, 1)",
+          "description": "数学客观题"
+        },
+        {
+          "name": "yy",
+          "type": "decimal(4, 1)",
+          "description": "英语"
+        },
+        {
+          "name": "yyzw",
+          "type": "decimal(4, 1)",
+          "description": "英语作文"
+        },
+        {
+          "name": "ry",
+          "type": "decimal(4, 1)",
+          "description": "日语"
+        },
+        {
+          "name": "rykg",
+          "type": "decimal(4, 1)",
+          "description": "日语口语"
+        },
+        {
+          "name": "ryzw",
+          "type": "decimal(4, 1)",
+          "description": "日语作文"
+        },
+        {
+          "name": "wl",
+          "type": "decimal(4, 1)",
+          "description": "物理"
+        },
+        {
+          "name": "ls",
+          "type": "decimal(4, 1)",
+          "description": "历史"
+        },
+        {
+          "name": "hx",
+          "type": "decimal(4, 1)",
+          "description": "化学"
+        },
+        {
+          "name": "sw",
+          "type": "decimal(4, 1)",
+          "description": "生物"
+        },
+        {
+          "name": "zz",
+          "type": "decimal(4, 1)",
+          "description": "政治"
+        },
+        {
+          "name": "dl",
+          "type": "decimal(4, 1)",
+          "description": "地理"
+        },
+        {
+          "name": "hxzh",
+          "type": "decimal(4, 1)",
+          "description": "化学赋分"
+        },
+        {
+          "name": "hxdj",
+          "type": "varchar",
+          "description": "化学等级"
+        },
+        {
+          "name": "swzh",
+          "type": "decimal(4, 1)",
+          "description": "生物赋分"
+        },
+        {
+          "name": "swdj",
+          "type": "varchar",
+          "description": "生物等级"
+        },
+        {
+          "name": "zzzh",
+          "type": "decimal(4, 1)",
+          "description": "政治赋分"
+        },
+        {
+          "name": "zzdj",
+          "type": "varchar",
+          "description": "政治等级"
+        },
+        {
+          "name": "dlzh",
+          "type": "decimal(4, 1)",
+          "description": "地理赋分"
+        },
+        {
+          "name": "dldj",
+          "type": "varchar",
+          "description": "地理等级"
+        },
+        {
+          "name": "zkcj",
+          "type": "decimal(5, 1)",
+          "description": "中考成绩"
+        },
+        {
+          "name": "create_time",
+          "type": "timestamptz",
+          "description": "创建时间"
+        },
+        {
+          "name": "update_time",
+          "type": "timestamptz",
+          "description": "更新时间"
+        },
+        {
+          "name": "anon_stu_id",
+          "type": "varchar",
+          "description": "学号匿名编码"
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "description": "考试批次ID，关联 tb_exam_batch.id"
+        }
+      ]
+    },
+    {
+      "table": "tb_student",
+      "name": "学生",
+      "grain": "一个学生标识",
+      "snapshot_mdl_primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "varchar",
+          "description": ""
+        },
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "description": "学校编号"
+        },
+        {
+          "name": "batch",
+          "type": "varchar",
+          "description": "学生届次"
+        },
+        {
+          "name": "class",
+          "type": "varchar",
+          "description": "学生班级"
+        },
+        {
+          "name": "stream_type",
+          "type": "varchar",
+          "description": "文理科类型"
+        },
+        {
+          "name": "zkcj",
+          "type": "double",
+          "description": "中考成绩，默认 0。成绩宽表 ZKCJ 为空或 0 时不覆盖已有值"
+        },
+        {
+          "name": "zkmc",
+          "type": "integer",
+          "description": "同一届中考名次。届次来自成绩宽表 jc。仅 zkcj 大于 0 参与，同分同名次，未参与为 0"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "R01",
+      "from_table": "tb_exam",
+      "to_table": "tb_exam_batch",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "一场考试批次包含多份单科试卷。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "config/education_schema.json",
+        "src/agent/education/schema_mapping.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam.exam_batch_id = tb_exam_batch.id"
+    },
+    {
+      "id": "R02",
+      "from_table": "tb_score",
+      "to_table": "tb_exam",
+      "field_pairs": [
+        {
+          "from": "exam_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "把学生成绩关联到对应单科试卷，取得科目与卷面满分。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "config/education_schema.json"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score.exam_id = tb_exam.id"
+    },
+    {
+      "id": "R03",
+      "from_table": "tb_score",
+      "to_table": "tb_student",
+      "field_pairs": [
+        {
+          "from": "student_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "同一学生在多份试卷中有多条成绩。",
+      "evidence_status": "字段与代码支持",
+      "note": "tb_student主键叫id，不叫student_id。",
+      "sources": [
+        "config/education_schema.json"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score.student_id = tb_student.id"
+    },
+    {
+      "id": "R04",
+      "from_table": "tb_score",
+      "to_table": "tb_school",
+      "field_pairs": [
+        {
+          "from": "school_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "确定该次成绩所属学校。",
+      "evidence_status": "字段与代码支持",
+      "note": "历史考试学校以成绩记录为准。",
+      "sources": [
+        "config/education_schema.json"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score.school_id = tb_school.id"
+    },
+    {
+      "id": "R05",
+      "from_table": "tb_student",
+      "to_table": "tb_school",
+      "field_pairs": [
+        {
+          "from": "school_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "学生维度记录的学校归属。",
+      "evidence_status": "字段结构支持",
+      "note": "可能是当前/最近更新的学校，不应覆盖历史成绩学校。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_student.school_id = tb_school.id"
+    },
+    {
+      "id": "R06",
+      "from_table": "tb_score_detail",
+      "to_table": "tb_exam",
+      "field_pairs": [
+        {
+          "from": "exam_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "小题得分所属单科试卷。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "src/agent/education/score_import.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_detail.exam_id = tb_exam.id"
+    },
+    {
+      "id": "R07",
+      "from_table": "tb_score_detail",
+      "to_table": "tb_student",
+      "field_pairs": [
+        {
+          "from": "student_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "小题得分属于哪位学生。",
+      "evidence_status": "字段结构支持",
+      "note": "",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_detail.student_id = tb_student.id"
+    },
+    {
+      "id": "R08",
+      "from_table": "tb_score_detail",
+      "to_table": "tb_score",
+      "field_pairs": [
+        {
+          "from": "exam_id",
+          "to": "exam_id"
+        },
+        {
+          "from": "student_id",
+          "to": "student_id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "同一学生同一份卷有多条小题得分。",
+      "evidence_status": "字段与代码支持",
+      "note": "必须两个条件同时匹配；右表(exam_id,student_id)应唯一。",
+      "sources": [
+        "config/education_schema.json",
+        "src/agent/education/tools.py",
+        "src/agent/education/score_import.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_detail.exam_id = tb_score.exam_id AND tb_score_detail.student_id = tb_score.student_id"
+    },
+    {
+      "id": "R09",
+      "from_table": "tb_exam_question",
+      "to_table": "tb_exam",
+      "field_pairs": [
+        {
+          "from": "exam_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "一份单科试卷包含多道题。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "scripts/match_question_knowledge.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_question.exam_id = tb_exam.id"
+    },
+    {
+      "id": "R10",
+      "from_table": "tb_score_detail",
+      "to_table": "tb_exam_question",
+      "field_pairs": [
+        {
+          "from": "question_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "取得这道题的题型、题干和满分。",
+      "evidence_status": "字段与代码支持",
+      "note": "同时核对detail.exam_id=question.exam_id；旧查询容忍question.exam_id为空，但新配置应优先保证一致。",
+      "sources": [
+        "src/agent/education/tools.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_detail.question_id = tb_exam_question.id"
+    },
+    {
+      "id": "R11",
+      "from_table": "tb_exam_question_knowledge",
+      "to_table": "tb_exam_question",
+      "field_pairs": [
+        {
+          "from": "question_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "题目知识点桥接表的题目端。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "src/agent/education/subject_diagnosis.py",
+        "docs/education_schema_ddl.sql"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_question_knowledge.question_id = tb_exam_question.id"
+    },
+    {
+      "id": "R12",
+      "from_table": "tb_exam_question_knowledge",
+      "to_table": "tb_knowledge",
+      "field_pairs": [
+        {
+          "from": "knowledge_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "题目知识点桥接表的知识点端。",
+      "evidence_status": "字段与代码支持",
+      "note": "题目↔知识点整体为多对多；weight用于题内权重归一化。",
+      "sources": [
+        "src/agent/education/subject_diagnosis.py",
+        "docs/education_schema_ddl.sql"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_question_knowledge.knowledge_id = tb_knowledge.id"
+    },
+    {
+      "id": "R13",
+      "from_table": "tb_knowledge_version",
+      "to_table": "tb_knowledge",
+      "field_pairs": [
+        {
+          "from": "knowledge_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "一个知识点有多条内容版本历史。",
+      "evidence_status": "扫描字段注释支持",
+      "note": "当前eqk关联知识点身份ID，没有version_id；不能声称某次考试自动锁定知识点历史版本。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_knowledge_version.knowledge_id = tb_knowledge.id"
+    },
+    {
+      "id": "R14",
+      "from_table": "tb_score_overview",
+      "to_table": "tb_exam_batch",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "学生某次考试总览对应考试批次。",
+      "evidence_status": "字段与代码支持",
+      "note": "老代码也会按exam_name=batch_name关联；ID应优先。",
+      "sources": [
+        "config/education_schema.json",
+        "src/agent/education/raw_import.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_overview.exam_batch_id = tb_exam_batch.id"
+    },
+    {
+      "id": "R15",
+      "from_table": "tb_score_overview",
+      "to_table": "tb_student",
+      "field_pairs": [
+        {
+          "from": "anon_stu_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "总览匿名学生标识与学生维度对齐。",
+      "evidence_status": "导入逻辑支持",
+      "note": "需检查历史数据是否使用同一匿名编码算法；换校可能改变匿名ID。",
+      "sources": [
+        "src/agent/education/raw_import.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_overview.anon_stu_id = tb_student.id"
+    },
+    {
+      "id": "R16",
+      "from_table": "tb_fraction_bar",
+      "to_table": "tb_exam_batch",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "考试批次对应预测线配置。",
+      "evidence_status": "字段与代码支持",
+      "note": "业务期望每批次一行，但参考DDL未对exam_batch_id设唯一约束；未检查真实唯一性。",
+      "sources": [
+        "docs/education_schema_ddl.sql",
+        "src/agent/education/score_indicator.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_fraction_bar.exam_batch_id = tb_exam_batch.id"
+    },
+    {
+      "id": "R17",
+      "from_table": "tb_score_indicator",
+      "to_table": "tb_exam_batch",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "学校×选科方向×线种达线汇总所属批次。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "docs/education_schema_ddl.sql",
+        "src/agent/education/score_indicator.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_indicator.exam_batch_id = tb_exam_batch.id"
+    },
+    {
+      "id": "R18",
+      "from_table": "tb_score_contribution",
+      "to_table": "tb_exam_batch",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "方向×线种切线贡献分所属批次。",
+      "evidence_status": "扫描字段注释支持",
+      "note": "主要教研代码会从overview重算贡献分；此表存在不等于查询必然读取它。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_contribution.exam_batch_id = tb_exam_batch.id"
+    },
+    {
+      "id": "R19",
+      "from_table": "tb_assign_band",
+      "to_table": "tb_exam_batch",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "某次考试再选科目ABCDE分档。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "docs/education_schema_ddl.sql"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_assign_band.exam_batch_id = tb_exam_batch.id"
+    },
+    {
+      "id": "R20",
+      "from_table": "tb_elite_class",
+      "to_table": "tb_exam_batch",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "某次考试的尖子班配置。",
+      "evidence_status": "字段与代码支持",
+      "note": "",
+      "sources": [
+        "docs/education_schema_ddl.sql"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_elite_class.exam_batch_id = tb_exam_batch.id"
+    },
+    {
+      "id": "R21",
+      "from_table": "tb_exam_match_task",
+      "to_table": "tb_exam",
+      "field_pairs": [
+        {
+          "from": "exam_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "一份试卷可有多次知识点匹配任务。",
+      "evidence_status": "扫描字段结构推断",
+      "note": "原项目主查询中未发现相应任务表实现，需实际DDL/任务服务确认。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_match_task.exam_id = tb_exam.id"
+    },
+    {
+      "id": "R22",
+      "from_table": "tb_exam_match_task",
+      "to_table": "tb_exam_question",
+      "field_pairs": [
+        {
+          "from": "question_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "任务针对指定题目时关联该题。",
+      "evidence_status": "扫描字段结构推断",
+      "note": "仅适用于指定题目任务；全卷任务的question_id可能为空，且需核对scope含义和试卷一致。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_match_task.question_id = tb_exam_question.id"
+    },
+    {
+      "id": "R23",
+      "from_table": "tb_exam_match_item",
+      "to_table": "tb_exam_match_task",
+      "field_pairs": [
+        {
+          "from": "task_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "一个匹配任务包含多个题目处理结果。",
+      "evidence_status": "扫描字段结构推断",
+      "note": "待实际DDL/任务服务确认。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_match_item.task_id = tb_exam_match_task.id"
+    },
+    {
+      "id": "R24",
+      "from_table": "tb_exam_match_item",
+      "to_table": "tb_exam_question",
+      "field_pairs": [
+        {
+          "from": "question_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "匹配结果对应具体题目。",
+      "evidence_status": "扫描字段结构推断",
+      "note": "current_links/add_suggestions/remove_suggestions是结果快照，不可当作已经生效的eqk关联行。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_match_item.question_id = tb_exam_question.id"
+    },
+    {
+      "id": "R25",
+      "from_table": "tb_exam",
+      "to_table": "tb_school",
+      "field_pairs": [
+        {
+          "from": "school_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "学校自建试卷的归属学校。",
+      "evidence_status": "扫描字段注释支持",
+      "note": "全市统考试卷的school_id允许为空；不等于每位考生所在学校。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam.school_id = tb_school.id"
+    },
+    {
+      "id": "R26",
+      "from_table": "tb_exam_batch",
+      "to_table": "tb_school",
+      "field_pairs": [
+        {
+          "from": "school_id",
+          "to": "id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE",
+      "purpose": "学校自建考试批次的归属学校。",
+      "evidence_status": "扫描字段结构推断",
+      "note": "全市考试可为空；exam_type、owner_id的使用需按创建考试的业务核对。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_exam_batch.school_id = tb_school.id"
+    },
+    {
+      "id": "R27",
+      "from_table": "tb_score_overview",
+      "to_table": "tb_school",
+      "field_pairs": [
+        {
+          "from": "xx",
+          "to": "s_name"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE（有条件）",
+      "purpose": "总览中的学校文字映射到学校维度。",
+      "evidence_status": "名称匹配，需清洗验证",
+      "note": "最新导入保存原始XX文字；应核对编码前缀、校区名、空白和名称唯一性。禁止直接xx=tb_school.id。",
+      "sources": [
+        "config/education_schema.json",
+        "src/agent/education/raw_import.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_overview.xx = tb_school.s_name"
+    },
+    {
+      "id": "R28",
+      "from_table": "tb_score_indicator",
+      "to_table": "tb_school",
+      "field_pairs": [
+        {
+          "from": "school_name",
+          "to": "s_name"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE（有条件）",
+      "purpose": "按学校维度取达线学校类别和区县。",
+      "evidence_status": "代码使用名称匹配",
+      "note": "代码实际ON ind.school_name=COALESCE(sch.s_name,sch.name)。indicator.school_id可能同样存学校名，不能直接与sch.id等同。",
+      "sources": [
+        "config/education_schema.json",
+        "src/agent/education/score_indicator.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_indicator.school_name = tb_school.s_name"
+    },
+    {
+      "id": "R29",
+      "from_table": "tb_score_indicator",
+      "to_table": "tb_score_overview",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "exam_batch_id"
+        },
+        {
+          "from": "school_id",
+          "to": "xx"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_MANY（跨全部线种时）",
+      "purpose": "同场同校同方向学生对应多个线种汇总。",
+      "evidence_status": "不建议直接连接事实表",
+      "note": "必须增加由overview.xkkm归一化得到的track=indicator.track；全线种范围内为多对多，单个学生对应多条线，单条汇总对应多个学生。推荐在专用视图中处理，禁止直接累计学生分。",
+      "sources": [
+        "config/education_schema.json"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_indicator.exam_batch_id = tb_score_overview.exam_batch_id AND tb_score_indicator.school_id = tb_score_overview.xx"
+    },
+    {
+      "id": "R30",
+      "from_table": "tb_score_contribution",
+      "to_table": "tb_score_indicator",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "exam_batch_id"
+        },
+        {
+          "from": "track",
+          "to": "track"
+        },
+        {
+          "from": "line_code",
+          "to": "line_code"
+        }
+      ],
+      "expected_cardinality": "ONE_TO_MANY（待唯一性验证）",
+      "purpose": "全市某方向某线贡献分可对照多所学校同线达线结果。",
+      "evidence_status": "业务粒度推导",
+      "note": "两侧先过滤相同批次，确认线种唯一及阈值版本；NULL批次旧数据不能直接丢弃或擅自跨场匹配。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score_contribution.exam_batch_id = tb_score_indicator.exam_batch_id AND tb_score_contribution.track = tb_score_indicator.track AND tb_score_contribution.line_code = tb_score_indicator.line_code"
+    },
+    {
+      "id": "R31",
+      "from_table": "tb_elite_class",
+      "to_table": "tb_score_overview",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "exam_batch_id"
+        },
+        {
+          "from": "school_id",
+          "to": "xx"
+        },
+        {
+          "from": "class_name",
+          "to": "bj"
+        }
+      ],
+      "expected_cardinality": "ONE_TO_MANY（需额外方向条件）",
+      "purpose": "筛选某次考试尖子班学生。",
+      "evidence_status": "代码与配置支持",
+      "note": "如配置指定track，还需和xkkm归一方向匹配；school_id在此按xx语义存值，需确认是名称。",
+      "sources": [
+        "config/education_schema.json",
+        "src/agent/education/bureau_analysis.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_elite_class.exam_batch_id = tb_score_overview.exam_batch_id AND tb_elite_class.school_id = tb_score_overview.xx AND tb_elite_class.class_name = tb_score_overview.bj"
+    },
+    {
+      "id": "R32",
+      "from_table": "tb_fraction_bar",
+      "to_table": "tb_score_overview",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "exam_batch_id"
+        }
+      ],
+      "expected_cardinality": "ONE_TO_MANY（配置唯一时）",
+      "purpose": "学生总分对照该场预测线阈值。",
+      "evidence_status": "批次关联支持",
+      "note": "保证分数线配置每批次唯一，再按学生方向选wl或ls列；不能把各方向所有线阈值混用。",
+      "sources": [
+        "config/education_schema.json",
+        "src/agent/education/line_reach.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_fraction_bar.exam_batch_id = tb_score_overview.exam_batch_id"
+    },
+    {
+      "id": "R33",
+      "from_table": "tb_score",
+      "to_table": "tb_score_overview",
+      "field_pairs": [
+        {
+          "from": "student_id",
+          "to": "anon_stu_id"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE（必须再限定批次）",
+      "purpose": "取得当次考试的选科、学生性质等总览信息。",
+      "evidence_status": "代码已有复合路径",
+      "note": "必须经tb_exam取exam_batch_id，再加overview.exam_batch_id=exam.exam_batch_id；旧代码使用overview.exam_name=COALESCE(batch_name,paper_name)。不能只关联学生。",
+      "sources": [
+        "src/agent/education/subject_research.py"
+      ],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_score.student_id = tb_score_overview.anon_stu_id"
+    },
+    {
+      "id": "R34",
+      "from_table": "tb_assign_band",
+      "to_table": "tb_exam",
+      "field_pairs": [
+        {
+          "from": "exam_batch_id",
+          "to": "exam_batch_id"
+        },
+        {
+          "from": "subject",
+          "to": "subject"
+        }
+      ],
+      "expected_cardinality": "MANY_TO_ONE（同批次同科单卷时）",
+      "purpose": "将分档配置关联到对应科目试卷。",
+      "evidence_status": "业务粒度推导",
+      "note": "并非字段声明外键；同批次同科有多卷时不唯一。更常用来解释overview等级，见下文。",
+      "sources": [],
+      "physical_foreign_key_verified": false,
+      "condition": "tb_assign_band.exam_batch_id = tb_exam.exam_batch_id AND tb_assign_band.subject = tb_exam.subject"
+    }
+  ]
+}

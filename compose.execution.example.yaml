@@ -1,0 +1,9 @@
+# Copy this file and change the paths and password environment variable as needed.
+# docker compose -f compose.yaml -f compose.execution.example.yaml up -d --build --wait
+services:
+  wren-semantic:
+    environment:
+      WREN_EXECUTION_SOURCES_PATH: /config/execution-sources.json
+      EDUCATION_DB_PASSWORD: ${EDUCATION_DB_PASSWORD:?Set the read-only database password}
+    volumes:
+      - ./config/execution-sources.json:/config/execution-sources.json:ro

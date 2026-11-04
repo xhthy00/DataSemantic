@@ -1,0 +1,10 @@
+{
+  "bundles": [
+    {
+      "bundle_id": "education-demo-v1",
+      "dialect": "postgres",
+      "manifest_path": "education-demo-v1/mdl.json",
+      "manifest_hash": "389f227d79b01ffe87fe8178e2825a562dca27f8a71292ca57c97975536ae56a"
+    }
+  ]
+}

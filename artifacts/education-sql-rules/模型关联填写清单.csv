@@ -1,0 +1,33 @@
+﻿来源模型,目标模型,关联基数,关联条件
+tb_exam,tb_exam_batch,MANY_TO_ONE,tb_exam.exam_batch_id = tb_exam_batch.id
+tb_score,tb_exam,MANY_TO_ONE,tb_score.exam_id = tb_exam.id
+tb_score,tb_student,MANY_TO_ONE,tb_score.student_id = tb_student.id
+tb_score,tb_school,MANY_TO_ONE,tb_score.school_id = tb_school.id
+tb_student,tb_school,MANY_TO_ONE,tb_student.school_id = tb_school.id
+tb_score_detail,tb_exam,MANY_TO_ONE,tb_score_detail.exam_id = tb_exam.id
+tb_score_detail,tb_student,MANY_TO_ONE,tb_score_detail.student_id = tb_student.id
+tb_score_detail,tb_score,MANY_TO_ONE,tb_score_detail.exam_id = tb_score.exam_id AND tb_score_detail.student_id = tb_score.student_id
+tb_exam_question,tb_exam,MANY_TO_ONE,tb_exam_question.exam_id = tb_exam.id
+tb_score_detail,tb_exam_question,MANY_TO_ONE,tb_score_detail.question_id = tb_exam_question.id
+tb_exam_question_knowledge,tb_exam_question,MANY_TO_ONE,tb_exam_question_knowledge.question_id = tb_exam_question.id
+tb_exam_question_knowledge,tb_knowledge,MANY_TO_ONE,tb_exam_question_knowledge.knowledge_id = tb_knowledge.id
+tb_knowledge_version,tb_knowledge,MANY_TO_ONE,tb_knowledge_version.knowledge_id = tb_knowledge.id
+tb_score_overview,tb_exam_batch,MANY_TO_ONE,tb_score_overview.exam_batch_id = tb_exam_batch.id
+tb_score_overview,tb_student,MANY_TO_ONE,tb_score_overview.anon_stu_id = tb_student.id
+tb_fraction_bar,tb_exam_batch,MANY_TO_ONE,tb_fraction_bar.exam_batch_id = tb_exam_batch.id
+tb_score_indicator,tb_exam_batch,MANY_TO_ONE,tb_score_indicator.exam_batch_id = tb_exam_batch.id
+tb_score_contribution,tb_exam_batch,MANY_TO_ONE,tb_score_contribution.exam_batch_id = tb_exam_batch.id
+tb_assign_band,tb_exam_batch,MANY_TO_ONE,tb_assign_band.exam_batch_id = tb_exam_batch.id
+tb_elite_class,tb_exam_batch,MANY_TO_ONE,tb_elite_class.exam_batch_id = tb_exam_batch.id
+tb_exam_match_task,tb_exam,MANY_TO_ONE,tb_exam_match_task.exam_id = tb_exam.id
+tb_exam_match_task,tb_exam_question,MANY_TO_ONE,tb_exam_match_task.question_id = tb_exam_question.id
+tb_exam_match_item,tb_exam_match_task,MANY_TO_ONE,tb_exam_match_item.task_id = tb_exam_match_task.id
+tb_exam_match_item,tb_exam_question,MANY_TO_ONE,tb_exam_match_item.question_id = tb_exam_question.id
+tb_exam,tb_school,MANY_TO_ONE,tb_exam.school_id = tb_school.id
+tb_exam_batch,tb_school,MANY_TO_ONE,tb_exam_batch.school_id = tb_school.id
+tb_score_overview,tb_school,MANY_TO_ONE,tb_score_overview.xx = tb_school.s_name
+tb_score_indicator,tb_school,MANY_TO_ONE,tb_score_indicator.school_name = tb_school.s_name
+tb_score_contribution,tb_score_indicator,ONE_TO_MANY,tb_score_contribution.exam_batch_id = tb_score_indicator.exam_batch_id AND tb_score_contribution.track = tb_score_indicator.track AND tb_score_contribution.line_code = tb_score_indicator.line_code
+tb_elite_class,tb_score_overview,ONE_TO_MANY,tb_elite_class.exam_batch_id = tb_score_overview.exam_batch_id AND tb_elite_class.school_id = tb_score_overview.xx AND tb_elite_class.class_name = tb_score_overview.bj AND CASE WHEN tb_score_overview.xkkm LIKE '物%' THEN '物理类' WHEN tb_score_overview.xkkm LIKE '史%' OR tb_score_overview.xkkm LIKE '历%' THEN '历史类' ELSE '' END = tb_elite_class.track
+tb_fraction_bar,tb_score_overview,ONE_TO_MANY,tb_fraction_bar.exam_batch_id = tb_score_overview.exam_batch_id
+tb_assign_band,tb_exam,MANY_TO_ONE,tb_assign_band.exam_batch_id = tb_exam.exam_batch_id AND tb_assign_band.subject = tb_exam.subject

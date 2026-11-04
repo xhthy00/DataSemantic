@@ -1,0 +1,1179 @@
+[
+  {
+    "rule_id": "D01",
+    "rule_name": "考试与单科试卷",
+    "cards": [
+      "V01"
+    ]
+  },
+  {
+    "rule_id": "D02",
+    "rule_name": "科目成绩事实粒度",
+    "cards": [
+      "V01"
+    ]
+  },
+  {
+    "rule_id": "D03",
+    "rule_name": "考试总览事实粒度",
+    "cards": [
+      "V10"
+    ]
+  },
+  {
+    "rule_id": "D04",
+    "rule_name": "成绩关联试卷批次",
+    "cards": [
+      "V01"
+    ]
+  },
+  {
+    "rule_id": "D05",
+    "rule_name": "考试时学校与班级",
+    "cards": [
+      "V01"
+    ]
+  },
+  {
+    "rule_id": "D06",
+    "rule_name": "学生关联",
+    "cards": [
+      "V01"
+    ]
+  },
+  {
+    "rule_id": "D07",
+    "rule_name": "学校名称与编码",
+    "cards": [
+      "V01",
+      "V41"
+    ]
+  },
+  {
+    "rule_id": "D08",
+    "rule_name": "区县和学校类别",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06",
+      "V41"
+    ]
+  },
+  {
+    "rule_id": "D09",
+    "rule_name": "选考方向",
+    "cards": [
+      "V10"
+    ]
+  },
+  {
+    "rule_id": "D10",
+    "rule_name": "在籍生与市报生",
+    "cards": [
+      "V10"
+    ]
+  },
+  {
+    "rule_id": "D11",
+    "rule_name": "小题关联成绩",
+    "cards": [
+      "V15"
+    ]
+  },
+  {
+    "rule_id": "D12",
+    "rule_name": "知识点多对多",
+    "cards": [
+      "V16"
+    ]
+  },
+  {
+    "rule_id": "D13",
+    "rule_name": "达线预计算事实粒度",
+    "cards": [
+      "V12",
+      "V13",
+      "V14"
+    ]
+  },
+  {
+    "rule_id": "D14",
+    "rule_name": "预测线与赋分档",
+    "cards": [
+      "V11"
+    ]
+  },
+  {
+    "rule_id": "D15",
+    "rule_name": "尖子班名单",
+    "cards": [
+      "V36"
+    ]
+  },
+  {
+    "rule_id": "D16",
+    "rule_name": "其他表的作用",
+    "cards": [
+      "V28"
+    ]
+  },
+  {
+    "rule_id": "K01",
+    "rule_name": "旧有效成绩规则",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "K02",
+    "rule_name": "你已确认的有效成绩规则",
+    "cards": [
+      "V01",
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K03",
+    "rule_name": "参考人数 / 有效人数",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K04",
+    "rule_name": "平均分",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K05",
+    "rule_name": "试卷满分",
+    "cards": [
+      "V01"
+    ]
+  },
+  {
+    "rule_id": "K06",
+    "rule_name": "及格线及及格人数",
+    "cards": [
+      "V01",
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K07",
+    "rule_name": "及格率",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K08",
+    "rule_name": "优秀线及优秀率",
+    "cards": [
+      "V40"
+    ]
+  },
+  {
+    "rule_id": "K09",
+    "rule_name": "良好率",
+    "cards": [
+      "V40"
+    ]
+  },
+  {
+    "rule_id": "K10",
+    "rule_name": "低分率",
+    "cards": [
+      "V40"
+    ]
+  },
+  {
+    "rule_id": "K11",
+    "rule_name": "不及格率",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06",
+      "V40"
+    ]
+  },
+  {
+    "rule_id": "K12",
+    "rule_name": "最高分与最低分",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K13",
+    "rule_name": "中位数",
+    "cards": [
+      "V07"
+    ]
+  },
+  {
+    "rule_id": "K14",
+    "rule_name": "标准差与方差",
+    "cards": [
+      "V07"
+    ]
+  },
+  {
+    "rule_id": "K15",
+    "rule_name": "离散程度分级",
+    "cards": [
+      "V07"
+    ]
+  },
+  {
+    "rule_id": "K16",
+    "rule_name": "相对满分分段",
+    "cards": [
+      "V08"
+    ]
+  },
+  {
+    "rule_id": "K17",
+    "rule_name": "多考试收敛与去重",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K18",
+    "rule_name": "维度聚合与交叉表",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "K19",
+    "rule_name": "无数据与分母为零",
+    "cards": [
+      "V02",
+      "V03",
+      "V04",
+      "V05",
+      "V06"
+    ]
+  },
+  {
+    "rule_id": "T01",
+    "rule_name": "三门/语数外均分",
+    "cards": [
+      "V10",
+      "V17"
+    ]
+  },
+  {
+    "rule_id": "T02",
+    "rule_name": "四门和六门均分",
+    "cards": [
+      "V10",
+      "V17"
+    ]
+  },
+  {
+    "rule_id": "T03",
+    "rule_name": "科目原始分映射",
+    "cards": [
+      "V10",
+      "V18"
+    ]
+  },
+  {
+    "rule_id": "T04",
+    "rule_name": "再选科目转换分",
+    "cards": [
+      "V10",
+      "V18",
+      "V20"
+    ]
+  },
+  {
+    "rule_id": "T05",
+    "rule_name": "作文和客观题分",
+    "cards": [
+      "V10"
+    ]
+  },
+  {
+    "rule_id": "T06",
+    "rule_name": "ABCDE等级人数及比例",
+    "cards": [
+      "V18"
+    ]
+  },
+  {
+    "rule_id": "T07",
+    "rule_name": "赋分档表用途",
+    "cards": [
+      "V18"
+    ]
+  },
+  {
+    "rule_id": "T08",
+    "rule_name": "本校与全市均分比较",
+    "cards": [
+      "V09",
+      "V17"
+    ]
+  },
+  {
+    "rule_id": "T09",
+    "rule_name": "校类均分比较",
+    "cards": [
+      "V09",
+      "V17"
+    ]
+  },
+  {
+    "rule_id": "T10",
+    "rule_name": "综合报告有效总分",
+    "cards": [
+      "V10",
+      "V17"
+    ]
+  },
+  {
+    "rule_id": "R01",
+    "rule_name": "通用并列排名",
+    "cards": [
+      "V21"
+    ]
+  },
+  {
+    "rule_id": "R02",
+    "rule_name": "学校全市各科排名",
+    "cards": [
+      "V21"
+    ]
+  },
+  {
+    "rule_id": "R03",
+    "rule_name": "班级身份和参赛班数",
+    "cards": [
+      "V22",
+      "V23"
+    ]
+  },
+  {
+    "rule_id": "R04",
+    "rule_name": "全市班级排名基础池",
+    "cards": [
+      "V22",
+      "V23"
+    ]
+  },
+  {
+    "rule_id": "R05",
+    "rule_name": "全市班级单科排名",
+    "cards": [
+      "V22"
+    ]
+  },
+  {
+    "rule_id": "R06",
+    "rule_name": "班级六门双口径",
+    "cards": [
+      "V23"
+    ]
+  },
+  {
+    "rule_id": "R07",
+    "rule_name": "班级排名展示窗口",
+    "cards": [
+      "V22",
+      "V23"
+    ]
+  },
+  {
+    "rule_id": "R08",
+    "rule_name": "倒数第K",
+    "cards": [
+      "V22",
+      "V23"
+    ]
+  },
+  {
+    "rule_id": "R09",
+    "rule_name": "优势/薄弱学科全市标准",
+    "cards": [
+      "V21"
+    ]
+  },
+  {
+    "rule_id": "R10",
+    "rule_name": "前N名位次桶",
+    "cards": [
+      "V24"
+    ]
+  },
+  {
+    "rule_id": "R11",
+    "rule_name": "局端学校均分表序号",
+    "cards": [
+      "V21"
+    ]
+  },
+  {
+    "rule_id": "R12",
+    "rule_name": "同校班际排名",
+    "cards": [
+      "V33"
+    ]
+  },
+  {
+    "rule_id": "R13",
+    "rule_name": "均衡性最好的学科",
+    "cards": [
+      "V07",
+      "V21"
+    ]
+  },
+  {
+    "rule_id": "L01",
+    "rule_name": "线种字典",
+    "cards": [
+      "V11"
+    ]
+  },
+  {
+    "rule_id": "L02",
+    "rule_name": "达线判定",
+    "cards": [
+      "V12",
+      "V13",
+      "V14",
+      "V25"
+    ]
+  },
+  {
+    "rule_id": "L03",
+    "rule_name": "学校/区县/全市达线率",
+    "cards": [
+      "V12",
+      "V13",
+      "V14"
+    ]
+  },
+  {
+    "rule_id": "L04",
+    "rule_name": "跨线参考人数去重",
+    "cards": [
+      "V12",
+      "V13",
+      "V14"
+    ]
+  },
+  {
+    "rule_id": "L05",
+    "rule_name": "班级达线",
+    "cards": [
+      "V25"
+    ]
+  },
+  {
+    "rule_id": "L06",
+    "rule_name": "校类达线",
+    "cards": [
+      "V12",
+      "V13",
+      "V14",
+      "V41"
+    ]
+  },
+  {
+    "rule_id": "L07",
+    "rule_name": "选科组合达线",
+    "cards": [
+      "V25"
+    ]
+  },
+  {
+    "rule_id": "L08",
+    "rule_name": "较上场达线变化",
+    "cards": [
+      "V27"
+    ]
+  },
+  {
+    "rule_id": "L09",
+    "rule_name": "线上N分",
+    "cards": [
+      "V26"
+    ]
+  },
+  {
+    "rule_id": "L10",
+    "rule_name": "线上N分以内 / 不足",
+    "cards": [
+      "V26"
+    ]
+  },
+  {
+    "rule_id": "L11",
+    "rule_name": "线下及距线",
+    "cards": [
+      "V26"
+    ]
+  },
+  {
+    "rule_id": "L12",
+    "rule_name": "切线贡献分",
+    "cards": [
+      "V28"
+    ]
+  },
+  {
+    "rule_id": "L13",
+    "rule_name": "预计算刷新",
+    "cards": [
+      "V12",
+      "V13",
+      "V14"
+    ]
+  },
+  {
+    "rule_id": "L14",
+    "rule_name": "达线SQL回退差异",
+    "cards": [
+      "V12",
+      "V13",
+      "V14",
+      "V25"
+    ]
+  },
+  {
+    "rule_id": "B01",
+    "rule_name": "总分十分段",
+    "cards": [
+      "V19"
+    ]
+  },
+  {
+    "rule_id": "B02",
+    "rule_name": "学科五分段",
+    "cards": [
+      "V20"
+    ]
+  },
+  {
+    "rule_id": "B03",
+    "rule_name": "分段人数与累计",
+    "cards": [
+      "V19",
+      "V20"
+    ]
+  },
+  {
+    "rule_id": "B04",
+    "rule_name": "市报生独立列",
+    "cards": [
+      "V19"
+    ]
+  },
+  {
+    "rule_id": "B05",
+    "rule_name": "绝对分数筛选",
+    "cards": [
+      "V08",
+      "V19",
+      "V20"
+    ]
+  },
+  {
+    "rule_id": "Q01",
+    "rule_name": "小题满分和得分率",
+    "cards": [
+      "V15"
+    ]
+  },
+  {
+    "rule_id": "Q02",
+    "rule_name": "难度系数",
+    "cards": [
+      "V15"
+    ]
+  },
+  {
+    "rule_id": "Q03",
+    "rule_name": "旧区分度",
+    "cards": [
+      "V30"
+    ]
+  },
+  {
+    "rule_id": "Q04",
+    "rule_name": "小题知识点展示不扩行",
+    "cards": [
+      "V15"
+    ]
+  },
+  {
+    "rule_id": "Q05",
+    "rule_name": "题型平均得分率",
+    "cards": [
+      "V29"
+    ]
+  },
+  {
+    "rule_id": "Q06",
+    "rule_name": "全卷分段难度曲线",
+    "cards": [
+      "V30"
+    ]
+  },
+  {
+    "rule_id": "Q07",
+    "rule_name": "小题分段曲线缺行补零",
+    "cards": [
+      "V30"
+    ]
+  },
+  {
+    "rule_id": "Q08",
+    "rule_name": "曲线诊断阈值",
+    "cards": [
+      "V30"
+    ]
+  },
+  {
+    "rule_id": "N01",
+    "rule_name": "题内知识点权重",
+    "cards": [
+      "V16"
+    ]
+  },
+  {
+    "rule_id": "N02",
+    "rule_name": "知识点掌握率",
+    "cards": [
+      "V16"
+    ]
+  },
+  {
+    "rule_id": "N03",
+    "rule_name": "知识点题数",
+    "cards": [
+      "V16"
+    ]
+  },
+  {
+    "rule_id": "N04",
+    "rule_name": "薄弱知识点和薄弱题",
+    "cards": [
+      "V16",
+      "V31",
+      "V42"
+    ]
+  },
+  {
+    "rule_id": "N05",
+    "rule_name": "相对薄弱知识点回退",
+    "cards": [
+      "V16",
+      "V31",
+      "V42"
+    ]
+  },
+  {
+    "rule_id": "N06",
+    "rule_name": "能力层级汇总",
+    "cards": [
+      "V16",
+      "V31"
+    ]
+  },
+  {
+    "rule_id": "N07",
+    "rule_name": "知识点表现等级",
+    "cards": [
+      "V16",
+      "V31",
+      "V42"
+    ]
+  },
+  {
+    "rule_id": "N08",
+    "rule_name": "后十与中位组划分",
+    "cards": [
+      "V32"
+    ]
+  },
+  {
+    "rule_id": "N09",
+    "rule_name": "后十与中位知识点差距",
+    "cards": [
+      "V32"
+    ]
+  },
+  {
+    "rule_id": "N10",
+    "rule_name": "能力与题型诊断文案阈值",
+    "cards": [
+      "V29",
+      "V31",
+      "V42"
+    ]
+  },
+  {
+    "rule_id": "C01",
+    "rule_name": "同校班际对照均分",
+    "cards": [
+      "V33",
+      "V43"
+    ]
+  },
+  {
+    "rule_id": "C02",
+    "rule_name": "同校班级薄弱学科判定",
+    "cards": [
+      "V33"
+    ]
+  },
+  {
+    "rule_id": "C03",
+    "rule_name": "本班落后小题",
+    "cards": [
+      "V29",
+      "V34"
+    ]
+  },
+  {
+    "rule_id": "C04",
+    "rule_name": "共同难题",
+    "cards": [
+      "V29",
+      "V34"
+    ]
+  },
+  {
+    "rule_id": "C05",
+    "rule_name": "重点干预班级",
+    "cards": [
+      "V34"
+    ]
+  },
+  {
+    "rule_id": "C06",
+    "rule_name": "群体优势与分化标签",
+    "cards": [
+      "V34"
+    ]
+  },
+  {
+    "rule_id": "C07",
+    "rule_name": "组间差值",
+    "cards": [
+      "V09",
+      "V34"
+    ]
+  },
+  {
+    "rule_id": "J01",
+    "rule_name": "教研均分与参照池",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J02",
+    "rule_name": "教研校区合并",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J03",
+    "rule_name": "同层次均分与第一名",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J04",
+    "rule_name": "教研当前/上场排序",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J05",
+    "rule_name": "卷1题型",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J06",
+    "rule_name": "卷2与卷面均分",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J07",
+    "rule_name": "教研拖后腿小题",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J08",
+    "rule_name": "教研小题缺行补零",
+    "cards": [
+      "V35"
+    ]
+  },
+  {
+    "rule_id": "J09",
+    "rule_name": "教研尖子生",
+    "cards": [
+      "V24",
+      "V36"
+    ]
+  },
+  {
+    "rule_id": "J10",
+    "rule_name": "教研线种分层",
+    "cards": [
+      "V28",
+      "V36"
+    ]
+  },
+  {
+    "rule_id": "J11",
+    "rule_name": "教研压线薄弱学生",
+    "cards": [
+      "V26",
+      "V36"
+    ]
+  },
+  {
+    "rule_id": "J12",
+    "rule_name": "教研贡献分特殊比较",
+    "cards": [
+      "V28",
+      "V36"
+    ]
+  },
+  {
+    "rule_id": "J13",
+    "rule_name": "教研选科适用范围",
+    "cards": [
+      "V36"
+    ]
+  },
+  {
+    "rule_id": "H01",
+    "rule_name": "同人跨考试关联",
+    "cards": [
+      "V27",
+      "V37"
+    ]
+  },
+  {
+    "rule_id": "H02",
+    "rule_name": "学生进退步分组",
+    "cards": [
+      "V37"
+    ]
+  },
+  {
+    "rule_id": "H03",
+    "rule_name": "不同报告稳定阈值",
+    "cards": [
+      "V37"
+    ]
+  },
+  {
+    "rule_id": "H04",
+    "rule_name": "总体ABCD水平",
+    "cards": [
+      "V38",
+      "V40"
+    ]
+  },
+  {
+    "rule_id": "H05",
+    "rule_name": "偏科度",
+    "cards": [
+      "V38"
+    ]
+  },
+  {
+    "rule_id": "H06",
+    "rule_name": "科目与总分相关性",
+    "cards": [
+      "V38"
+    ]
+  },
+  {
+    "rule_id": "H07",
+    "rule_name": "单科进退步之最",
+    "cards": [
+      "V37"
+    ]
+  },
+  {
+    "rule_id": "H08",
+    "rule_name": "趋势满分推断",
+    "cards": [
+      "V37"
+    ]
+  },
+  {
+    "rule_id": "A01",
+    "rule_name": "临界生",
+    "cards": [
+      "V39"
+    ]
+  },
+  {
+    "rule_id": "A02",
+    "rule_name": "大幅退步",
+    "cards": [
+      "V39"
+    ]
+  },
+  {
+    "rule_id": "A03",
+    "rule_name": "上次同科成绩选择",
+    "cards": [
+      "V27",
+      "V37",
+      "V39"
+    ]
+  },
+  {
+    "rule_id": "A04",
+    "rule_name": "分差型偏科生",
+    "cards": [
+      "V38",
+      "V39"
+    ]
+  },
+  {
+    "rule_id": "A05",
+    "rule_name": "异常规则配置优先级",
+    "cards": [
+      "V39"
+    ]
+  },
+  {
+    "rule_id": "A06",
+    "rule_name": "预警参数未实现项",
+    "cards": [
+      "V39"
+    ]
+  },
+  {
+    "rule_id": "A07",
+    "rule_name": "预警记录去重和可见范围",
+    "cards": [
+      "V39"
+    ]
+  },
+  {
+    "rule_id": "P01",
+    "rule_name": "教育角色数据范围",
+    "cards": [
+      "X02"
+    ]
+  },
+  {
+    "rule_id": "P02",
+    "rule_name": "全市汇总权限例外",
+    "cards": [
+      "X02"
+    ]
+  },
+  {
+    "rule_id": "P03",
+    "rule_name": "姓名与证件号",
+    "cards": [
+      "X02"
+    ]
+  },
+  {
+    "rule_id": "P04",
+    "rule_name": "教研名单隐私例外",
+    "cards": [
+      "X02"
+    ]
+  },
+  {
+    "rule_id": "I01",
+    "rule_name": "未选科不写长表",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I02",
+    "rule_name": "原始数据导入维度校验",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I03",
+    "rule_name": "标准总分/小题导入校验",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I04",
+    "rule_name": "更新冲突键",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I05",
+    "rule_name": "小题导入空单元格",
+    "cards": [
+      "V15"
+    ]
+  },
+  {
+    "rule_id": "I06",
+    "rule_name": "SQL和Python统计路径截断",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I07",
+    "rule_name": "自动SQL的术语与实体绑定",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I08",
+    "rule_name": "认证SQL编译器字段不一致",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I09",
+    "rule_name": "总览导入冲突键",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I10",
+    "rule_name": "缺失学生维度自动补建",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "I11",
+    "rule_name": "原始导入派生班级",
+    "cards": [
+      "X01"
+    ]
+  },
+  {
+    "rule_id": "D17",
+    "rule_name": "届次标准化",
+    "cards": [
+      "V10"
+    ]
+  },
+  {
+    "rule_id": "D18",
+    "rule_name": "匿名学生标识稳定范围",
+    "cards": [
+      "V10"
+    ]
+  },
+  {
+    "rule_id": "T11",
+    "rule_name": "日语及综合成绩列",
+    "cards": [
+      "V10"
+    ]
+  },
+  {
+    "rule_id": "R14",
+    "rule_name": "班级总览校内排名",
+    "cards": [
+      "V43"
+    ]
+  },
+  {
+    "rule_id": "C08",
+    "rule_name": "需关注的低分段",
+    "cards": [
+      "V08",
+      "V34"
+    ]
+  },
+  {
+    "rule_id": "C09",
+    "rule_name": "干预优先级",
+    "cards": [
+      "V34"
+    ]
+  },
+  {
+    "rule_id": "N11",
+    "rule_name": "自动题目知识点匹配脚本",
+    "cards": [
+      "X02"
+    ]
+  },
+  {
+    "rule_id": "K20",
+    "rule_name": "能力雷达成绩均衡分",
+    "cards": [
+      "V07",
+      "V34"
+    ]
+  }
+]

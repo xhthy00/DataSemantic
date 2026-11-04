@@ -1,0 +1,36 @@
+{
+  "catalog": "wren",
+  "schema": "education",
+  "models": [
+    {
+      "name": "student_subject_score",
+      "tableReference": {
+        "schema": "edu_analysis",
+        "table": "v_student_subject_score"
+      },
+      "primaryKey": "score_id",
+      "properties": {
+        "description": "演示模型：一行代表一学生、一次考试批次、一科成绩；非现有业务库的已认证映射。"
+      },
+      "columns": [
+        {"name": "score_id", "type": "varchar", "properties": {"description": "唯一成绩记录 ID"}},
+        {"name": "student_id", "type": "varchar", "properties": {"description": "匿名学生 ID"}},
+        {"name": "exam_batch_id", "type": "varchar", "properties": {"description": "考试批次 ID，区别于科目试卷"}},
+        {"name": "school_id", "type": "varchar"},
+        {"name": "class_id", "type": "varchar", "properties": {"description": "考试时点班级 ID"}},
+        {"name": "subject_id", "type": "varchar"},
+        {"name": "score", "type": "double"},
+        {"name": "score_status", "type": "varchar", "properties": {"description": "valid、absent、not_selected、invalid 或 unknown"}},
+        {
+          "name": "valid_score",
+          "type": "double",
+          "isCalculated": true,
+          "expression": "CASE WHEN score_status = 'valid' THEN score ELSE NULL END",
+          "properties": {"description": "有效成绩包含真实零分，其他状态返回空值；均分可使用 AVG(valid_score)"}
+        }
+      ]
+    }
+  ],
+  "relationships": [],
+  "views": []
+}

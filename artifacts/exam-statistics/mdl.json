@@ -1,0 +1,284 @@
+{
+  "catalog": "wren",
+  "schema": "public",
+  "models": [
+    {
+      "tableReference": {
+        "schema": "public",
+        "table": "tb_score"
+      },
+      "name": "exam_scores",
+      "primaryKey": "score_id",
+      "columns": [
+        {
+          "name": "score_id",
+          "type": "integer",
+          "notNull": true,
+          "expression": "\"id\"",
+          "properties": {
+            "displayName": "id",
+            "description": ""
+          }
+        },
+        {
+          "name": "paper_id",
+          "type": "integer",
+          "notNull": false,
+          "expression": "\"exam_id\"",
+          "properties": {
+            "displayName": "exam_id",
+            "description": "试卷ID"
+          }
+        },
+        {
+          "name": "student_id",
+          "type": "varchar",
+          "notNull": false,
+          "expression": "\"student_id\"",
+          "properties": {
+            "displayName": "student_id",
+            "description": "学生编号"
+          }
+        },
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "notNull": false,
+          "expression": "\"school_id\"",
+          "properties": {
+            "displayName": "school_id",
+            "description": "学校编号"
+          }
+        },
+        {
+          "name": "score",
+          "type": "decimal(4, 1)",
+          "notNull": false,
+          "expression": "\"score\"",
+          "properties": {
+            "displayName": "score",
+            "description": "真实得分"
+          }
+        },
+        {
+          "name": "school",
+          "type": "schools",
+          "relationship": "exam_scores_schools"
+        },
+        {
+          "name": "paper",
+          "type": "exam_papers",
+          "relationship": "exam_scores_exam_papers"
+        }
+      ],
+      "properties": {
+        "displayName": "学生科目成绩",
+        "description": "学生成绩得分总揽表"
+      }
+    },
+    {
+      "tableReference": {
+        "schema": "public",
+        "table": "tb_exam"
+      },
+      "name": "exam_papers",
+      "primaryKey": "paper_id",
+      "columns": [
+        {
+          "name": "paper_id",
+          "type": "integer",
+          "notNull": true,
+          "expression": "\"id\"",
+          "properties": {
+            "displayName": "id",
+            "description": ""
+          }
+        },
+        {
+          "name": "paper_name",
+          "type": "varchar",
+          "notNull": false,
+          "expression": "\"exam_name\"",
+          "properties": {
+            "displayName": "exam_name",
+            "description": "试卷名称"
+          }
+        },
+        {
+          "name": "subject",
+          "type": "varchar",
+          "notNull": false,
+          "expression": "\"subject\"",
+          "properties": {
+            "displayName": "subject",
+            "description": "科目"
+          }
+        },
+        {
+          "name": "full_score",
+          "type": "decimal(4, 1)",
+          "notNull": false,
+          "expression": "\"exam_score\"",
+          "properties": {
+            "displayName": "exam_score",
+            "description": "试卷分值"
+          }
+        },
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "notNull": false,
+          "expression": "\"exam_batch_id\"",
+          "properties": {
+            "displayName": "exam_batch_id",
+            "description": "考试批次ID，关联 tb_exam_batch.id"
+          }
+        },
+        {
+          "name": "exam_batch",
+          "type": "exam_batches",
+          "relationship": "exam_papers_exam_batches"
+        }
+      ],
+      "properties": {
+        "displayName": "科目试卷",
+        "description": "试卷基础信息表"
+      }
+    },
+    {
+      "tableReference": {
+        "schema": "public",
+        "table": "tb_exam_batch"
+      },
+      "name": "exam_batches",
+      "primaryKey": "exam_batch_id",
+      "columns": [
+        {
+          "name": "exam_batch_id",
+          "type": "bigint",
+          "notNull": true,
+          "expression": "\"id\"",
+          "properties": {
+            "displayName": "id",
+            "description": "自增主键"
+          }
+        },
+        {
+          "name": "exam_name",
+          "type": "varchar",
+          "notNull": true,
+          "expression": "\"batch_name\"",
+          "properties": {
+            "displayName": "batch_name",
+            "description": "考试名称，如 2026届高三11月期中"
+          }
+        },
+        {
+          "name": "exam_date",
+          "type": "date",
+          "notNull": false,
+          "expression": "\"exam_time\"",
+          "properties": {
+            "displayName": "exam_time",
+            "description": "考试时间年月"
+          }
+        }
+      ],
+      "properties": {
+        "displayName": "考试批次",
+        "description": "考试批次表"
+      }
+    },
+    {
+      "tableReference": {
+        "schema": "public",
+        "table": "tb_school"
+      },
+      "name": "schools",
+      "primaryKey": "school_id",
+      "columns": [
+        {
+          "name": "school_id",
+          "type": "varchar",
+          "notNull": true,
+          "expression": "\"id\"",
+          "properties": {
+            "displayName": "id",
+            "description": "学校编号"
+          }
+        },
+        {
+          "name": "school_name",
+          "type": "varchar",
+          "notNull": false,
+          "expression": "\"s_name\"",
+          "properties": {
+            "displayName": "s_name",
+            "description": "学校名称(明文)"
+          }
+        },
+        {
+          "name": "district",
+          "type": "varchar",
+          "notNull": false,
+          "expression": "\"district\"",
+          "properties": {
+            "displayName": "district",
+            "description": "区县维度，用于区域聚合"
+          }
+        }
+      ],
+      "properties": {
+        "displayName": "学校",
+        "description": "学校信息表"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "name": "exam_scores_schools",
+      "models": [
+        "exam_scores",
+        "schools"
+      ],
+      "joinType": "MANY_TO_ONE",
+      "condition": "\"exam_scores\".\"school_id\" = \"schools\".\"school_id\""
+    },
+    {
+      "name": "exam_scores_exam_papers",
+      "models": [
+        "exam_scores",
+        "exam_papers"
+      ],
+      "joinType": "MANY_TO_ONE",
+      "condition": "\"exam_scores\".\"paper_id\" = \"exam_papers\".\"paper_id\""
+    },
+    {
+      "name": "exam_papers_exam_batches",
+      "models": [
+        "exam_papers",
+        "exam_batches"
+      ],
+      "joinType": "MANY_TO_ONE",
+      "condition": "\"exam_papers\".\"exam_batch_id\" = \"exam_batches\".\"exam_batch_id\""
+    }
+  ],
+  "views": [
+    {
+      "name": "exam_score_results",
+      "statement": "SELECT s.score_id, s.student_id, b.exam_batch_id, b.exam_name, b.exam_date,\n       p.paper_id, p.subject, s.school_id,\n       COALESCE(NULLIF(c.school_name, ''), s.school_id) AS school_name,\n       c.district, CAST(p.full_score AS DECIMAL(18, 4)) AS full_score,\n       CAST(p.full_score AS DECIMAL(18, 4)) * 0.6 AS pass_score,\n       CAST(s.score AS DECIMAL(18, 4)) AS valid_score,\n       CASE WHEN s.score IS NULL OR p.full_score IS NULL\n                   OR CAST(p.full_score AS DECIMAL(18, 4)) <= 0 THEN NULL\n            WHEN CAST(s.score AS DECIMAL(18, 4)) >= CAST(p.full_score AS DECIMAL(18, 4)) * 0.6\n            THEN 1 ELSE 0 END AS pass_flag\nFROM exam_scores s\nLEFT JOIN exam_papers p ON s.paper_id = p.paper_id\nLEFT JOIN exam_batches b ON p.exam_batch_id = b.exam_batch_id\nLEFT JOIN schools c ON s.school_id = c.school_id",
+      "properties": {
+        "displayName": "考试科目成绩明细",
+        "description": "一行一条学生试卷成绩。以成绩记录上的学校为准，学校名称使用明文 s_name。试卷满分取试卷表；空成绩不参与，正常零分保留，及格线为试卷满分的60%。"
+      }
+    },
+    {
+      "name": "exam_school_subject_summary",
+      "statement": "SELECT exam_batch_id, exam_name, exam_date, school_id, school_name, district, subject,\n       MIN(full_score) AS min_full_score, MAX(full_score) AS max_full_score,\n       MIN(pass_score) AS min_pass_score, MAX(pass_score) AS max_pass_score,\n       COUNT(*) AS recorded_count, COUNT(valid_score) AS valid_count,\n       COUNT(*) - COUNT(valid_score) AS missing_score_count,\n       SUM(valid_score) AS total_valid_score,\n       ROUND(AVG(valid_score), 2) AS average_score,\n       COALESCE(SUM(pass_flag), 0) AS pass_count,\n       COUNT(pass_flag) AS pass_rate_denominator,\n       COUNT(valid_score) - COUNT(pass_flag) AS unclassified_score_count,\n       ROUND(100.0 * SUM(pass_flag) / NULLIF(COUNT(pass_flag), 0), 2) AS pass_rate\nFROM (\nSELECT s.score_id, s.student_id, b.exam_batch_id, b.exam_name, b.exam_date,\n       p.paper_id, p.subject, s.school_id,\n       COALESCE(NULLIF(c.school_name, ''), s.school_id) AS school_name,\n       c.district, CAST(p.full_score AS DECIMAL(18, 4)) AS full_score,\n       CAST(p.full_score AS DECIMAL(18, 4)) * 0.6 AS pass_score,\n       CAST(s.score AS DECIMAL(18, 4)) AS valid_score,\n       CASE WHEN s.score IS NULL OR p.full_score IS NULL\n                   OR CAST(p.full_score AS DECIMAL(18, 4)) <= 0 THEN NULL\n            WHEN CAST(s.score AS DECIMAL(18, 4)) >= CAST(p.full_score AS DECIMAL(18, 4)) * 0.6\n            THEN 1 ELSE 0 END AS pass_flag\nFROM exam_scores s\nLEFT JOIN exam_papers p ON s.paper_id = p.paper_id\nLEFT JOIN exam_batches b ON p.exam_batch_id = b.exam_batch_id\nLEFT JOIN schools c ON s.school_id = c.school_id\n) AS exam_score_results\nGROUP BY exam_batch_id, exam_name, exam_date, school_id, school_name, district, subject",
+      "properties": {
+        "displayName": "学校科目均分与及格率",
+        "description": "一行=考试批次×学校编号×科目。average_score为有效成绩平均分；pass_rate为及格人数/可判定有效成绩人数×100，单位为百分数0—100。无有效成绩时均分与及格率为空；满分缺失时不猜测及格结果，以unclassified_score_count提示。不同学校的率不能直接求平均；缺考未生成成绩记录时无法据此统计缺考人数。重复学生科目成绩须先核查。"
+      }
+    }
+  ]
+}

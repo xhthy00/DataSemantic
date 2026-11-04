@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "source_id": "education-pg",
+      "dialect": "postgres",
+      "host": "127.0.0.1",
+      "port": 5432,
+      "database": "education",
+      "user": "analytics_reader",
+      "password_env": "EDUCATION_DB_PASSWORD",
+      "tls": "require"
+    }
+  ]
+}

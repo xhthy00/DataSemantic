@@ -1,0 +1,17 @@
+.venv
+.env
+.env.*
+!.env.example
+.git
+.pytest_cache
+.ruff_cache
+**/__pycache__
+tests
+scripts
+dist
+*.egg-info
+.DS_Store
+.state
+**/node_modules
+
+config/execution-sources.json

@@ -1,0 +1,28 @@
+Use case: ads-marketing / technical product overview.
+Revise the DataSemantic promotional poster into a restrained, technically credible architecture poster. ONE landscape 16:9 image. Request 1920x1080 canvas. Input image 1 is the previous poster, which is TOO PLAYFUL: completely remove the cow mascot, flowers, laptop illustration, glossy objects, giant slogans, and rounded pill chains. Retain only its blue/navy brand family and correct product capabilities. Input image 2 is the MyCoWork architecture diagram: use its clean flat schematic visual language as the primary reference, with more refined hierarchy and spacing.
+Audience: developers and technical decision-makers. Style: professional engineering documentation cover, crisp flat 2D diagrams, almost-white #F7FAFC background, dark navy text #243A4B, single restrained blue accent #087DBB, very thin slate-blue borders, tiny corner radii of 6px, no visible drop shadows, no 3D, no cute characters, no gradients, no decoration, no photo, no sci-fi HUD, no neon. Very subtle technical alignment grid permitted. Typography: legible modern Simplified Chinese sans-serif with monospaced English endpoint names if needed. Strong precision and generous whitespace. NOT an app UI screenshot. Full bleed designed composition, no external frame.
+Layout: 5% safe margins. Header at top 5-22%: 'DataSemantic' as the main left-aligned wordmark, no invented app icon. Directly below it the moderately sized Chinese title '面向 MyCoWork 的业务数据语义层'. One concise explanatory line below. Small right-aligned eyebrow 'SEMANTIC DATA INFRASTRUCTURE'. No sales slogan.
+Main architecture panel y=29%-65%, with three horizontally arranged regions. Left small neutral outlined box 'MyCoWork / 行业应用', with secondary text '通过宿主业务工具接入'. Blue right-facing arrow enters a LARGE central outlined enclosure titled 'DataSemantic'. Inside the enclosure use TWO HORIZONTAL ROWS:
+Top row is a wide light blue strip labeled 'MDL Studio' with a secondary line '模型 · 字段 · 关联 · 计算口径', and right-end text '校验 → 版本发布'. A small downward arrow from this strip to the SQL planning step shows semantic model supplies the query planner.
+Bottom row is an exact four-step horizontal query pipeline: '语义 SQL' → 'SQL 规划' → '物理 SQL' → '只读执行'. Each step is a simple small outlined rectangle. Do not merge steps, duplicate steps, or reorder. The last '只读执行' has a single right-facing arrow to the RIGHT external database box titled '业务数据库', secondary text 'PostgreSQL / MySQL'. Database box can contain a SMALL flat cylinder line icon, no 3D. Clear horizontal alignment. All connectors clean and unambiguous, no crossing text. Single explanatory note immediately below central diagram: '语义模型参与规划；执行能力按需启用，业务权限由宿主落实。'
+Bottom section y=73%-90%: three equal-width typographic columns divided by fine vertical rules, with small numeric labels 01, 02, 03. Do not put these in huge rounded cards. Each has one dark navy problem title and two lines of muted blue-grey explanatory solution text. No inflated promises.
+Footer thin horizontal line, small subdued stack text left, 'DataSemantic × MyCoWork' right.
+Render EXACT Simplified Chinese copy, all text sharp and readable:
+Wordmark: 'DataSemantic'
+Eyebrow: 'SEMANTIC DATA INFRASTRUCTURE'
+Title: '面向 MyCoWork 的业务数据语义层'
+Description: '以显式语义模型连接业务定义与物理数据，支撑 AI 工具的数据查询。'
+Diagram text as specified above, exact.
+Note: '语义模型参与规划；执行能力按需启用，业务权限由宿主落实。'
+Column 01 title: '表结构复杂，理解成本高'
+Column 01 line 1: '数据库扫描 / DDL 导入'
+Column 01 line 2: '可视化维护模型、字段与关联'
+Column 02 title: '业务口径散落，难以复用'
+Column 02 line 1: '计算字段 / 语义视图'
+Column 02 line 2: '将业务定义沉淀为可复用模型'
+Column 03 title: '查询难复核，变更难追溯'
+Column 03 line 1: 'SQL 预览 / 只读执行'
+Column 03 line 2: '发布不可变版本，固定模型哈希'
+Footer left: 'WrenAI Core · MDL Studio · HTTP API'
+Footer right: 'DataSemantic × MyCoWork'
+Accuracy: DataSemantic accepts semantic SQL and produces physical SQL from explicitly configured MDL. It does not generate SQL directly from natural language. MyCoWork is a potential host consumer via business tools, not a claim of already shipped direct integration. Only PostgreSQL and MySQL are execution databases here. No invented statistics, badges, external URL, QR code, screenshots, security guarantees, cartoon figures or extra copy. Exact 16:9 composition; ensure every character fully fits and the diagram remains legible at presentation size.

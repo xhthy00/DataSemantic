@@ -1,0 +1,182 @@
+[
+  {
+    "question": "南京市第一中学高一(1)班数学平均分和人数",
+    "sql": "SELECT sch.name AS school,\n       sc.class,\n       sc.subject_name,\n       sc.exam_score,\n       COUNT(*) AS cnt,\n       ROUND(AVG(sc.score), 2) AS avg_score\nFROM tb_score sc\nJOIN tb_school sch ON sc.school_id = sch.id\nWHERE sch.name = '南京市第一中学'\n  AND sc.class = '高一(1)班'\n  AND sc.subject_name = '数学'\nGROUP BY sch.name, sc.class, sc.subject_name, sc.exam_score\nLIMIT 1000;\n-- 及格率/优秀率：查明细 score+exam_score 后用 compute_score_stats_tool，禁止在 SQL 写死 0.6/0.85",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "对比三所学校数学均分排名",
+    "sql": "SELECT sch.name AS school,\n       ROUND(AVG(sc.score), 2) AS class_avg,\n       RANK() OVER (ORDER BY AVG(sc.score) DESC) AS rank\nFROM tb_score sc\nJOIN tb_school sch ON sc.school_id = sch.id\nWHERE sc.subject_name = '数学'\nGROUP BY sch.name\nORDER BY rank\nLIMIT 1000;",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "南京市第一中学数学分数段分布",
+    "sql": "SELECT\n  CASE\n    WHEN sc.score &lt; sc.exam_score * 0.6 THEN '0-60%'\n    WHEN sc.score &lt; sc.exam_score * 0.7 THEN '60-70%'\n    WHEN sc.score &lt; sc.exam_score * 0.8 THEN '70-80%'\n    WHEN sc.score &lt; sc.exam_score * 0.9 THEN '80-90%'\n    ELSE '90-100%'\n  END AS segment,\n  COUNT(*) AS cnt\nFROM tb_score sc\nJOIN tb_school sch ON sc.school_id = sch.id\nWHERE sch.name = '南京市第一中学' AND sc.subject_name = '数学'\nGROUP BY segment\nORDER BY segment\nLIMIT 1000;\n-- 上表为相对满分的分数段分布（展示用）；及格/优秀线以异常规则配置为准，勿与 0.6/0.85 混淆",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "STU20240001 本次数学成绩",
+    "sql": "SELECT sc.student_id, sc.subject_name, sc.score, sc.exam_score\nFROM tb_score sc\nWHERE sc.student_id = 'STU20240001' AND sc.subject_name = '数学'\nLIMIT 1000;",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "南京市第一中学数学每一小题得分率及关联知识点",
+    "sql": "SELECT sd.question_no,\n       COALESCE(kn.knowledge_name, '未关联知识点') AS knowledge_name,\n       eq.question_score AS full_score,\n       ROUND(AVG(sd.score), 2) AS avg_score,\n       ROUND(AVG(sd.score)::numeric / NULLIF(eq.question_score, 0) * 100, 2) AS score_rate\nFROM tb_score_detail sd\nJOIN tb_exam_question eq ON sd.question_id = eq.id\nLEFT JOIN (\n  SELECT eqk.question_id,\n         string_agg(DISTINCT k.knowledge_name, '、' ORDER BY k.knowledge_name) AS knowledge_name\n  FROM tb_exam_question_knowledge eqk\n  JOIN tb_knowledge k ON k.id = eqk.knowledge_id\n  GROUP BY eqk.question_id\n) kn ON kn.question_id = eq.id\nJOIN tb_score sc ON sd.exam_id = sc.exam_id AND sd.student_id = sc.student_id\nJOIN tb_school sch ON sc.school_id = sch.id\nWHERE sch.name = '南京市第一中学' AND sc.subject_name = '数学'\nGROUP BY sd.question_no, kn.knowledge_name, eq.question_score\nORDER BY sd.question_no\nLIMIT 1000;",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "南京市第一中学数学知识点薄弱诊断",
+    "sql": "SELECT COALESCE(k.knowledge_name, '未关联知识点') AS knowledge_name,\n       ROUND(SUM(sd.score * COALESCE(eqk.w_norm, 1))::numeric\n             / NULLIF(SUM(eq.question_score * COALESCE(eqk.w_norm, 1)), 0) * 100, 2) AS score_rate,\n       COUNT(DISTINCT sd.question_no) AS question_count\nFROM tb_score_detail sd\nJOIN tb_exam_question eq ON sd.question_id = eq.id\nLEFT JOIN (\n  SELECT question_id, knowledge_id,\n         weight / NULLIF(SUM(weight) OVER (PARTITION BY question_id), 0) AS w_norm\n  FROM tb_exam_question_knowledge\n) eqk ON eqk.question_id = eq.id\nLEFT JOIN tb_knowledge k ON k.id = eqk.knowledge_id\nJOIN tb_score sc ON sd.exam_id = sc.exam_id AND sd.student_id = sc.student_id\nJOIN tb_school sch ON sc.school_id = sch.id\nWHERE sch.name = '南京市第一中学' AND sc.subject_name = '数学'\nGROUP BY k.knowledge_name\nORDER BY score_rate ASC\nLIMIT 1000;",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "南京市各区县数学均分对比",
+    "sql": "SELECT sch.district,\n       COUNT(*) AS cnt,\n       ROUND(AVG(sc.score), 2) AS avg_score\nFROM tb_score sc\nJOIN tb_school sch ON sc.school_id = sch.id\nWHERE sc.subject_name = '数学'\nGROUP BY sch.district\nORDER BY avg_score DESC\nLIMIT 1000;",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "按年级汇总数学均分（年级从班级名解析）",
+    "sql": "SELECT\n  CASE\n    WHEN sc.class LIKE '高一%' THEN '高一'\n    WHEN sc.class LIKE '高二%' THEN '高二'\n    WHEN sc.class LIKE '高三%' THEN '高三'\n    WHEN sc.class LIKE '初一%' THEN '初一'\n    WHEN sc.class LIKE '初二%' THEN '初二'\n    WHEN sc.class LIKE '初三%' THEN '初三'\n    ELSE '其他'\n  END AS grade,\n  ROUND(AVG(sc.score), 2) AS avg_score\nFROM tb_score sc\nWHERE sc.subject_name = '数学'\nGROUP BY grade\nORDER BY grade\nLIMIT 1000;",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "邗江区 2026届高三5月模拟数学均分",
+    "sql": "SELECT sch.district,\n       ROUND(AVG(sc.score), 2) AS avg_score,\n       COUNT(*) AS cnt\nFROM tb_score sc\nJOIN tb_school sch ON sc.school_id = sch.id\nJOIN tb_exam e ON sc.exam_id = e.id\nLEFT JOIN tb_exam_batch eb ON e.exam_batch_id = eb.id\nWHERE COALESCE(eb.batch_name, e.exam_name) LIKE '%2026届高三5月模拟%'\n  AND sch.district = '邗江区'\n  AND sc.subject_name = '数学'\nGROUP BY sch.district\nLIMIT 1000;\n-- 「XX考试」按 tb_exam_batch.batch_name 过滤，禁止把试卷名当成考试批次",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三5月模拟物理类本科线是多少",
+    "sql": "SELECT exam_name, wl_score_bk AS threshold\nFROM tb_fraction_bar\nWHERE exam_name = '2026届高三5月模拟'\nLIMIT 10;\n-- 分数线阈值在 tb_fraction_bar；达线人数/率须查 tb_score_indicator",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "邗江区 2026届高三5月模拟全科总分均分",
+    "sql": "SELECT dq,\n       ROUND(AVG(zf6m), 2) AS avg_zf6m,\n       COUNT(*) AS cnt\nFROM tb_score_overview\nWHERE exam_name = '2026届高三5月模拟'\n  AND dq = '邗江区'\nGROUP BY dq\nLIMIT 1000;\n-- 全科总分用 tb_score_overview.zf6m；学生标识 anon_stu_id；禁止 xm/sfzh/ksh",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月扬州中学物理类均分与全市的比较分析",
+    "sql": "SELECT '扬州中学' AS scope, ROUND(AVG(zf6m), 2) AS avg_zf6m, COUNT(*) AS n\nFROM tb_score_overview\nWHERE exam_name LIKE '%2026届高三1月%'\n  AND xkkm LIKE '物%'\n  AND xx LIKE '%扬州中学%'\nUNION ALL\nSELECT '全市' AS scope, ROUND(AVG(zf6m), 2) AS avg_zf6m, COUNT(*) AS n\nFROM tb_score_overview\nWHERE exam_name LIKE '%2026届高三1月%'\n  AND xkkm LIKE '物%'\nLIMIT 1000;\n-- 两行对比：scope+avg_zf6m+n。overview.xx 是学校明文，用 xx LIKE '%扬州中学%'；全市那一支禁止 xx；禁止 GROUP BY xx 当全市；禁止 xx='GZ_…'（校码不是校名）；物理类=xkkm 不是物理单科；禁止 exam_type / 班级横向报告",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三3月扬州中学对比引领校语文单科",
+    "sql": "SELECT '扬州中学' AS scope, ROUND(AVG(yw), 2) AS avg_score, COUNT(*) AS n\nFROM tb_score_overview\nWHERE exam_name LIKE '%2026届高三3月%'\n  AND xx LIKE '%扬州中学%'\n  AND xsxz = '在籍生'\n  AND yw > 0\nUNION ALL\nSELECT '引领校' AS scope, ROUND(AVG(yw), 2) AS avg_score, COUNT(*) AS n\nFROM tb_score_overview\nWHERE exam_name LIKE '%2026届高三3月%'\n  AND xxlb LIKE '%引领%'\n  AND xsxz = '在籍生'\n  AND yw > 0\nLIMIT 1000;\n-- 语文=yw。缺考 yw=0 不计入均分分母（否则 113.05 会被拉成 112.99）。引领校用 overview.xxlb 且在籍生；禁止 JOIN tb_school 算均分；禁止 GROUP BY xx 再平均；引领校支不要排除扬州中学",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "扬州中学1月期末各科均分",
+    "sql": "SELECT\n  COUNT(*) AS n_stu,\n  ROUND(AVG(yw) FILTER (WHERE yw &gt; 0), 1) AS 语文,\n  COUNT(*) FILTER (WHERE yw &gt; 0) AS 语文人数,\n  ROUND(AVG(sx) FILTER (WHERE sx &gt; 0), 1) AS 数学,\n  COUNT(*) FILTER (WHERE sx &gt; 0) AS 数学人数,\n  ROUND(AVG(yy) FILTER (WHERE yy &gt; 0), 1) AS 英语,\n  COUNT(*) FILTER (WHERE yy &gt; 0) AS 英语人数,\n  ROUND(AVG(wl) FILTER (WHERE wl &gt; 0), 1) AS 物理,\n  COUNT(*) FILTER (WHERE wl &gt; 0) AS 物理人数,\n  ROUND(AVG(ls) FILTER (WHERE ls &gt; 0), 1) AS 历史,\n  COUNT(*) FILTER (WHERE ls &gt; 0) AS 历史人数,\n  ROUND(AVG(hx) FILTER (WHERE hx &gt; 0), 1) AS 化学,\n  COUNT(*) FILTER (WHERE hx &gt; 0) AS 化学人数,\n  ROUND(AVG(sw) FILTER (WHERE sw &gt; 0), 1) AS 生物,\n  COUNT(*) FILTER (WHERE sw &gt; 0) AS 生物人数,\n  ROUND(AVG(zz) FILTER (WHERE zz &gt; 0), 1) AS 政治,\n  COUNT(*) FILTER (WHERE zz &gt; 0) AS 政治人数,\n  ROUND(AVG(dl) FILTER (WHERE dl &gt; 0), 1) AS 地理,\n  COUNT(*) FILTER (WHERE dl &gt; 0) AS 地理人数\nFROM tb_score_overview\nWHERE exam_name LIKE '%1月期末%'\n  AND xx LIKE '%扬州中学%'\nLIMIT 1000;\n-- 未选考/缺考宽表为 0。多科均分必须 AVG(col) FILTER (WHERE col &gt; 0)，禁止 AVG(ls) 除以全体人数（历史会变成个位数）。禁止 WHERE ls&gt;0（会把语数英也滤成选考历史的人）。该科参考人数用 COUNT(*) FILTER",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月扬州中学高三(1)班数学成绩全市排名",
+    "sql": "WITH eligible AS (\n  SELECT xx, bj\n  FROM tb_score_overview\n  WHERE exam_name LIKE '%2026届高三1月%'\n    AND xsxz = '在籍生'\n    AND xxlb NOT LIKE '%其他%'\n  GROUP BY xx, bj\n  HAVING COUNT(*) &gt;= 10\n),\nclass_avg AS (\n  SELECT o.xx, o.bj, ROUND(AVG(o.sx) FILTER (WHERE o.sx &gt; 0), 2) AS avg_sx\n  FROM tb_score_overview o\n  JOIN eligible e ON e.xx = o.xx AND e.bj = o.bj\n  WHERE o.exam_name LIKE '%2026届高三1月%'\n    AND o.xsxz = '在籍生'\n  GROUP BY o.xx, o.bj\n  HAVING COUNT(*) FILTER (WHERE o.sx &gt; 0) &gt;= 3\n),\nranked AS (\n  SELECT xx, bj, avg_sx,\n         RANK() OVER (ORDER BY avg_sx DESC NULLS LAST) AS city_rank,\n         COUNT(*) OVER () AS n_class\n  FROM class_avg\n),\ntgt AS (\n  SELECT city_rank FROM ranked\n  WHERE xx LIKE '%扬州中学%' AND bj LIKE '%高三(1)班%'\n)\nSELECT xx, bj, avg_sx, city_rank, n_class,\n       CASE WHEN xx LIKE '%扬州中学%' AND bj LIKE '%高三(1)班%' THEN '本班' ELSE '' END AS 标记\nFROM ranked\nWHERE city_rank = 1\n   OR city_rank BETWEEN (SELECT city_rank FROM tgt) - 3 AND (SELECT city_rank FROM tgt) + 3;\n-- 单科全市班级排名：洗净其他校/整班不足10人，该科有效人数&gt;=3 才进池，RANK ... NULLS LAST。禁止 PARTITION BY bj。返回第1名+目标班前后各3名并标记本班，禁止外层只留目标班一行。数学=sx 且 FILTER sx&gt;0",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "扬州中学高三(1)班在全市班级中的排名",
+    "sql": "WITH base AS (\n  SELECT xx, bj, zf6m,\n         CASE WHEN xkkm LIKE '物%' THEN '物理类'\n              WHEN xkkm LIKE '史%' OR xkkm LIKE '历%' THEN '历史类'\n              ELSE NULL END AS track\n  FROM tb_score_overview\n  WHERE exam_name LIKE '%2026届高三1月期末%'\n    AND xsxz = '在籍生'\n    AND zf6m &gt; 0\n    AND xxlb NOT LIKE '%其他%'\n),\nregular AS (\n  SELECT xx, bj FROM base GROUP BY xx, bj HAVING COUNT(*) &gt;= 10\n),\ntgt_n AS (\n  SELECT track, COUNT(*) AS n\n  FROM base\n  WHERE xx LIKE '%扬州中学%' AND bj LIKE '%高三(1)班%' AND track IS NOT NULL\n  GROUP BY track\n  HAVING COUNT(*) &gt;= 3\n),\nmajority AS (\n  SELECT track FROM tgt_n WHERE n = (SELECT MAX(n) FROM tgt_n)\n),\ntrack_class AS (\n  SELECT b.xx, b.bj, b.track, AVG(b.zf6m) AS avg_zf6m, COUNT(*) AS n_stu\n  FROM base b\n  JOIN regular r ON r.xx = b.xx AND r.bj = b.bj\n  WHERE b.track IN (SELECT track FROM majority)\n  GROUP BY b.xx, b.bj, b.track\n  HAVING COUNT(*) &gt;= 3\n),\ntrack_rank AS (\n  SELECT *,\n         RANK() OVER (PARTITION BY track ORDER BY avg_zf6m DESC) AS city_rank,\n         COUNT(*) OVER (PARTITION BY track) AS n_class\n  FROM track_class\n),\nall_class AS (\n  SELECT b.xx, b.bj, AVG(b.zf6m) AS avg_zf6m, COUNT(*) AS n_stu\n  FROM base b\n  JOIN regular r ON r.xx = b.xx AND r.bj = b.bj\n  GROUP BY b.xx, b.bj\n),\nall_rank AS (\n  SELECT *,\n         RANK() OVER (ORDER BY avg_zf6m DESC) AS city_rank,\n         COUNT(*) OVER () AS n_class\n  FROM all_class\n),\ntgt_dir AS (\n  SELECT city_rank FROM track_rank\n  WHERE xx LIKE '%扬州中学%' AND bj LIKE '%高三(1)班%'\n),\ntgt_all AS (\n  SELECT city_rank FROM all_rank\n  WHERE xx LIKE '%扬州中学%' AND bj LIKE '%高三(1)班%'\n)\nSELECT '按选考方向' AS 口径, xx, bj, city_rank, n_class, ROUND(avg_zf6m, 1) AS avg_zf6m,\n       CASE WHEN xx LIKE '%扬州中学%' AND bj LIKE '%高三(1)班%' THEN '本班' ELSE '' END AS 标记\nFROM track_rank\nWHERE city_rank = 1\n   OR city_rank BETWEEN (SELECT city_rank FROM tgt_dir) - 3 AND (SELECT city_rank FROM tgt_dir) + 3\nUNION ALL\nSELECT '不区分选考', xx, bj, city_rank, n_class, ROUND(avg_zf6m, 1),\n       CASE WHEN xx LIKE '%扬州中学%' AND bj LIKE '%高三(1)班%' THEN '本班' ELSE '' END\nFROM all_rank\nWHERE city_rank = 1\n   OR city_rank BETWEEN (SELECT city_rank FROM tgt_all) - 3 AND (SELECT city_rank FROM tgt_all) + 3;\n-- 一条 SQL、UNION ALL 两个口径。每个口径返回第1名+目标班前后各3名并标记本班。排名池排除其他校和整班不足10人。问句点名支撑/引领/发展校时再加 xxlb LIKE '%该类%'。用目标校+班定位窗口，禁止外层只留下目标班一行。",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月新华中学的优势学科",
+    "sql": "WITH school_avg AS (\n  SELECT xx,\n         ROUND(AVG(yw) FILTER (WHERE yw &gt; 0), 2) AS yw,\n         ROUND(AVG(sx) FILTER (WHERE sx &gt; 0), 2) AS sx,\n         ROUND(AVG(yy) FILTER (WHERE yy &gt; 0), 2) AS yy,\n         ROUND(AVG(wl) FILTER (WHERE wl &gt; 0), 2) AS wl,\n         ROUND(AVG(ls) FILTER (WHERE ls &gt; 0), 2) AS ls,\n         ROUND(AVG(hxzh) FILTER (WHERE hxzh &gt; 0), 2) AS hxzh,\n         ROUND(AVG(swzh) FILTER (WHERE swzh &gt; 0), 2) AS swzh,\n         ROUND(AVG(zzzh) FILTER (WHERE zzzh &gt; 0), 2) AS zzzh,\n         ROUND(AVG(dlzh) FILTER (WHERE dlzh &gt; 0), 2) AS dlzh\n  FROM tb_score_overview\n  WHERE exam_name LIKE '%2026届高三1月%'\n    AND xsxz = '在籍生'\n  GROUP BY xx\n),\nranked AS (\n  SELECT xx, '语文' AS subject, yw AS avg_score,\n         RANK() OVER (ORDER BY yw DESC NULLS LAST) AS city_rank,\n         COUNT(*) OVER () AS n_school\n  FROM school_avg WHERE yw IS NOT NULL\n  UNION ALL SELECT xx, '数学', sx, RANK() OVER (ORDER BY sx DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE sx IS NOT NULL\n  UNION ALL SELECT xx, '英语', yy, RANK() OVER (ORDER BY yy DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE yy IS NOT NULL\n  UNION ALL SELECT xx, '物理', wl, RANK() OVER (ORDER BY wl DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE wl IS NOT NULL\n  UNION ALL SELECT xx, '历史', ls, RANK() OVER (ORDER BY ls DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE ls IS NOT NULL\n  UNION ALL SELECT xx, '化学', hxzh, RANK() OVER (ORDER BY hxzh DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE hxzh IS NOT NULL\n  UNION ALL SELECT xx, '生物', swzh, RANK() OVER (ORDER BY swzh DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE swzh IS NOT NULL\n  UNION ALL SELECT xx, '政治', zzzh, RANK() OVER (ORDER BY zzzh DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE zzzh IS NOT NULL\n  UNION ALL SELECT xx, '地理', dlzh, RANK() OVER (ORDER BY dlzh DESC NULLS LAST), COUNT(*) OVER () FROM school_avg WHERE dlzh IS NOT NULL\n)\nSELECT subject, avg_score, city_rank, n_school\nFROM ranked\nWHERE xx LIKE '%新华中学%'\nORDER BY city_rank, subject\nLIMIT 1000;\n-- 优势/薄弱学科=该校各科均分的全市学校排名相对位置：名次/参赛数≤25%为前列（优势），≥50%为靠后（薄弱）。禁止把本校各科里名次较差的直接叫薄弱。禁止用该校语文均分和数学均分互比。点名班级则 GROUP BY xx,bj 做全市班级排名：RANK() OVER (ORDER BY 均分 DESC)，禁止 PARTITION BY bj，禁止 COUNT(DISTINCT bj)。必须 xsxz='在籍生'，单科 FILTER col&gt;0；化学/生物/政治/地理用 hxzh/swzh/zzzh/dlzh",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月期末扬州中学高三(5)班优势学科",
+    "sql": "WITH class_avg AS (\n  SELECT xx, bj,\n         ROUND(AVG(yw) FILTER (WHERE yw &gt; 0), 2) AS yw,\n         ROUND(AVG(sx) FILTER (WHERE sx &gt; 0), 2) AS sx,\n         ROUND(AVG(yy) FILTER (WHERE yy &gt; 0), 2) AS yy,\n         ROUND(AVG(wl) FILTER (WHERE wl &gt; 0), 2) AS wl,\n         ROUND(AVG(ls) FILTER (WHERE ls &gt; 0), 2) AS ls,\n         ROUND(AVG(hxzh) FILTER (WHERE hxzh &gt; 0), 2) AS hxzh,\n         ROUND(AVG(swzh) FILTER (WHERE swzh &gt; 0), 2) AS swzh,\n         ROUND(AVG(zzzh) FILTER (WHERE zzzh &gt; 0), 2) AS zzzh,\n         ROUND(AVG(dlzh) FILTER (WHERE dlzh &gt; 0), 2) AS dlzh\n  FROM tb_score_overview\n  WHERE exam_name LIKE '%2026届高三1月期末%'\n    AND xsxz = '在籍生'\n  GROUP BY xx, bj\n),\nranked AS (\n  SELECT xx, bj, '语文' AS subject, yw AS avg_score,\n         RANK() OVER (ORDER BY yw DESC NULLS LAST) AS city_rank,\n         COUNT(*) OVER () AS n_class\n  FROM class_avg WHERE yw IS NOT NULL\n  UNION ALL SELECT xx, bj, '数学', sx, RANK() OVER (ORDER BY sx DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE sx IS NOT NULL\n  UNION ALL SELECT xx, bj, '英语', yy, RANK() OVER (ORDER BY yy DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE yy IS NOT NULL\n  UNION ALL SELECT xx, bj, '物理', wl, RANK() OVER (ORDER BY wl DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE wl IS NOT NULL\n  UNION ALL SELECT xx, bj, '历史', ls, RANK() OVER (ORDER BY ls DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE ls IS NOT NULL\n  UNION ALL SELECT xx, bj, '化学', hxzh, RANK() OVER (ORDER BY hxzh DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE hxzh IS NOT NULL\n  UNION ALL SELECT xx, bj, '生物', swzh, RANK() OVER (ORDER BY swzh DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE swzh IS NOT NULL\n  UNION ALL SELECT xx, bj, '政治', zzzh, RANK() OVER (ORDER BY zzzh DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE zzzh IS NOT NULL\n  UNION ALL SELECT xx, bj, '地理', dlzh, RANK() OVER (ORDER BY dlzh DESC NULLS LAST), COUNT(*) OVER () FROM class_avg WHERE dlzh IS NOT NULL\n)\nSELECT subject, avg_score, city_rank, n_class\nFROM ranked\nWHERE xx LIKE '%扬州中学%' AND bj LIKE '%高三(5)班%'\nORDER BY city_rank, subject\nLIMIT 1000;\n-- 班级优势学科=该班各科均分的全市班级排名。RANK/COUNT 必须在未过滤目标班的全集上计算。禁止 PARTITION BY bj，禁止 COUNT(DISTINCT bj)，禁止 hx/sw/zz/dl",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "全市均衡性最好的学科",
+    "sql": "SELECT * FROM (\n  SELECT '语文' AS subject,\n         ROUND((STDDEV_SAMP(yw) FILTER (WHERE yw &gt; 0))::numeric, 2) AS stdev,\n         ROUND((AVG(yw) FILTER (WHERE yw &gt; 0))::numeric, 1) AS avg_score,\n         COUNT(*) FILTER (WHERE yw &gt; 0) AS n\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '数学', ROUND((STDDEV_SAMP(sx) FILTER (WHERE sx &gt; 0))::numeric, 2),\n         ROUND((AVG(sx) FILTER (WHERE sx &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE sx &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '英语', ROUND((STDDEV_SAMP(yy) FILTER (WHERE yy &gt; 0))::numeric, 2),\n         ROUND((AVG(yy) FILTER (WHERE yy &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE yy &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '物理', ROUND((STDDEV_SAMP(wl) FILTER (WHERE wl &gt; 0))::numeric, 2),\n         ROUND((AVG(wl) FILTER (WHERE wl &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE wl &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '历史', ROUND((STDDEV_SAMP(ls) FILTER (WHERE ls &gt; 0))::numeric, 2),\n         ROUND((AVG(ls) FILTER (WHERE ls &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE ls &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '化学', ROUND((STDDEV_SAMP(hxzh) FILTER (WHERE hxzh &gt; 0))::numeric, 2),\n         ROUND((AVG(hxzh) FILTER (WHERE hxzh &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE hxzh &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '生物', ROUND((STDDEV_SAMP(swzh) FILTER (WHERE swzh &gt; 0))::numeric, 2),\n         ROUND((AVG(swzh) FILTER (WHERE swzh &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE swzh &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '政治', ROUND((STDDEV_SAMP(zzzh) FILTER (WHERE zzzh &gt; 0))::numeric, 2),\n         ROUND((AVG(zzzh) FILTER (WHERE zzzh &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE zzzh &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n  UNION ALL\n  SELECT '地理', ROUND((STDDEV_SAMP(dlzh) FILTER (WHERE dlzh &gt; 0))::numeric, 2),\n         ROUND((AVG(dlzh) FILTER (WHERE dlzh &gt; 0))::numeric, 1), COUNT(*) FILTER (WHERE dlzh &gt; 0)\n  FROM tb_score_overview WHERE exam_name LIKE '%目标考试%'\n) t\nORDER BY stdev ASC\nLIMIT 1000;\n-- 均衡性=标准差越小越均衡。未选考/缺考为 0，STDDEV/AVG 必须 FILTER col&gt;0，否则选考科均分被拉低、离散被夸大。化学/生物/政治/地理用转换分 hxzh/swzh/zzzh/dlzh",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三5月模拟理科语数外三门均分的学校排名",
+    "sql": "SELECT xx AS school,\n       COUNT(*) AS candidates,\n       ROUND(AVG(zf3m), 1) AS avg_zf3m\nFROM tb_score_overview\nWHERE exam_name = '2026届高三5月模拟'\n  AND xkkm LIKE '物%'\nGROUP BY xx\nORDER BY avg_zf3m DESC\nLIMIT 1000;\n-- 语数外/三门均分=AVG(zf3m) 三科总分校均（约 350），禁止除以 3，禁止 tb_score 三科 AVG(score)\n-- 理科=物理类 xkkm LIKE '物%'；学校用 xx（学校明文），不要用 tb_school.name 脱敏码",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月期末扬州中学达线情况",
+    "sql": "SELECT line_name,\n       track,\n       SUM(candidates) AS candidates,\n       SUM(reached_count) AS reached_count,\n       ROUND(SUM(reached_count) * 100.0 / NULLIF(SUM(candidates), 0), 2) AS reach_rate\nFROM tb_score_indicator\nWHERE exam_name LIKE '%2026届高三1月期末%'\n  AND school_name LIKE '%扬州中学%'\nGROUP BY line_name, track\nORDER BY line_name, track\nLIMIT 1000;\n-- 学校达线用 school_name LIKE '%校名%'；禁止 school_id='GZ_…'；禁止用 district='市直' 冒充学校",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月期末全市引领校达线情况",
+    "sql": "SELECT ind.line_name,\n       ind.track,\n       SUM(ind.candidates) AS candidates,\n       SUM(ind.reached_count) AS reached_count,\n       ROUND(SUM(ind.reached_count) * 100.0 / NULLIF(SUM(ind.candidates), 0), 2) AS reach_rate\nFROM tb_score_indicator ind\nJOIN tb_school sch ON ind.school_name = COALESCE(sch.s_name, sch.name)\nWHERE ind.exam_name LIKE '%2026届高三1月期末%'\n  AND sch.\"type\" LIKE '%引领%'\nGROUP BY ind.line_name, ind.track\nORDER BY ind.line_name, ind.track\nLIMIT 1000;\n-- 引领/支撑/发展校达线：indicator JOIN tb_school，校类用 sch.type（与 overview.xxlb 同源）；禁止套用全市达线 HTML",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "邗江区物理类本科线达线人数和达线率",
+    "sql": "SELECT district,\n       track,\n       line_name,\n       SUM(candidates) AS candidates,\n       SUM(reached_count) AS reached_count,\n       ROUND(SUM(reached_count) * 100.0 / NULLIF(SUM(candidates), 0), 2) AS reach_rate\nFROM tb_score_indicator\nWHERE district LIKE '%邗江%'\n  AND track = '物理类'\n  AND line_name = '本科线'\nGROUP BY district, track, line_name\nLIMIT 1000;\n-- 达线查 tb_score_indicator；区县/全市必须 SUM 后重算率，禁止 AVG(reach_rate)",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "扬州市2026届高三3月广陵区本科线达线人数和达线率",
+    "sql": "SELECT district,\n       line_name,\n       SUM(candidates) AS candidates,\n       SUM(reached_count) AS reached_count,\n       ROUND(SUM(reached_count) * 100.0 / NULLIF(SUM(candidates), 0), 2) AS reach_rate\nFROM tb_score_indicator\nWHERE exam_name LIKE '%2026届高三3月%'\n  AND district LIKE '%广陵%'\n  AND line_name = '本科线'\nGROUP BY district, line_name\nLIMIT 1000;\n-- 禁止把「N月」拼进 district；考试用 LIKE 对齐 batch_name",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三3月扬州中学高三(1)班南大达线情况",
+    "sql": "SELECT CASE\n         WHEN ov.xkkm LIKE '物%' THEN '物理类'\n         WHEN ov.xkkm LIKE '史%' OR ov.xkkm LIKE '历%' THEN '历史类'\n         ELSE '其他'\n       END AS 选科方向,\n       COUNT(*) AS 参考人数,\n       SUM(CASE\n             WHEN ov.xkkm LIKE '物%' AND ov.zf6m &gt;= fb.wl_score_nd THEN 1\n             WHEN (ov.xkkm LIKE '史%' OR ov.xkkm LIKE '历%') AND ov.zf6m &gt;= fb.ls_score_nd THEN 1\n             ELSE 0\n           END) AS 达线人数,\n       ROUND(100.0 * SUM(CASE\n             WHEN ov.xkkm LIKE '物%' AND ov.zf6m &gt;= fb.wl_score_nd THEN 1\n             WHEN (ov.xkkm LIKE '史%' OR ov.xkkm LIKE '历%') AND ov.zf6m &gt;= fb.ls_score_nd THEN 1\n             ELSE 0\n           END) / NULLIF(COUNT(*), 0), 2) AS \"达线率%\",\n       MAX(CASE\n             WHEN ov.xkkm LIKE '物%' THEN fb.wl_score_nd\n             WHEN ov.xkkm LIKE '史%' OR ov.xkkm LIKE '历%' THEN fb.ls_score_nd\n           END) AS 分数线\nFROM tb_score_overview ov\nJOIN tb_fraction_bar fb ON fb.exam_name = ov.exam_name\nWHERE ov.exam_name LIKE '%2026届高三3月%'\n  AND ov.bj LIKE '%高三(1)%'\n  AND (ov.xkkm LIKE '物%' OR ov.xkkm LIKE '史%' OR ov.xkkm LIKE '历%')\nGROUP BY 1\nLIMIT 1000;\n-- 班级达线：必须用 zf6m（禁止 zf4m/zf3m）；物理对照 wl_score_*、历史对照 ls_score_*；\n-- 按 xkkm 分轨 GROUP BY；班内只有物理类则结果只有一行，禁止文理混报；WHERE 必含 bj",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月期末各区特控线达线率对比",
+    "sql": "SELECT district,\n       line_name,\n       SUM(candidates) AS candidates,\n       SUM(reached_count) AS reached_count,\n       ROUND(SUM(reached_count) * 100.0 / NULLIF(SUM(candidates), 0), 2) AS reach_rate\nFROM tb_score_indicator\nWHERE exam_name = '2026届高三1月期末'\n  AND line_name = '特控线'\nGROUP BY district, line_name\nORDER BY reach_rate DESC\nLIMIT 1000;",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "邗江物理类600分以上多少人",
+    "sql": "SELECT COUNT(*) FILTER (WHERE zf6m &gt;= 600) AS n_ge,\n       COUNT(*) AS n,\n       ROUND(100.0 * COUNT(*) FILTER (WHERE zf6m &gt;= 600) / NULLIF(COUNT(*), 0), 2) AS pct\nFROM tb_score_overview\nWHERE exam_name = '2026届高三1月期末'\n  AND dq LIKE '%邗江%'\n  AND xkkm LIKE '物%'\nLIMIT 1000;\n-- 绝对分数段查 tb_score_overview.zf6m；禁止 tb_score / tb_score_indicator；物理类 xkkm LIKE '物%'",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "全市化学86到90分多少人",
+    "sql": "SELECT COUNT(*) AS n\nFROM tb_score_overview\nWHERE exam_name = '2026届高三1月期末'\n  AND hxzh &gt;= 86 AND hxzh &lt; 91\nLIMIT 1000;\n-- 化学分段用 hxzh（转换分），禁止 hx；未选该科（0/空）不要计入",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "引领校语文110分以上人数",
+    "sql": "SELECT COUNT(*) FILTER (WHERE yw &gt;= 110) AS n_ge,\n       COUNT(*) AS n\nFROM tb_score_overview\nWHERE exam_name = '2026届高三1月期末'\n  AND xxlb LIKE '%引领%'\n  AND xsxz = '在籍生'\nLIMIT 1000;\n-- 引领/支撑/发展走 xxlb 且排除市报生；市报生用 xsxz LIKE '%市报%'",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  },
+  {
+    "question": "2026届高三1月扬州中学总分10分段分布情况",
+    "sql": "SELECT ((CAST(zf6m AS int) - 1) / 10) * 10 + 1 AS band_lo,\n       COUNT(*) AS n\nFROM tb_score_overview\nWHERE exam_name LIKE '%2026届高三1月%'\n  AND xx LIKE '%扬州中学%'\nGROUP BY 1\nORDER BY 1 DESC\nLIMIT 1000;\n-- 点名学校的十分段是事实查询：zf6m 六门总分，按该校过滤；禁止套用各区县分段 HTML 报告",
+    "path": "src/templates/sql_gen_prompt.py",
+    "literal_start_line": 25
+  }
+]

@@ -1,0 +1,2003 @@
+:root {
+  --bg: #f5f7fb;
+  --surface: #fff;
+  --text: #182234;
+  --muted: #5f6c80;
+  --line: #e1e7ef;
+  --primary: #2455cf;
+  --primary-hover: #1d43ac;
+  --soft: #edf3ff;
+  --green: #087b64;
+  --green-soft: #e8f6ef;
+  --red: #b42336;
+  --amber: #936013;
+  --radius: 10px;
+  --shadow: 0 6px 24px #17263b0a;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+}
+:where(.studio-editor, #modal) * {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+:where(.studio-editor, #modal) button,:where(.studio-editor, #modal) input,:where(.studio-editor, #modal) textarea,:where(.studio-editor, #modal) select {
+  font: inherit;
+}
+:where(.studio-editor, #modal) button,:where(.studio-editor, #modal) a,:where(.studio-editor, #modal) input,:where(.studio-editor, #modal) select,:where(.studio-editor, #modal) textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+:where(.studio-editor, #modal) button {
+  cursor: pointer;
+}
+:where(.studio-editor, #modal) button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+:where(.studio-editor, #modal) button:focus-visible,:where(.studio-editor, #modal) a:focus-visible,:where(.studio-editor, #modal) input:focus-visible,:where(.studio-editor, #modal) textarea:focus-visible,:where(.studio-editor, #modal) select:focus-visible {
+  outline: 3px solid #8baaf4;
+  outline-offset: 2px;
+}
+:where(.studio-editor, #modal) button {
+  transition:
+    background 0.16s,
+    color 0.16s,
+    border-color 0.16s;
+}
+:where(.studio-editor, #modal) a {
+  color: var(--primary);
+}
+:where(.studio-editor, #modal) svg.icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+:where(.studio-editor, #modal) button svg.icon {
+  pointer-events: none;
+}
+:where(.studio-editor, #modal) h1,:where(.studio-editor, #modal) h2,:where(.studio-editor, #modal) h3,:where(.studio-editor, #modal) p {
+  margin: 0;
+}
+:where(.studio-editor, #modal) h1 {
+  font-size: 24px;
+  letter-spacing: -0.6px;
+  font-weight: 650;
+}
+:where(.studio-editor, #modal) h2 {
+  font-size: 17px;
+  font-weight: 650;
+}
+:where(.studio-editor, #modal) h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+:where(.studio-editor, #modal) button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  padding: 8px 12px;
+  min-height: 36px;
+  color: var(--text);
+  white-space: nowrap;
+}
+:where(.studio-editor, #modal) button:hover {
+  background: #f1f4f8;
+}
+:where(.studio-editor, #modal) .primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+:where(.studio-editor, #modal) .primary:hover {
+  background: var(--primary-hover);
+  color: #fff;
+}
+:where(.studio-editor, #modal) .quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+:where(.studio-editor, #modal) .quiet:hover {
+  background: #e8edf5;
+  color: var(--text);
+}
+:where(.studio-editor, #modal) .danger {
+  color: var(--red);
+}
+:where(.studio-editor, #modal) .mini {
+  min-height: 28px;
+  padding: 4px 7px;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .icon-only {
+  padding: 8px;
+  min-width: 36px;
+}
+:where(.studio-editor, #modal) input,:where(.studio-editor, #modal) textarea,:where(.studio-editor, #modal) select {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid #cfd8e4;
+  border-radius: 6px;
+  padding: 9px 10px;
+  min-height: 38px;
+  box-shadow: 0 1px 2px #18223403;
+}
+:where(.studio-editor, #modal) input::placeholder,:where(.studio-editor, #modal) textarea::placeholder {
+  color: #7a879b;
+}
+:where(.studio-editor, #modal) textarea {
+  resize: vertical;
+  line-height: 1.65;
+}
+:where(.studio-editor, #modal) select {
+  padding-right: 25px;
+}
+:where(.studio-editor, #modal) input[type="checkbox"] {
+  width: 16px;
+  min-height: 16px;
+  accent-color: var(--primary);
+  box-shadow: none;
+  margin: 0;
+}
+:where(.studio-editor, #modal) label {
+  display: block;
+  color: #46556b;
+  font-size: 12px;
+  font-weight: 550;
+  margin-bottom: 6px;
+}
+:where(.studio-editor, #modal) label.check {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0;
+}
+:where(.studio-editor, #modal) fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .form-item {
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .form-item + .form-item {
+  margin-top: 16px;
+}
+:where(.studio-editor, #modal) .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 18px;
+}
+:where(.studio-editor, #modal) .form-grid .form-item + .form-item {
+  margin-top: 0;
+}
+:where(.studio-editor, #modal) .form-grid .full {
+  grid-column: 1/-1;
+}
+:where(.studio-editor, #modal) .hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+:where(.studio-editor, #modal) .mono,:where(.studio-editor, #modal) code,:where(.studio-editor, #modal) pre,:where(.studio-editor, #modal) .code-input {
+  font-family: var(--mono);
+}
+:where(.studio-editor, #modal) code {
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .muted {
+  color: var(--muted);
+}
+:where(.studio-editor, #modal) .small {
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.7px;
+  color: #7b889b;
+}
+:where(.studio-editor, #modal) .row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+:where(.studio-editor, #modal) .spread {
+  justify-content: space-between;
+}
+:where(.studio-editor, #modal) .badge {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: #eef1f6;
+  color: #53637a;
+  font-size: 11px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+:where(.studio-editor, #modal) .badge.blue {
+  background: var(--soft);
+  color: var(--primary);
+}
+:where(.studio-editor, #modal) .badge.green {
+  background: var(--green-soft);
+  color: var(--green);
+}
+:where(.studio-editor, #modal) .badge.amber {
+  background: #fff2dc;
+  color: var(--amber);
+}
+:where(.studio-editor, #modal) .topbar {
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 0 25px;
+  gap: 16px;
+}
+:where(.studio-editor, #modal) .brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+:where(.studio-editor, #modal) .brandmark {
+  width: 29px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  border-radius: 7px;
+  color: #fff;
+}
+:where(.studio-editor, #modal) .brandmark svg {
+  width: 21px;
+  height: 21px;
+}
+:where(.studio-editor, #modal) .brand-divider {
+  height: 20px;
+  border-left: 1px solid var(--line);
+  margin: 0 7px;
+}
+:where(.studio-editor, #modal) .brand .muted {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+:where(.studio-editor, #modal) .service-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted);
+}
+:where(.studio-editor, #modal) .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  background: var(--green);
+}
+:where(.studio-editor, #modal) .app-shell {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  min-height: calc(100vh - 65px);
+}
+:where(.studio-editor, #modal) .sidebar {
+  border-right: 1px solid var(--line);
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background: #f8fafd;
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .side-heading {
+  padding: 0 10px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #637188;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+:where(.studio-editor, #modal) .side-heading button {
+  margin: -6px;
+}
+:where(.studio-editor, #modal) .side-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+:where(.studio-editor, #modal) .side-item {
+  border: 0;
+  width: 100%;
+  justify-content: flex-start;
+  background: transparent;
+  text-align: left;
+  padding: 10px 11px;
+  white-space: normal;
+  font-size: 13px;
+  gap: 10px;
+}
+:where(.studio-editor, #modal) .side-item.selected {
+  background: #e9effb;
+  color: #214ab1;
+  font-weight: 550;
+}
+:where(.studio-editor, #modal) .side-item .item-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .side-item .side-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+  display: block;
+  margin-top: 1px;
+}
+:where(.studio-editor, #modal) .side-item svg {
+  color: #687b98;
+}
+:where(.studio-editor, #modal) .side-item.selected svg {
+  color: var(--primary);
+}
+:where(.studio-editor, #modal) .side-foot {
+  margin-top: auto;
+  padding: 17px 11px 0;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+:where(.studio-editor, #modal) .side-foot p {
+  margin: 5px 0 8px;
+}
+:where(.studio-editor, #modal) .side-foot a {
+  text-decoration: none;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+:where(.studio-editor, #modal) .workspace {
+  padding: 26px 30px 35px;
+  min-width: 0;
+  max-width: 1800px;
+  width: 100%;
+  margin: auto;
+}
+:where(.studio-editor, #modal) .breadcrumb {
+  font-size: 12px;
+  color: #7b8798;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+:where(.studio-editor, #modal) .breadcrumb strong {
+  font-weight: 400;
+  color: #4d5d74;
+}
+:where(.studio-editor, #modal) .page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+:where(.studio-editor, #modal) .page-heading .title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+:where(.studio-editor, #modal) .page-heading p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+:where(.studio-editor, #modal) .actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+:where(.studio-editor, #modal) .actions .divider {
+  height: 23px;
+  border-left: 1px solid var(--line);
+  margin: 0 3px;
+}
+:where(.studio-editor, #modal) .tabs {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 23px;
+  overflow-x: auto;
+}
+:where(.studio-editor, #modal) .tab {
+  border: 0;
+  border-radius: 0;
+  padding: 10px 1px 13px;
+  min-height: 44px;
+  background: transparent;
+  color: var(--muted);
+  position: relative;
+  font-size: 13px;
+}
+:where(.studio-editor, #modal) .tab[aria-selected="true"] {
+  color: var(--primary);
+  font-weight: 600;
+}
+:where(.studio-editor, #modal) .tab[aria-selected="true"]::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary);
+  content: "";
+}
+:where(.studio-editor, #modal) .tab:hover {
+  background: transparent;
+  color: var(--primary);
+}
+:where(.studio-editor, #modal) .editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 273px;
+  gap: 20px;
+  align-items: start;
+}
+:where(.studio-editor, #modal) .panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .panel-head {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+:where(.studio-editor, #modal) .panel-head h2 {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+:where(.studio-editor, #modal) .panel-head .sub {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .panel-body {
+  padding: 20px;
+}
+:where(.studio-editor, #modal) .model-properties {
+  border-bottom: 1px solid var(--line);
+  padding: 20px;
+}
+:where(.studio-editor, #modal) .table-heading {
+  padding: 17px 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+:where(.studio-editor, #modal) .table-heading .muted {
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 400;
+}
+:where(.studio-editor, #modal) .table-wrap {
+  overflow-x: auto;
+}
+:where(.studio-editor, #modal) table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) th {
+  background: #f8fafd;
+  color: #68788e;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 10px 15px;
+  white-space: nowrap;
+  border-block: 1px solid var(--line);
+}
+:where(.studio-editor, #modal) th:first-child,:where(.studio-editor, #modal) td:first-child {
+  padding-left: 20px;
+}
+:where(.studio-editor, #modal) td {
+  border-bottom: 1px solid #eef1f5;
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+:where(.studio-editor, #modal) tbody tr:last-child td {
+  border-bottom: 0;
+}
+:where(.studio-editor, #modal) tr.active td {
+  background: #f0f5ff;
+}
+:where(.studio-editor, #modal) tr:hover td {
+  background: #f7faff;
+}
+:where(.studio-editor, #modal) tr.active:hover td {
+  background: #edf3ff;
+}
+:where(.studio-editor, #modal) .field-button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  min-height: 24px;
+  justify-content: flex-start;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #284365;
+}
+:where(.studio-editor, #modal) .field-button:hover {
+  background: transparent;
+  color: var(--primary);
+}
+:where(.studio-editor, #modal) .col-description {
+  max-width: 290px;
+  overflow-wrap: anywhere;
+  color: #647187;
+}
+:where(.studio-editor, #modal) .type-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #697b94;
+}
+:where(.studio-editor, #modal) .field-icon {
+  color: #8091a7;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .prop-icons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+:where(.studio-editor, #modal) .prop-tag {
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: #edf1f7;
+  color: #65768d;
+}
+:where(.studio-editor, #modal) .prop-tag.pk {
+  background: #fff2d7;
+  color: #8c6212;
+}
+:where(.studio-editor, #modal) .prop-tag.calc {
+  background: #eaf3ff;
+  color: #335fa5;
+}
+:where(.studio-editor, #modal) .inspector .panel-head {
+  padding: 16px 18px;
+}
+:where(.studio-editor, #modal) .inspector .panel-body {
+  padding: 18px;
+}
+:where(.studio-editor, #modal) .inspector-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--primary);
+  margin: 4px 0 16px;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .inspector .section-divider {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 19px 0;
+}
+:where(.studio-editor, #modal) .inspector .check-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 0;
+}
+:where(.studio-editor, #modal) .inspector textarea {
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .info-strip {
+  background: #f6f9fd;
+  border-radius: 6px;
+  padding: 11px 12px;
+  color: #62748d;
+  font-size: 12px;
+  margin-top: 15px;
+}
+:where(.studio-editor, #modal) .inspector .danger {
+  width: 100%;
+  margin-top: 18px;
+}
+:where(.studio-editor, #modal) .empty {
+  padding: 52px 24px;
+  text-align: center;
+}
+:where(.studio-editor, #modal) .empty svg.icon {
+  width: 32px;
+  height: 32px;
+  color: #8ca0bc;
+  margin-bottom: 15px;
+}
+:where(.studio-editor, #modal) .empty h2 {
+  margin-bottom: 7px;
+}
+:where(.studio-editor, #modal) .empty p {
+  color: var(--muted);
+  font-size: 13px;
+  max-width: 380px;
+  margin: 0 auto 19px;
+}
+:where(.studio-editor, #modal) .editor-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  font-size: 11px;
+  color: #7d8a9b;
+}
+:where(.studio-editor, #modal) .editor-foot .mono {
+  font-size: 10px;
+}
+:where(.studio-editor, #modal) .validation {
+  margin-bottom: 20px;
+  border: 1px solid #ecc4c9;
+  background: #fff7f8;
+  border-radius: 8px;
+  padding: 15px 18px;
+}
+:where(.studio-editor, #modal) .validation.good {
+  border-color: #b7dfce;
+  background: #f0faf5;
+}
+:where(.studio-editor, #modal) .validation h3 {
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+:where(.studio-editor, #modal) .validation.good h3 {
+  color: var(--green);
+}
+:where(.studio-editor, #modal) .validation ul {
+  margin: 9px 0 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: #7a3e49;
+}
+:where(.studio-editor, #modal) .validation.good p {
+  font-size: 12px;
+  color: #41745c;
+  margin-top: 5px;
+}
+:where(.studio-editor, #modal) .validation li + li {
+  margin-top: 6px;
+}
+:where(.studio-editor, #modal) .validation code {
+  font-size: 11px;
+}
+:where(.studio-editor, #modal) .validation .quiet {
+  float: right;
+  margin-top: -3px;
+}
+:where(.studio-editor, #modal) .relation-list {
+  display: grid;
+  gap: 14px;
+}
+:where(.studio-editor, #modal) .relation-card {
+  padding: 18px 20px;
+}
+:where(.studio-editor, #modal) .relation-card .condition {
+  margin: 14px 0 0;
+  padding: 12px;
+  background: #f6f8fc;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+  color: #3e597b;
+}
+:where(.studio-editor, #modal) .relation-card .relation-route {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12px;
+  margin: 10px 0;
+  color: #365478;
+}
+:where(.studio-editor, #modal) .relation-card .relation-route .badge {
+  font-family: inherit;
+}
+:where(.studio-editor, #modal) .relation-card h3 {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+:where(.studio-editor, #modal) .graph {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  gap: 18px;
+  padding: 24px;
+  background-image: radial-gradient(#d6dfec 0.8px, transparent 0.8px);
+  background-size: 15px 15px;
+  border-bottom: 1px solid var(--line);
+}
+:where(.studio-editor, #modal) .graph-node {
+  background: var(--surface);
+  border: 1px solid #ccd8e8;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .graph-title {
+  padding: 12px 14px;
+  background: #f1f5fe;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .graph-fields {
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #6f7f95;
+}
+:where(.studio-editor, #modal) .graph-fields div {
+  display: flex;
+  gap: 7px;
+  padding: 3px 0;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .graph-arrow {
+  color: var(--primary);
+}
+:where(.studio-editor, #modal) .relation-graph-toolbar,:where(.studio-editor, #modal) .relation-graph-tools,:where(.studio-editor, #modal) .relation-graph-summary,:where(.studio-editor, #modal) .relation-graph-zoom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+:where(.studio-editor, #modal) .relation-graph-toolbar {
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+}
+:where(.studio-editor, #modal) .relation-graph-summary {
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .relation-graph-tools {
+  gap: 6px;
+}
+:where(.studio-editor, #modal) .relation-graph-tools button {
+  min-height: 32px;
+  padding: 3px 10px;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .relation-graph-tools select {
+  width: 160px;
+  min-height: 32px;
+  padding: 3px 8px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+}
+:where(.studio-editor, #modal) .relation-graph-zoom {
+  gap: 0;
+  flex-wrap: nowrap;
+}
+:where(.studio-editor, #modal) .relation-graph-zoom output {
+  min-width: 48px;
+  text-align: center;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .relation-graph-hint {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 0 20px 12px;
+}
+:where(.studio-editor, #modal) .relation-graph-viewport {
+  height: 560px;
+  max-height: 65vh;
+  min-height: 320px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  position: relative;
+  background-color: #fafafa;
+  background-image: radial-gradient(#d9d9d9 0.8px, transparent 0.8px);
+  background-size: 16px 16px;
+  border-block: 1px solid var(--line);
+  cursor: grab;
+  isolation: isolate;
+  scroll-padding: 20px;
+}
+:where(.studio-editor, #modal) .relation-graph-viewport.is-panning {
+  cursor: grabbing;
+  user-select: none;
+}
+:where(.studio-editor, #modal) .relation-graph-space {
+  position: relative;
+  min-width: 100%;
+}
+:where(.studio-editor, #modal) .relation-graph-stage {
+  position: absolute;
+  transform-origin: top left;
+}
+:where(.studio-editor, #modal) .relation-graph-node {
+  position: absolute;
+  z-index: 1;
+  background: var(--surface);
+  border: 1px solid #d9dfe8;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #18223408;
+  overflow: hidden;
+  cursor: default;
+}
+:where(.studio-editor, #modal) .relation-graph-node.is-connected {
+  border-color: #a5bfe8;
+}
+:where(.studio-editor, #modal) .relation-graph-node.is-selected {
+  border: 1px solid #1677ff;
+  box-shadow: 0 0 0 2px #1677ff24;
+}
+:where(.studio-editor, #modal) .relation-graph-node-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--line);
+  background: #fafcff;
+}
+:where(.studio-editor, #modal) .relation-graph-node-title svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+}
+:where(.studio-editor, #modal) .relation-graph-node-title strong {
+  font: 600 13px var(--mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+:where(.studio-editor, #modal) .relation-graph-node-count {
+  color: #0958d9;
+  background: #e6f4ff;
+  font-size: 11px;
+  border-radius: 4px;
+  padding: 0 5px;
+}
+:where(.studio-editor, #modal) .relation-graph-node-fields {
+  padding: 8px 0;
+}
+:where(.studio-editor, #modal) .relation-graph-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  font: 12px var(--mono);
+}
+:where(.studio-editor, #modal) .relation-graph-field.is-linked {
+  background: #f0f6ff;
+}
+:where(.studio-editor, #modal) .relation-graph-field.is-selected {
+  color: #0958d9;
+  background: #dbeaff;
+  font-weight: 600;
+}
+:where(.studio-editor, #modal) .relation-graph-field-kind {
+  flex: none;
+  color: #6f8097;
+}
+:where(.studio-editor, #modal) .relation-graph-field-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where(.studio-editor, #modal) .relation-graph-field-type {
+  color: var(--muted);
+  max-width: 65px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+}
+:where(.studio-editor, #modal) .relation-graph-pk {
+  color: #8c6200;
+  font: 10px sans-serif;
+}
+:where(.studio-editor, #modal) .relation-graph-node-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+}
+:where(.studio-editor, #modal) .relation-graph-node-footer button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  min-height: 28px;
+  color: #0958d9;
+  font-size: 11px;
+  box-shadow: none;
+}
+:where(.studio-editor, #modal) .relation-graph-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+:where(.studio-editor, #modal) .relation-graph-edge-line {
+  fill: none;
+  stroke: #5c88c8;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+:where(.studio-editor, #modal) .relation-graph-edge-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 18;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+:where(.studio-editor, #modal) .relation-graph-edge circle {
+  stroke: #5c88c8;
+  stroke-width: 2;
+  fill: white;
+}
+:where(.studio-editor, #modal) .relation-graph-edge text {
+  fill: #365478;
+  stroke: #fafafa;
+  stroke-width: 4px;
+  paint-order: stroke;
+  font: 600 12px var(--mono);
+}
+:where(.studio-editor, #modal) .relation-graph-edge.is-model-level .relation-graph-edge-line {
+  stroke-dasharray: 6 4;
+}
+:where(.studio-editor, #modal) .relation-graph-edge.is-selected .relation-graph-edge-line {
+  stroke: #1677ff;
+  stroke-width: 3;
+}
+:where(.studio-editor, #modal) .relation-graph-edge.is-selected circle {
+  stroke: #1677ff;
+}
+:where(.studio-editor, #modal) .relation-graph-label {
+  position: absolute;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 160px;
+  min-height: 30px;
+  padding: 4px 7px;
+  border: 1px solid #b8cde9;
+  border-radius: 5px;
+  color: #365478;
+  background: white;
+  font-size: 11px;
+  box-shadow: 0 1px 4px #1822340d;
+}
+:where(.studio-editor, #modal) .relation-graph-label span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where(.studio-editor, #modal) .relation-graph-label b {
+  white-space: nowrap;
+}
+:where(.studio-editor, #modal) .relation-graph-label.is-selected {
+  color: #0958d9;
+  border-color: #1677ff;
+  background: #e6f4ff;
+}
+:where(.studio-editor, #modal) .has-relation-selection .relation-graph-edge:not(.is-selected),:where(.studio-editor, #modal) .has-relation-selection .relation-graph-label:not(.is-selected) {
+  opacity: 0.3;
+}
+:where(.studio-editor, #modal) .relation-graph-detail {
+  padding: 14px 20px;
+  min-height: 50px;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .relation-graph-detail-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+:where(.studio-editor, #modal) .relation-graph-detail-heading strong {
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .relation-graph-detail-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+:where(.studio-editor, #modal) .relation-graph-detail-actions button {
+  min-height: 30px;
+  padding: 3px 10px;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .relation-graph-detail code {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  :where(.studio-editor, #modal) .relation-graph-toolbar {
+    padding: 12px;
+  }
+  :where(.studio-editor, #modal) .relation-graph-hint {
+    padding-inline: 12px;
+  }
+  :where(.studio-editor, #modal) .relation-graph-tools {
+    width: 100%;
+  }
+  :where(.studio-editor, #modal) .relation-graph-tools select {
+    flex: 1;
+    min-width: 110px;
+  }
+}
+:where(.studio-editor, #modal) .semantic-views-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 420px;
+}
+:where(.studio-editor, #modal) .semantic-view-sidebar {
+  border-right: 1px solid var(--line);
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .semantic-view-search {
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+}
+:where(.studio-editor, #modal) .semantic-view-search label {
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .semantic-view-items {
+  padding: 8px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+:where(.studio-editor, #modal) .semantic-view-item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: 6px;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+}
+:where(.studio-editor, #modal) .semantic-view-item + .semantic-view-item {
+  margin-top: 4px;
+}
+:where(.studio-editor, #modal) .semantic-view-item:hover {
+  background: #f5f8ff;
+}
+:where(.studio-editor, #modal) .semantic-view-item.is-selected {
+  background: #e6f4ff;
+  border-color: #91caff;
+}
+:where(.studio-editor, #modal) .semantic-view-item-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .semantic-view-item-title strong {
+  font: 600 13px var(--mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where(.studio-editor, #modal) .semantic-view-glyph {
+  font: 600 10px var(--mono);
+  color: #0958d9;
+  background: #fff;
+  padding: 3px 4px;
+  border-radius: 4px;
+}
+:where(.studio-editor, #modal) .semantic-view-description {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+:where(.studio-editor, #modal) .semantic-view-lines,:where(.studio-editor, #modal) .semantic-view-eyebrow {
+  font-size: 11px;
+  color: var(--muted);
+}
+:where(.studio-editor, #modal) .semantic-view-detail {
+  min-width: 0;
+}
+:where(.studio-editor, #modal) .semantic-view-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+:where(.studio-editor, #modal) .semantic-view-detail-head h3 {
+  font: 600 15px var(--mono);
+  overflow-wrap: anywhere;
+  margin-top: 4px;
+}
+:where(.studio-editor, #modal) .semantic-view-business {
+  padding: 14px 20px;
+}
+:where(.studio-editor, #modal) .semantic-view-business p {
+  font-size: 13px;
+  margin-top: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .semantic-view-sql-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 20px;
+  border-block: 1px solid var(--line);
+  background: #fafafa;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .semantic-view-sql-head button {
+  margin-left: auto;
+}
+:where(.studio-editor, #modal) .semantic-view-code {
+  margin: 0;
+  padding: 16px 20px;
+  min-height: 240px;
+  max-height: 420px;
+  overflow: auto;
+  background: #fafcff;
+  tab-size: 2;
+}
+:where(.studio-editor, #modal) .semantic-view-code code {
+  color: #27466e;
+  font: 12px/1.9 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .semantic-view-placeholder,:where(.studio-editor, #modal) .semantic-view-no-results {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+:where(.studio-editor, #modal) .semantic-view-test-hint {
+  padding: 8px 20px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  border-bottom: 1px solid var(--line);
+}
+:where(.studio-editor, #modal) .semantic-view-test-result {
+  margin: 16px 20px;
+  padding: 14px;
+  border: 1px solid #b7eb8f;
+  border-radius: 6px;
+  background: #f6ffed;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .semantic-view-detail:has([data-view-test-result]) .semantic-view-code {
+  min-height: 0;
+  max-height: 220px;
+}
+:where(.studio-editor, #modal) .semantic-view-test-result.is-error {
+  border-color: #ffccc7;
+  background: #fff2f0;
+}
+:where(.studio-editor, #modal) .semantic-view-test-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  color: #237804;
+}
+:where(.studio-editor, #modal) .is-error .semantic-view-test-heading {
+  color: #a8071a;
+}
+:where(.studio-editor, #modal) .semantic-view-test-result p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .semantic-view-test-query {
+  margin: 10px 0;
+}
+:where(.studio-editor, #modal) .semantic-view-test-query code {
+  display: block;
+  margin-top: 4px;
+}
+:where(.studio-editor, #modal) .semantic-view-test-result summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+:where(.studio-editor, #modal) .semantic-view-test-result pre {
+  max-height: 240px;
+  overflow: auto;
+  padding: 10px;
+  margin: 8px 0 0;
+  background: white;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .semantic-view-placeholder p,:where(.studio-editor, #modal) .semantic-view-no-results button {
+  margin-top: 12px;
+}
+@media (max-width: 900px) {
+  :where(.studio-editor, #modal) .semantic-views-layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  :where(.studio-editor, #modal) .semantic-views-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :where(.studio-editor, #modal) .semantic-view-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  :where(.studio-editor, #modal) .semantic-view-items {
+    max-height: 220px;
+  }
+  :where(.studio-editor, #modal) .semantic-views-panel > .panel-head {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+:where(.studio-editor, #modal) .code-editor {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.85;
+  min-height: 450px;
+  border: 0;
+  border-radius: 0;
+  background: #fbfcfe;
+  tab-size: 2;
+  padding: 22px;
+  resize: vertical;
+  box-shadow: none;
+}
+:where(.studio-editor, #modal) .code-editor:focus-visible {
+  outline-offset: -3px;
+}
+:where(.studio-editor, #modal) .sql-editor {
+  min-height: 145px;
+}
+:where(.studio-editor, #modal) .code-output {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #18243a;
+  color: #d4e1f7;
+  padding: 22px;
+  border-radius: 0 0 9px 9px;
+  font-size: 12px;
+  min-height: 110px;
+  line-height: 1.85;
+}
+:where(.studio-editor, #modal) .code-output.placeholder {
+  background: #f8fafd;
+  color: #7b889b;
+}
+:where(.studio-editor, #modal) .sql-actions {
+  padding: 12px 20px;
+  border-block: 1px solid var(--line);
+  background: #fafbfd;
+}
+:where(.studio-editor, #modal) .stack {
+  display: grid;
+  gap: 20px;
+}
+:where(.studio-editor, #modal) .help-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+:where(.studio-editor, #modal) .help-step {
+  padding: 20px;
+}
+:where(.studio-editor, #modal) .step-number {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--primary);
+  margin-bottom: 9px;
+}
+:where(.studio-editor, #modal) .help-step h3 {
+  margin-bottom: 6px;
+}
+:where(.studio-editor, #modal) .help-step p {
+  font-size: 12px;
+  color: var(--muted);
+}
+:where(.studio-editor, #modal) .guide {
+  max-width: 1050px;
+}
+:where(.studio-editor, #modal) .guide .panel-body {
+  padding: 25px;
+}
+:where(.studio-editor, #modal) .guide-list {
+  padding-left: 19px;
+  color: var(--muted);
+  font-size: 13px;
+}
+:where(.studio-editor, #modal) .guide-list li {
+  margin: 11px 0;
+}
+:where(.studio-editor, #modal) .guide code {
+  background: #edf2f9;
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: #365477;
+}
+:where(.studio-editor, #modal) .release-id {
+  font-family: var(--mono);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+:where(.studio-editor, #modal) .release-hash {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #718098;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+#modal {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 0;
+  width: min(560px, calc(100vw - 28px));
+  max-height: 90vh;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 28px 90px #0c173138;
+}
+#modal::backdrop {
+  background: #14253d66;
+  backdrop-filter: blur(2px);
+}
+#modal:has(.relation-conditions) {
+  width: min(800px, calc(100vw - 28px));
+  overflow: hidden;
+}
+#modal:has(.relation-conditions) form {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+#modal:has(.relation-conditions) .dialog-head,#modal:has(.relation-conditions) .dialog-foot {
+  flex-shrink: 0;
+}
+#modal:has(.relation-conditions) .dialog-body {
+  overflow-y: auto;
+  min-height: 0;
+}
+:where(.studio-editor, #modal) .relation-conditions legend {
+  font-weight: 600;
+}
+:where(.studio-editor, #modal) .relation-conditions > .hint {
+  margin: 0 0 14px;
+}
+:where(.studio-editor, #modal) .condition-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr) 36px;
+  gap: 10px;
+  align-items: end;
+}
+:where(.studio-editor, #modal) .condition-fields .form-item + .form-item {
+  margin-top: 0;
+}
+:where(.studio-editor, #modal) .condition-fields label {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .condition-operator-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 550;
+  margin-bottom: 6px;
+}
+:where(.studio-editor, #modal) .condition-equals {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+:where(.studio-editor, #modal) .condition-fields select {
+  text-overflow: ellipsis;
+}
+:where(.studio-editor, #modal) .condition-fields .condition-remove {
+  min-height: 40px;
+  margin-bottom: 1px;
+}
+:where(.studio-editor, #modal) .condition-and {
+  display: block;
+  color: var(--muted);
+  margin: 8px 0;
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) #condition-editor > button {
+  margin-top: 12px;
+}
+:where(.studio-editor, #modal) .condition-preview {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 16px;
+}
+:where(.studio-editor, #modal) .condition-preview pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  margin: 6px 0 0;
+}
+@media (max-width: 600px) {
+  :where(.studio-editor, #modal) .condition-fields {
+    grid-template-columns: minmax(0, 1fr) 36px;
+  }
+  :where(.studio-editor, #modal) .condition-fields .form-item {
+    grid-column: 1;
+  }
+  :where(.studio-editor, #modal) .condition-fields .condition-remove {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: center;
+  }
+}
+:where(.studio-editor, #modal) .dialog-head {
+  padding: 21px 23px 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+:where(.studio-editor, #modal) .dialog-head h2 {
+  font-size: 18px;
+}
+:where(.studio-editor, #modal) .dialog-body {
+  padding: 22px 23px;
+}
+:where(.studio-editor, #modal) .dialog-foot {
+  padding: 16px 23px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  background: #fafbfd;
+}
+:where(.studio-editor, #modal) .dialog-error {
+  color: var(--red);
+  font-size: 12px;
+  padding: 12px;
+  background: #fff1f3;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+:where(.studio-editor, #modal) .dialog-success {
+  color: var(--green);
+  background: var(--green-soft);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+:where(.studio-editor, #modal) .dialog-body .form-grid {
+  margin-top: 15px;
+}
+:where(.studio-editor, #modal) .dialog-body > p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+:where(.studio-editor, #modal) .dialog-body .code-input {
+  font-size: 12px;
+}
+:where(.studio-editor, #modal) .template-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+:where(.studio-editor, #modal) .template-options button[aria-pressed="true"] {
+  border-color: var(--primary);
+  background: var(--soft);
+  color: var(--primary);
+}
+:where(.studio-editor, #modal) .login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  background: var(--surface);
+}
+:where(.studio-editor, #modal) .login-story {
+  background: #edf2fb;
+  padding: 48px 10%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+:where(.studio-editor, #modal) .login-story .brand {
+  margin-bottom: 90px;
+}
+:where(.studio-editor, #modal) .login-story h1 {
+  font-size: 35px;
+  line-height: 1.5;
+  letter-spacing: -1px;
+  max-width: 390px;
+}
+:where(.studio-editor, #modal) .login-story > p {
+  color: #61718a;
+  line-height: 1.9;
+  margin-top: 18px;
+  max-width: 390px;
+}
+:where(.studio-editor, #modal) .login-story .story-diagram {
+  margin: 42px 0;
+  display: grid;
+  gap: 12px;
+  max-width: 340px;
+}
+:where(.studio-editor, #modal) .story-node {
+  border: 1px solid #cad7eb;
+  background: #f9fbff;
+  border-radius: 9px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #3f5b83;
+}
+:where(.studio-editor, #modal) .story-node .tag {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #8495af;
+}
+:where(.studio-editor, #modal) .story-arrow {
+  color: #91a4c3;
+  margin-left: 24px;
+  font-size: 17px;
+  line-height: 1;
+}
+:where(.studio-editor, #modal) .story-foot {
+  margin-top: auto;
+  font-size: 11px;
+  color: #7b8ca6;
+  font-family: var(--mono);
+}
+:where(.studio-editor, #modal) .login-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px;
+}
+:where(.studio-editor, #modal) .login-box {
+  max-width: 350px;
+  width: 100%;
+}
+:where(.studio-editor, #modal) .login-box .eyebrow {
+  margin-bottom: 12px;
+}
+:where(.studio-editor, #modal) .login-box h2 {
+  font-size: 25px;
+  letter-spacing: -0.6px;
+  margin-bottom: 9px;
+}
+:where(.studio-editor, #modal) .login-box > p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 30px;
+  line-height: 1.9;
+}
+:where(.studio-editor, #modal) .login-box .primary {
+  width: 100%;
+  margin-top: 18px;
+  min-height: 43px;
+}
+:where(.studio-editor, #modal) .login-box .login-note {
+  border-top: 1px solid var(--line);
+  margin-top: 27px;
+  padding-top: 18px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.9;
+}
+:where(.studio-editor, #modal) .login-box input {
+  min-height: 43px;
+}
+:where(.studio-editor, #modal) .boot {
+  padding: 60px;
+  color: var(--muted);
+}
+#toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #203249;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 35px #15243e25;
+  font-size: 13px;
+  z-index: 100;
+  max-width: calc(100vw - 30px);
+  overflow-wrap: anywhere;
+}
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 15px;
+  z-index: 1000;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 5px;
+}
+.skip-link:focus {
+  top: 10px;
+}
+:where(.studio-editor, #modal) .mobile-toggle {
+  display: none;
+}
+@media (min-width: 1500px) {
+  :where(.studio-editor, #modal) .editor-layout {
+    grid-template-columns: minmax(0, 1fr) 310px;
+  }
+  :where(.studio-editor, #modal) .workspace {
+    padding: 32px 42px;
+  }
+  :where(.studio-editor, #modal) .inspector .panel-body {
+    padding: 21px;
+  }
+}
+@media (max-width: 1150px) {
+  :where(.studio-editor, #modal) .app-shell {
+    grid-template-columns: 205px minmax(0, 1fr);
+  }
+  :where(.studio-editor, #modal) .workspace {
+    padding: 22px;
+  }
+  :where(.studio-editor, #modal) .editor-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :where(.studio-editor, #modal) .inspector .panel-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 20px;
+  }
+  :where(.studio-editor, #modal) .inspector-title,:where(.studio-editor, #modal) .inspector .info-strip,:where(.studio-editor, #modal) .inspector .section-divider,:where(.studio-editor, #modal) .inspector .danger {
+    grid-column: 1/-1;
+  }
+  :where(.studio-editor, #modal) .inspector .form-item + .form-item,:where(.studio-editor, #modal) .inspector .check-line {
+    margin: 0;
+  }
+  :where(.studio-editor, #modal) .inspector-title {
+    margin: 0;
+  }
+  :where(.studio-editor, #modal) .inspector .section-divider {
+    margin: 0;
+  }
+  :where(.studio-editor, #modal) .help-steps {
+    grid-template-columns: 1fr;
+  }
+  :where(.studio-editor, #modal) .col-description {
+    max-width: 220px;
+  }
+}
+@media (max-width: 760px) {
+  :where(.studio-editor, #modal) .topbar {
+    height: 58px;
+    padding: 0 15px;
+  }
+  :where(.studio-editor, #modal) .brand-divider,:where(.studio-editor, #modal) .service-indicator,:where(.studio-editor, #modal) .brand > .muted {
+    display: none;
+  }
+  :where(.studio-editor, #modal) .app-shell {
+    display: block;
+    min-height: calc(100vh - 58px);
+  }
+  :where(.studio-editor, #modal) .sidebar {
+    display: none;
+    border-bottom: 1px solid var(--line);
+    border-right: 0;
+  }
+  :where(.studio-editor, #modal) .sidebar-open .sidebar {
+    display: flex;
+  }
+  :where(.studio-editor, #modal) .mobile-toggle {
+    display: inline-flex;
+  }
+  :where(.studio-editor, #modal) .workspace {
+    padding: 19px 15px;
+  }
+  :where(.studio-editor, #modal) .page-heading {
+    gap: 15px;
+  }
+  :where(.studio-editor, #modal) .page-heading h1 {
+    font-size: 21px;
+  }
+  :where(.studio-editor, #modal) .actions {
+    gap: 5px;
+  }
+  :where(.studio-editor, #modal) .actions button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  :where(.studio-editor, #modal) .actions .divider {
+    display: none;
+  }
+  :where(.studio-editor, #modal) .tabs {
+    gap: 22px;
+    margin-bottom: 18px;
+  }
+  :where(.studio-editor, #modal) .panel-head,:where(.studio-editor, #modal) .panel-body,:where(.studio-editor, #modal) .model-properties {
+    padding: 16px;
+  }
+  :where(.studio-editor, #modal) .form-grid {
+    gap: 14px;
+  }
+  :where(.studio-editor, #modal) .inspector .panel-body {
+    padding: 16px;
+  }
+  :where(.studio-editor, #modal) .login-page {
+    grid-template-columns: 1fr;
+  }
+  :where(.studio-editor, #modal) .login-story {
+    display: none;
+  }
+  :where(.studio-editor, #modal) .login-main {
+    padding: 28px;
+    min-height: 100vh;
+  }
+  :where(.studio-editor, #modal) .code-editor {
+    padding: 15px;
+  }
+  :where(.studio-editor, #modal) .graph {
+    padding: 16px;
+  }
+  :where(.studio-editor, #modal) .help-step {
+    padding: 17px;
+  }
+  :where(.studio-editor, #modal) .breadcrumb {
+    font-size: 11px;
+  }
+  :where(.studio-editor, #modal) .topbar .quiet .user-label {
+    display: none;
+  }
+  :where(.studio-editor, #modal) button {
+    min-height: 40px;
+  }
+}
+@media (max-width: 440px) {
+  :where(.studio-editor, #modal) .form-grid,:where(.studio-editor, #modal) .inspector .panel-body {
+    grid-template-columns: 1fr;
+  }
+  :where(.studio-editor, #modal) .actions {
+    width: 100%;
+  }
+  :where(.studio-editor, #modal) .actions button {
+    flex: 1;
+  }
+  :where(.studio-editor, #modal) .actions .primary {
+    flex: 1.5;
+  }
+  :where(.studio-editor, #modal) .actions button .icon {
+    display: none;
+  }
+  :where(.studio-editor, #modal) .title-row {
+    flex-wrap: wrap;
+  }
+  :where(.studio-editor, #modal) .form-grid .full {
+    grid-column: auto;
+  }
+  :where(.studio-editor, #modal) .panel-head h2 {
+    font-size: 15px;
+  }
+  :where(.studio-editor, #modal) .dialog-head,:where(.studio-editor, #modal) .dialog-body,:where(.studio-editor, #modal) .dialog-foot {
+    padding: 17px;
+  }
+  :where(.studio-editor, #modal) .graph {
+    grid-template-columns: 1fr;
+  }
+  :where(.studio-editor, #modal) .editor-foot .mono {
+    overflow-wrap: anywhere;
+  }
+  :where(.studio-editor, #modal) .brand {
+    font-size: 15px;
+  }
+  :where(.studio-editor, #modal) .tabs {
+    gap: 20px;
+  }
+  :where(.studio-editor, #modal) .tab {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(.studio-editor, #modal) *,:where(.studio-editor, #modal) *::before,:where(.studio-editor, #modal) *::after {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Shared interaction and accessibility details. */
+:where(.studio-editor, #modal) .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+:where(.studio-editor, #modal) a.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 6px 9px;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+}
+:where(.studio-editor, #modal) a.button:hover {
+  background: var(--soft);
+}
+:where(.studio-editor, #modal) .issue-link {
+  display: inline;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  min-height: 24px;
+  color: var(--primary);
+  text-align: left;
+  white-space: normal;
+  text-decoration: underline;
+}
+:where(.studio-editor, #modal) .source-value {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  max-height: 140px;
+  overflow: auto;
+}
+:where(.studio-editor, #modal) .inspector label.check {
+  margin-top: 12px;
+  min-height: 28px;
+}
+:where(.studio-editor, #modal) .side-list {
+  max-height: 45vh;
+  overflow: auto;
+}
+:where(.studio-editor, #modal) [aria-busy="true"] {
+  cursor: progress;
+}
+@media (pointer: coarse) {
+  :where(.studio-editor, #modal) button,:where(.studio-editor, #modal) .mini,:where(.studio-editor, #modal) .field-button,:where(.studio-editor, #modal) a.button {
+    min-height: 44px;
+  }
+  :where(.studio-editor, #modal) input[type="checkbox"] {
+    width: 20px;
+    min-height: 20px;
+  }
+  :where(.studio-editor, #modal) .tabs {
+    gap: 20px;
+  }
+}
+:where(.studio-editor, #modal) .dialog-error {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+body[aria-busy="true"]::before {
+  content: "正在处理…";
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 16px;
+  background: var(--primary);
+  color: white;
+  font-size: 12px;
+  border-radius: 0 0 6px 6px;
+  z-index: 2000;
+  pointer-events: none;
+}
+:where(.studio-editor, #modal) .prop-tag {
+  white-space: nowrap;
+}
+@media (max-width: 760px) {
+  :where(.studio-editor, #modal) .table-wrap table {
+    min-width: 580px;
+  }
+}
+@media (max-width: 440px) {
+  :where(.studio-editor, #modal) .actions button.icon-only {
+    flex: 0 0 40px;
+  }
+  :where(.studio-editor, #modal) .actions button.icon-only .icon {
+    display: block;
+  }
+}

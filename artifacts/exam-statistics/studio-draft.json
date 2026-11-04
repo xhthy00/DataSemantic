@@ -1,0 +1,20 @@
+{
+  "draft_id": "1ffb2cfb98a4475f9735fd13f4539196",
+  "name": "学情统计 · 学校科目均分及格率",
+  "revision": 1,
+  "url": "http://127.0.0.1:8090/studio/#draft=1ffb2cfb98a4475f9735fd13f4539196",
+  "validation": {
+    "valid": true,
+    "issues": [],
+    "manifest_hash": "c5c894ad9d52cd3695d5010e0ff8a198e8199069ba7b4837064e31a9587aca23",
+    "checked_models": [
+      "exam_scores",
+      "exam_papers",
+      "exam_batches",
+      "schools",
+      "exam_score_results",
+      "exam_school_subject_summary"
+    ],
+    "duration_ms": 663
+  }
+}
