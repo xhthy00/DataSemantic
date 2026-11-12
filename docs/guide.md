@@ -142,6 +142,20 @@ Docker 部署时，连接本机数据库使用 **`host.docker.internal` + 数据
 
 支持 JSON 文件/文本导入、当前 MDL 导出、语义视图、已发布版本复制为新草稿，以及保留自定义 MDL 属性的源码编辑。可视化编辑和 JSON 共享同一份草稿；JSON 有语法问题时会保留输入并阻止保存。草稿以 revision 检测并发修改，冲突时先导出当前内容，再重新加载服务器版本。
 
+### 配置 V2 语义模型
+
+“语义视图”详情和“模型与字段”页面均提供“配置 V2 语义”。已有配置显示维度、指标和能力数量，可编辑或移除。配置写入当前对象的 `properties.semanticModel`，与 MDL JSON、导入导出和版本发布共用同一份数据。
+
+1. **来源与粒度**：打开时先保存当前草稿，再通过 SDK 读取实际输出字段，不查询业务数据。声明需要暴露的字段；“每行粒度”引用下方定义的维度标识，例如 `exam, school, subject`，不能直接填字段名。数据粒度不会自动要求用户选择单个维度值。
+2. **维度**：填写语义标识、名称、身份键和显示字段，配置父级维度、身份作用域与排序。复合身份键按填写顺序对应。候选来源可选择自身或其他已配置 V2 的逻辑模型、视图；尚未配置的来源应先在对应页面配置。历史实体映射仅填写人工审核过的等价标识。
+3. **指标**：填写指标标识、名称、值字段、业务口径、统计人群和所需维度。计算方式支持直接使用字段值、求和、平均、最值、计数、去重计数和加权平均。加权平均必须指定权重字段；切换为其他计算方式后不提交权重。
+4. **分析能力（可选）**：引用指标标识，选择直接展示、聚合、排名等操作。统计人群必须与引用指标一致；可配置预计算排名字段、排名指标、分区维度和方向，供宿主在范围完全匹配时复用。
+5. **校验与发布**：可查看 JSON 实时预览。点击“校验并应用到草稿”校验字段、身份引用、父级循环、候选来源和跨来源语义一致性。失败保留表单内容；取消不应用表单修改。通过后保存并发布新版本，宿主通过 `/internal/v1/bundles/{bundle_id}/semantic-catalog` 读取。
+
+移除 V2 后，引用该来源的候选维度需要同步调整。配置过程中使用带会话、CSRF 和 revision 校验的 `POST /studio/api/drafts/{draft_id}/semantic-preview`；`object_name` 指定对象，不传 `semantic_model` 时读取字段，传入时预览校验，均不修改持久化草稿。
+
+服务仅支持 V2 语义配置。旧草稿中的 `properties.analysisContract` 会在 Studio 存储初始化时自动清理（含回收站），有变化的草稿会递增 revision；导入和保存时也会清理该属性。已发布版本的原始内容及哈希保持不变，旧分析契约不再解析或提供读取接口。HTTP 路径中的 `/internal/v1` 仍是服务 API 版本号，与语义配置版本无关。
+
 Studio 使用独立密码、HttpOnly/SameSite Cookie 和同源 CSRF 校验；浏览器不接触服务令牌。管理会话可读取物理映射，应只向模型管理员开放。管理 API 位于 `/studio/api`，服务端规划 API 继续使用 Bearer 认证。草稿和发布内容存储在 SQLite 中；请持久化并备份 Studio 数据目录，删除该目录或 Compose 卷会丢失其中的数据。
 
 ## HTTP 接口
@@ -336,12 +350,13 @@ python3 -c "import hashlib,pathlib; print(hashlib.sha256(pathlib.Path('models/ed
 | `WREN_REGISTRY_PATH` | `models/registry.json` | 模型清单，Docker 固定为 `/models/registry.json` |
 | `WREN_PLAN_TIMEOUT_SECONDS` | 15 | 单次规划期限，包含进程启动 |
 | `WREN_STARTUP_TIMEOUT_SECONDS` | 60 | 每个发布物启动探测的期限 |
-| `WREN_MAX_CONCURRENT_PLANS` | 2 | 每个 API worker 可用的规划槽位 |
+| `WREN_MAX_CONCURRENT_PLANS` | 3 | 每个 API worker 可用的规划槽位 |
+| `WREN_QUEUE_TIMEOUT_SECONDS` | 5 | 槽位占满时排队等待的上限，超时才返回 503 |
 | `WREN_MAX_REQUEST_BYTES` | 65536 | 请求体上限，包含分块传输 |
 | `WREN_MAX_MANIFEST_BYTES` | 4194304 | 本地 Settings 可设置的单个模型大小上限 |
 | `WREN_EXECUTION_SOURCES_PATH` | 未设置 | 执行数据源 JSON 路径；未设置时关闭执行 |
 | `WREN_EXECUTION_TIMEOUT_SECONDS` | 15 | 单次执行总期限，含启动、连接、读取结果 |
-| `WREN_MAX_CONCURRENT_EXECUTIONS` | 2 | 每个 API worker 的执行槽位 |
+| `WREN_MAX_CONCURRENT_EXECUTIONS` | 3 | 每个 API worker 的执行槽位 |
 | `WREN_EXECUTION_MAX_RESULT_BYTES` | 4194304 | 单次执行结果字节预算，最大 16 MiB |
 | `WREN_HTTP_PORT` | 8090 | Compose 映射的本机端口 |
 

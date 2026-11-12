@@ -202,7 +202,8 @@ with httpx.Client(
 | `WREN_SERVICE_TOKEN` | 必填 | 服务令牌，至少 32 字符 |
 | `WREN_REGISTRY_PATH` | `models/registry.json` | 模型发布清单；Compose 中为 `/models/registry.json` |
 | `WREN_PLAN_TIMEOUT_SECONDS` | `15` | 单次规划超时，单位为秒 |
-| `WREN_MAX_CONCURRENT_PLANS` | `2` | 每个 API worker 的规划并发上限 |
+| `WREN_MAX_CONCURRENT_PLANS` | `3` | 每个 API worker 的规划并发上限 |
+| `WREN_QUEUE_TIMEOUT_SECONDS` | `5` | 并发占满时排队等待槽位的上限，超时才返回 503 |
 | `WREN_STUDIO_ENABLED` | `false` | 启用 MDL Studio |
 | `WREN_STUDIO_PASSWORD` | 未设置 | Studio 独立管理密码，至少 12 字符 |
 | `WREN_STUDIO_DATA_DIR` | `.state/studio` | 本地 Studio 数据目录；Compose 中为 `/state/studio` |

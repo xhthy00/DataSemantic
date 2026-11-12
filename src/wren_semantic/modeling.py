@@ -7,6 +7,7 @@ import re
 
 from .errors import ServiceError
 from .registry import Bundle, BundleEntry, bundle_from_bytes
+from .semantic_catalog import semantic_issues
 
 IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
@@ -140,6 +141,8 @@ def structural_issues(manifest: dict) -> list[dict]:
             names.add(vn)
         if not isinstance(view.get("statement"), str) or not view["statement"].strip():
             issue(f"views[{index}].statement", "视图需要只读语义 SQL。")
+    if not issues:
+        issues.extend(semantic_issues(manifest))
     return issues[:100]
 
 

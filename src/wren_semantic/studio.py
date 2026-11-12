@@ -32,6 +32,7 @@ from .modeling import (
     template_manifest,
 )
 from .registry import BundleEntry, Dialect, bundle_from_bytes
+from .semantic_catalog import semantic_issues
 from .studio_store import StudioStore
 
 COOKIE = "wren_studio_session"
@@ -72,6 +73,11 @@ class DraftPlan(DraftAction):
 
 class DraftPublish(DraftAction):
     bundle_id: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,99}$")
+
+
+class DraftSemanticPreview(DraftAction):
+    object_name: str = Field(min_length=1)
+    semantic_model: dict | None = None
 
 
 class AutoModelSource(BaseModel):
@@ -284,7 +290,7 @@ def mount_studio(app: FastAPI, settings) -> None:
             return {"valid": False, "issues": issues}
         bundle = authoring_bundle(draft["manifest"], draft["dialect"])
         try:
-            _, duration = await app.state.planner.run(
+            sdk_result, duration = await app.state.planner.run(
                 bundle, None, settings.startup_timeout_seconds, diagnostics=True
             )
         except ServiceError as exc:
@@ -295,12 +301,20 @@ def mount_studio(app: FastAPI, settings) -> None:
                 "issues": [{"path": "Wren SDK", "message": exc.message}],
                 "sdk_code": exc.sdk_code,
             }
+        issues = semantic_issues(
+            draft["manifest"],
+            sdk_result.get("output_columns", {}),
+            require_outputs=True,
+        )
+        if issues:
+            return {"valid": False, "issues": issues}
         return {
             "valid": True,
             "issues": [],
             "manifest_hash": bundle.entry.manifest_hash,
             "checked_models": list(bundle.queryable_names),
             "duration_ms": duration,
+            "output_columns": sdk_result.get("output_columns", {}),
         }
 
     @router.post("/automodel/preview")
@@ -356,6 +370,23 @@ def mount_studio(app: FastAPI, settings) -> None:
     @router.post("/drafts/{draft_id}/validate")
     async def validate(draft_id: str, body: DraftAction):
         return await check_with_sdk(checked_draft(draft_id, body.revision))
+
+    @router.post("/drafts/{draft_id}/semantic-preview")
+    async def semantic_preview(draft_id: str, body: DraftSemanticPreview):
+        draft = json.loads(json.dumps(checked_draft(draft_id, body.revision)))
+        objects = [*draft["manifest"].get("models", []), *draft["manifest"].get("views", [])]
+        target = next((obj for obj in objects if obj["name"] == body.object_name), None)
+        if target is None:
+            raise ServiceError("UNKNOWN_OBJECT", "逻辑模型或语义视图不存在。", 422)
+        if body.semantic_model is None:
+            # Discover actual SDK fields even if imported metadata needs repair.
+            for obj in objects:
+                properties = obj.get("properties") or {}
+                properties.pop("semanticModel", None)
+        else:
+            target.setdefault("properties", {})["semanticModel"] = body.semantic_model
+        check_size(draft["manifest"])
+        return await check_with_sdk(draft)
 
     @router.post("/drafts/{draft_id}/plan")
     async def plan_draft(draft_id: str, body: DraftPlan):

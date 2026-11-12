@@ -8,6 +8,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from .errors import ServiceError
+from .semantic_catalog import catalog_from_manifest
 
 Dialect = Literal["postgres", "mysql", "duckdb"]
 
@@ -86,6 +87,9 @@ def bundle_from_bytes(entry: BundleEntry, raw: bytes) -> Bundle:
     names = tuple(obj["name"] for obj in [*models, *views])
     if not models or len(set(names)) != len(names):
         raise ValueError("A bundle requires models with unique model/view names")
+    catalog = catalog_from_manifest(
+        mdl, {"bundle_id": entry.bundle_id, "manifest_hash": entry.manifest_hash}
+    )
     context = {
         "models": [
             {
@@ -108,4 +112,9 @@ def bundle_from_bytes(entry: BundleEntry, raw: bytes) -> Bundle:
         "relationships": mdl.get("relationships", []),
         "views": [{"name": view["name"], "description": _description(view)} for view in views],
     }
+    context["semantic_catalog_schema_version"] = 2
+    context["semantic_source_refs"] = [
+        {"object": source.object, "measures": [m.id for m in source.measures]}
+        for source in catalog.sources
+    ]
     return Bundle(entry, base64.b64encode(raw).decode("ascii"), context, names)

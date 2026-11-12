@@ -1,3 +1,5 @@
+import { renderSemanticSummary } from "./semantic-model-editor.js";
+
 const escape = (value = "") =>
   String(value ?? "").replace(
     /[&<>"']/g,
@@ -50,7 +52,7 @@ export function mountSemanticViews(
         '<div class="semantic-view-placeholder"><h3>没有匹配的视图</h3><p>尝试搜索其他名称、业务说明或 SQL 关键词。</p></div>';
       return;
     }
-    detail.innerHTML = `<div class="semantic-view-detail-head"><div><span class="semantic-view-eyebrow">语义视图</span><h3>${escape(view.name)}</h3></div><div class="row"><button type="button" class="primary mini" data-action="test-view" data-index="${selected}">测试视图</button><button type="button" class="mini" data-action="edit-view" data-index="${selected}">编辑视图</button><button type="button" class="quiet mini danger" data-action="delete-view" data-index="${selected}">删除视图</button></div></div><div class="semantic-view-business"><span class="small muted">业务说明</span><p>${escape(description(view) || "暂无业务说明，可通过编辑视图补充。")}</p></div><div class="semantic-view-sql-head"><strong>SQL 定义</strong><span class="small muted">${String(view.statement || "").split("\n").length} 行</span><button type="button" class="mini" data-view-copy>复制 SQL</button><span class="hint semantic-view-copy-status" role="status"></span></div><p class="semantic-view-test-hint">测试会先保存当前草稿，验证 SQL 规划，不查询业务数据。</p><pre class="semantic-view-code" tabindex="0" aria-label="${escape(view.name)} 的 SQL 定义"><code>${escape(view.statement || "尚未填写 SQL")}</code></pre>${testResult?.name === view.name && testResult.statement === view.statement ? renderViewTest(testResult) : ""}`;
+    detail.innerHTML = `<div class="semantic-view-detail-head"><div><span class="semantic-view-eyebrow">语义视图</span><h3>${escape(view.name)}</h3></div><div class="row"><button type="button" class="primary mini" data-action="test-view" data-index="${selected}">测试视图</button><button type="button" class="mini" data-action="edit-view" data-index="${selected}">编辑视图</button><button type="button" class="quiet mini danger" data-action="delete-view" data-index="${selected}">删除视图</button></div></div><div class="semantic-view-business"><span class="small muted">业务说明</span><p>${escape(description(view) || "暂无业务说明，可通过编辑视图补充。")}</p></div>${renderSemanticSummary(view)}<div class="semantic-view-sql-head"><strong>SQL 定义</strong><span class="small muted">${String(view.statement || "").split("\n").length} 行</span><button type="button" class="mini" data-view-copy>复制 SQL</button><span class="hint semantic-view-copy-status" role="status"></span></div><p class="semantic-view-test-hint">测试会先保存当前草稿，验证 SQL 规划，不查询业务数据。</p><pre class="semantic-view-code" tabindex="0" aria-label="${escape(view.name)} 的 SQL 定义"><code>${escape(view.statement || "尚未填写 SQL")}</code></pre>${testResult?.name === view.name && testResult.statement === view.statement ? renderViewTest(testResult) : ""}`;
   }
   root.querySelector("input").addEventListener("input", (event) => {
     query = event.target.value;

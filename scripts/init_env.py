@@ -17,6 +17,6 @@ else:
             "WREN_REGISTRY_PATH=models/registry.json\n"
             "WREN_PLAN_TIMEOUT_SECONDS=15\n"
             "WREN_STARTUP_TIMEOUT_SECONDS=60\n"
-            "WREN_MAX_CONCURRENT_PLANS=2\n"
+            "WREN_MAX_CONCURRENT_PLANS=3\n"
         )
     print("Created .env with a random service token (mode 0600)")

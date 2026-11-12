@@ -1,5 +1,6 @@
 import asyncio
 import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -62,6 +63,41 @@ def test_busy_rejection_and_cancellation_reap_worker(monkeypatch):
             await running
         assert children[0].returncode is not None
         assert not planner.processes and planner.slots.qsize() == 1
+        await planner.close()
+
+    asyncio.run(scenario())
+
+
+def test_planner_waits_for_slot_instead_of_rejecting():
+    async def scenario():
+        planner = Planner(1, queue_timeout=5)
+        bundle = Registry(ROOT / "models/registry.json", 4_194_304).get("education-demo-v1")
+        planner.slots.get_nowait()  # simulate a plan already holding the only slot
+        queued = asyncio.create_task(
+            planner.run(bundle, "SELECT score_id FROM student_subject_score", 15)
+        )
+        await asyncio.sleep(0.05)
+        assert not queued.done()  # queued, not rejected
+        planner.slots.put_nowait(None)
+        result, _ = await queued
+        assert result["ok"]
+        assert planner.slots.qsize() == 1
+        await planner.close()
+
+    asyncio.run(scenario())
+
+
+def test_planner_busy_only_after_queue_timeout():
+    async def scenario():
+        planner = Planner(1, queue_timeout=0.2)
+        bundle = Registry(ROOT / "models/registry.json", 4_194_304).get("education-demo-v1")
+        planner.slots.get_nowait()
+        started = time.monotonic()
+        with pytest.raises(ServiceError) as caught:
+            await planner.run(bundle, "SELECT 1", 15)
+        assert caught.value.code == "PLANNER_BUSY"
+        assert time.monotonic() - started >= 0.2
+        planner.slots.put_nowait(None)
         await planner.close()
 
     asyncio.run(scenario())

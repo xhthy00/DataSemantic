@@ -8,12 +8,29 @@ from .registry import Bundle
 
 
 class Planner:
-    def __init__(self, concurrency: int):
+    def __init__(self, concurrency: int, queue_timeout: float = 0.0):
         self.slots: asyncio.Queue[None] = asyncio.Queue(concurrency)
         for _ in range(concurrency):
             self.slots.put_nowait(None)
+        # Bounded wait for a free slot: parallel callers queue instead of
+        # failing immediately; only exhaustion of this budget returns 503.
+        self.queue_timeout = max(0.0, queue_timeout)
         self.processes: set[asyncio.subprocess.Process] = set()
         self.closed = False
+
+    async def _acquire(self, code: str, message: str) -> None:
+        if self.closed:
+            raise ServiceError("SERVICE_STOPPING", "Service is stopping", 503)
+        if self.queue_timeout <= 0:
+            try:
+                self.slots.get_nowait()
+            except asyncio.QueueEmpty:
+                raise ServiceError(code, message, 503) from None
+            return
+        try:
+            await asyncio.wait_for(self.slots.get(), self.queue_timeout)
+        except TimeoutError:
+            raise ServiceError(code, message, 503) from None
 
     async def _stop(self, process: asyncio.subprocess.Process) -> None:
         if process.returncode is None:
@@ -30,14 +47,7 @@ class Planner:
     async def run(
         self, bundle: Bundle, sql: str | None, timeout: float, *, diagnostics: bool = False
     ) -> tuple[dict, int]:
-        if self.closed:
-            raise ServiceError("SERVICE_STOPPING", "Service is stopping", 503)
-        try:
-            self.slots.get_nowait()
-        except asyncio.QueueEmpty:
-            raise ServiceError(
-                "PLANNER_BUSY", "All planning slots are occupied; retry later", 503
-            ) from None
+        await self._acquire("PLANNER_BUSY", "All planning slots are occupied; retry later")
         process = None
         started = time.monotonic()
         try:

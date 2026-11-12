@@ -4,6 +4,7 @@ import secrets
 import sqlite3
 import time
 from contextlib import contextmanager
+from copy import deepcopy
 from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
@@ -14,6 +15,20 @@ from .modeling import manifest_bytes
 
 def now() -> str:
     return datetime.now(UTC).isoformat()
+
+
+def draft_manifest(manifest):
+    """Remove retired metadata from editable content without changing caller data."""
+    result = deepcopy(manifest)
+    for key in ("models", "views"):
+        objects = result.get(key)
+        if not isinstance(objects, list):
+            continue
+        for obj in objects:
+            properties = obj.get("properties") if isinstance(obj, dict) else None
+            if isinstance(properties, dict):
+                properties.pop("analysisContract", None)
+    return result
 
 
 class StudioStore:
@@ -40,6 +55,16 @@ class StudioStore:
             columns = {row[1] for row in db.execute("PRAGMA table_info(drafts)")}
             if "deleted_at" not in columns:
                 db.execute("ALTER TABLE drafts ADD COLUMN deleted_at TEXT")
+            # Publications are immutable. Only editable drafts (including trash) migrate.
+            for row in db.execute("SELECT id, manifest FROM drafts").fetchall():
+                previous = json.loads(row["manifest"])
+                cleaned = draft_manifest(previous)
+                if cleaned != previous:
+                    db.execute(
+                        "UPDATE drafts SET manifest=?, revision=revision+1, updated_at=? "
+                        "WHERE id=?",
+                        (json.dumps(cleaned, ensure_ascii=False), now(), row["id"]),
+                    )
 
     @contextmanager
     def connect(self):
@@ -78,6 +103,7 @@ class StudioStore:
             )
 
     def create_draft(self, name, dialect, manifest):
+        manifest = draft_manifest(manifest)
         draft_id = uuid4().hex
         with self.connect() as db:
             db.execute(
@@ -88,6 +114,7 @@ class StudioStore:
         return self.get_draft(draft_id)
 
     def save_draft(self, draft_id, name, dialect, manifest, revision):
+        manifest = draft_manifest(manifest)
         with self.connect() as db:
             result = db.execute(
                 "UPDATE drafts SET name=?,dialect=?,manifest=?,revision=revision+1,updated_at=? "

@@ -134,13 +134,8 @@ def validate_physical_sql(sql: str, dialect: str) -> str:
 
 class SQLExecutor(Planner):
     async def execute(self, connection, sql, max_rows, timeout, max_bytes):
-        if self.closed:
-            raise ServiceError("SERVICE_STOPPING", "Service is stopping", 503)
         # Parsing and validation run in the bounded worker, before connecting.
-        try:
-            self.slots.get_nowait()
-        except asyncio.QueueEmpty:
-            raise ServiceError("EXECUTOR_BUSY", "All execution slots are occupied", 503) from None
+        await self._acquire("EXECUTOR_BUSY", "All execution slots are occupied")
         process = None
         started = time.monotonic()
         try:

@@ -2,6 +2,11 @@ import { renderAdmin, renderLoginPage, notifyAdmin } from "./admin.jsx";
 import { mountRelationGraph } from "./relation-graph.js";
 import { mountSemanticViews } from "./semantic-views.js";
 import {
+  semanticEditorMarkup,
+  mountSemanticEditor,
+  renderSemanticSummary,
+} from "./semantic-model-editor.js";
+import {
   relationColumns,
   parseRelationCondition,
   buildRelationCondition,
@@ -404,7 +409,7 @@ function modelEditor() {
       "添加逻辑模型",
     );
   const c = m.columns[state.column];
-  return `<div class="editor-layout"><section class="panel"><div class="panel-head"><div><h2>${icon("table")}${escape(m.properties?.displayName || m.name || "逻辑模型")}</h2><p class="sub">${escape(m.name)} · ${m.columns.length} 个字段</p></div><div class="row">${btn("edit-model", "编辑模型", null, "mini")}${btn("delete-model", "", "trash", "quiet mini danger", 'aria-label="删除当前模型"')}</div></div><div class="model-properties"><div class="form-grid"><div><label>物理数据来源</label><div class="mono source-value">${escape(m.refSql || [m.tableReference?.catalog, m.tableReference?.schema, m.tableReference?.table].filter(Boolean).join("."))}</div></div><div><label>业务说明</label><p class="small muted">${escape(description(m) || "尚未填写，点击编辑模型补充。")}</p></div></div></div><div class="table-heading"><h3>字段 <span class="muted">${m.columns.length}</span></h3>${btn("add-column", "添加字段", "plus", "mini")}</div>${m.columns.length ? `<div class="table-wrap"><table><thead><tr><th>逻辑字段</th><th>数据类型</th><th>业务说明</th><th>属性</th></tr></thead><tbody>${m.columns.map((col, i) => `<tr class="${state.column === i ? "active" : ""}"><td><button class="field-button" data-action="select-column" data-index="${i}"><span class="field-icon">${col.relationship ? "↗" : "#"}</span>${escape(col.name || "未命名")}</button></td><td><span class="type-label">${escape(col.type)}</span></td><td class="col-description">${escape(description(col) || "—")}</td><td><div class="prop-icons">${m.primaryKey === col.name ? '<span class="prop-tag pk">主键</span>' : ""}${col.isCalculated ? '<span class="prop-tag calc">计算</span>' : ""}${col.relationship ? '<span class="prop-tag">关联</span>' : ""}${col.notNull ? '<span class="prop-tag">非空</span>' : ""}</div></td></tr>`).join("")}</tbody></table></div>` : '<div class="empty"><p>还没有字段。添加字段，建立逻辑名称与物理列的映射。</p></div>'}</section><aside class="panel inspector"><div class="panel-head"><h2>字段属性</h2><span class="badge blue">${c?.relationship ? "导航字段" : c?.isCalculated ? "计算字段" : "物理字段"}</span></div>${c ? `<div class="panel-body"><p class="inspector-title">${escape(m.name)}.${escape(c.name)}</p>${input("col-name", "逻辑字段名称", c.name, 'data-column="name"')}${input("col-type", "数据类型", c.type, 'data-column="type" list="column-types"')}<datalist id="column-types">${[...types, ...models().map((x) => x.name)].map((t) => `<option value="${escape(t)}">`).join("")}</datalist>${area("col-description", "业务说明", description(c), 'data-column="description"')}${input("col-expression", c.relationship ? "关联名称" : "物理列 / SQL 表达式", c.relationship || c.expression || "", `data-column="${c.relationship ? "relationship" : "expression"}"`, c.relationship ? "引用“模型关联”中定义的关联。" : "留空时使用同名物理列。")}<hr class="section-divider"><label class="check"><input type="checkbox" data-column="isCalculated" ${c.isCalculated ? "checked" : ""}>计算字段</label><label class="check"><input type="checkbox" data-column="primaryKey" ${m.primaryKey === c.name ? "checked" : ""}>设为主键</label><label class="check"><input type="checkbox" data-column="notNull" ${c.notNull ? "checked" : ""}>不允许为空</label><div class="info-strip">计算字段可使用表达式定义业务口径，例如有效成绩、金额或比率。关联取值可设为计算字段，例如 school_name 的表达式为 school.name。</div>${btn("delete-column", "删除字段", "trash", "quiet danger")}</div>` : '<div class="panel-body muted small">选择一个字段查看与编辑属性。</div>'}</aside></div>`;
+  return `<div class="editor-layout"><section class="panel"><div class="panel-head"><div><h2>${icon("table")}${escape(m.properties?.displayName || m.name || "逻辑模型")}</h2><p class="sub">${escape(m.name)} · ${m.columns.length} 个字段</p></div><div class="row">${btn("edit-model", "编辑模型", null, "mini")}${btn("delete-model", "", "trash", "quiet mini danger", 'aria-label="删除当前模型"')}</div></div>${renderSemanticSummary(m)}<div class="model-properties"><div class="form-grid"><div><label>物理数据来源</label><div class="mono source-value">${escape(m.refSql || [m.tableReference?.catalog, m.tableReference?.schema, m.tableReference?.table].filter(Boolean).join("."))}</div></div><div><label>业务说明</label><p class="small muted">${escape(description(m) || "尚未填写，点击编辑模型补充。")}</p></div></div></div><div class="table-heading"><h3>字段 <span class="muted">${m.columns.length}</span></h3>${btn("add-column", "添加字段", "plus", "mini")}</div>${m.columns.length ? `<div class="table-wrap"><table><thead><tr><th>逻辑字段</th><th>数据类型</th><th>业务说明</th><th>属性</th></tr></thead><tbody>${m.columns.map((col, i) => `<tr class="${state.column === i ? "active" : ""}"><td><button class="field-button" data-action="select-column" data-index="${i}"><span class="field-icon">${col.relationship ? "↗" : "#"}</span>${escape(col.name || "未命名")}</button></td><td><span class="type-label">${escape(col.type)}</span></td><td class="col-description">${escape(description(col) || "—")}</td><td><div class="prop-icons">${m.primaryKey === col.name ? '<span class="prop-tag pk">主键</span>' : ""}${col.isCalculated ? '<span class="prop-tag calc">计算</span>' : ""}${col.relationship ? '<span class="prop-tag">关联</span>' : ""}${col.notNull ? '<span class="prop-tag">非空</span>' : ""}</div></td></tr>`).join("")}</tbody></table></div>` : '<div class="empty"><p>还没有字段。添加字段，建立逻辑名称与物理列的映射。</p></div>'}</section><aside class="panel inspector"><div class="panel-head"><h2>字段属性</h2><span class="badge blue">${c?.relationship ? "导航字段" : c?.isCalculated ? "计算字段" : "物理字段"}</span></div>${c ? `<div class="panel-body"><p class="inspector-title">${escape(m.name)}.${escape(c.name)}</p>${input("col-name", "逻辑字段名称", c.name, 'data-column="name"')}${input("col-type", "数据类型", c.type, 'data-column="type" list="column-types"')}<datalist id="column-types">${[...types, ...models().map((x) => x.name)].map((t) => `<option value="${escape(t)}">`).join("")}</datalist>${area("col-description", "业务说明", description(c), 'data-column="description"')}${input("col-expression", c.relationship ? "关联名称" : "物理列 / SQL 表达式", c.relationship || c.expression || "", `data-column="${c.relationship ? "relationship" : "expression"}"`, c.relationship ? "引用“模型关联”中定义的关联。" : "留空时使用同名物理列。")}<hr class="section-divider"><label class="check"><input type="checkbox" data-column="isCalculated" ${c.isCalculated ? "checked" : ""}>计算字段</label><label class="check"><input type="checkbox" data-column="primaryKey" ${m.primaryKey === c.name ? "checked" : ""}>设为主键</label><label class="check"><input type="checkbox" data-column="notNull" ${c.notNull ? "checked" : ""}>不允许为空</label><div class="info-strip">计算字段可使用表达式定义业务口径，例如有效成绩、金额或比率。关联取值可设为计算字段，例如 school_name 的表达式为 school.name。</div>${btn("delete-column", "删除字段", "trash", "quiet danger")}</div>` : '<div class="panel-body muted small">选择一个字段查看与编辑属性。</div>'}</aside></div>`;
 }
 function relations() {
   const rs = state.draft.manifest.relationships;
@@ -563,6 +568,7 @@ function editModel(index = null) {
           "该模型已被关联引用。请先在 MDL JSON 中同步修改模型名、关联条件与导航字段类型。",
         );
       m.name = name;
+      if (m.properties?.semanticModel) m.properties.semanticModel.object = name;
       m.properties = {
         ...m.properties,
         displayName: f.get("display-name").trim(),
@@ -818,6 +824,54 @@ function editRelation(index = null) {
   });
   renderConditions();
 }
+async function editSemanticModel(name) {
+  await saveDraft();
+  const manifest = state.draft.manifest;
+  const obj = [...manifest.models, ...manifest.views].find(
+    (item) => item.name === name,
+  );
+  if (!obj) throw new Error("请选择需要配置的模型或视图。");
+  const viewIndex = manifest.views.indexOf(obj);
+  if (viewIndex >= 0) state.view = viewIndex;
+  const path = `/drafts/${state.draft.id}/semantic-preview`;
+  const body = { revision: state.draft.revision, object_name: name };
+  const discovered = await api(path, "POST", body);
+  if (!discovered.valid) {
+    const error = new Error("无法读取输出字段，请先修正模型或视图 SQL。");
+    error.issues = discovered.issues;
+    throw error;
+  }
+  let editor;
+  openDialog(
+    `配置 V2 语义模型 · ${name}`,
+    semanticEditorMarkup(obj, discovered.output_columns),
+    "校验并应用到草稿",
+    async () => {
+      const semantic = editor.read();
+      const result = await api(path, "POST", {
+        ...body,
+        semantic_model: semantic,
+      });
+      if (!result.valid) {
+        const error = new Error("V2 语义配置校验未通过，请检查下列配置。");
+        error.issues = result.issues;
+        throw error;
+      }
+      obj.properties = { ...obj.properties, semanticModel: semantic };
+      markDirty();
+      $("#modal").close();
+      render();
+      toast("V2 语义配置已应用到草稿，请保存并发布新版本。");
+    },
+  );
+  editor = mountSemanticEditor(
+    $(".semantic-model-editor"),
+    obj,
+    manifest,
+    discovered.output_columns,
+  );
+}
+
 function editView(index = null) {
   const v =
     index === null
@@ -844,6 +898,7 @@ function editView(index = null) {
           description: f.get("view-description").trim(),
         },
       });
+      if (v.properties?.semanticModel) v.properties.semanticModel.object = name;
       if (index === null) state.draft.manifest.views.push(v);
       state.view = index ?? state.draft.manifest.views.length - 1;
       markDirty();
@@ -1259,7 +1314,22 @@ async function dispatchAction(action, data = {}) {
     else if (action === "edit-relation") editRelation(index);
     else if (action === "add-view") editView();
     else if (action === "edit-view") editView(index);
-    else if (action === "delete-model") {
+    else if (action === "edit-semantic-model")
+      await editSemanticModel(data.name);
+    else if (action === "delete-semantic-model") {
+      const obj = [
+        ...state.draft.manifest.models,
+        ...state.draft.manifest.views,
+      ].find((item) => item.name === data.name);
+      if (!obj) throw new Error("模型或视图不存在。");
+      confirmDelete(
+        "移除 V2 语义配置",
+        `移除 ${obj.name} 的 V2 配置？引用该来源的候选维度需要同步调整，保存并发布新版本后生效。`,
+        () => {
+          delete obj.properties.semanticModel;
+        },
+      );
+    } else if (action === "delete-model") {
       const m = currentModel();
       if (
         state.draft.manifest.relationships.some((r) =>

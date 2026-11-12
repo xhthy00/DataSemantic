@@ -1457,6 +1457,141 @@ dialog::backdrop {
   background: #14253d66;
   backdrop-filter: blur(2px);
 }
+dialog:has(.semantic-editor) {
+  width: min(920px, calc(100vw - 28px));
+  overflow: hidden;
+}
+dialog:has(.semantic-editor) form {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+dialog:has(.semantic-editor) .dialog-body {
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+dialog:has(.semantic-editor) .dialog-head,
+dialog:has(.semantic-editor) .dialog-foot {
+  flex-shrink: 0;
+}
+.semantic-editor {
+  display: grid;
+  gap: 24px;
+}
+.semantic-editor h3 {
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+.semantic-intro p {
+  margin-top: 8px;
+}
+.semantic-model-editor section {
+  scroll-margin-top: 12px;
+}
+.semantic-model-editor [hidden] {
+  display: none;
+}
+.semantic-field-error {
+  margin-top: 6px;
+  color: var(--red);
+  font-size: 13px;
+}
+.semantic-model-editor [aria-invalid="true"] {
+  border-color: var(--red);
+}
+.semantic-columns {
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--bg);
+  overflow-wrap: anywhere;
+}
+.semantic-columns code {
+  display: inline-block;
+  margin: 6px 6px 0 0;
+  padding: 2px 6px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: 12px var(--mono);
+}
+.semantic-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.semantic-section-head h3,
+.semantic-section-head h4 {
+  margin-bottom: 0;
+}
+.semantic-requirement {
+  min-width: 0;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.semantic-requirement legend {
+  padding: 0 6px;
+  font-size: 12px;
+  color: var(--muted);
+  float: none;
+  width: auto;
+}
+.semantic-requirement > .semantic-section-head {
+  margin-bottom: 16px;
+}
+.semantic-requirement .form-grid {
+  margin-top: 12px;
+}
+.semantic-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.semantic-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.semantic-advanced summary,
+.semantic-preview summary {
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 500;
+}
+.semantic-preview pre {
+  max-height: 300px;
+  overflow: auto;
+  padding: 16px;
+  background: var(--bg);
+  border-radius: 6px;
+  font: 12px/1.7 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.semantic-empty {
+  padding: 24px 16px;
+  margin-top: 14px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+}
+.semantic-summary {
+  margin: 0 20px 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.semantic-summary h4 {
+  font-size: 13px;
+}
+.semantic-summary .hint {
+  overflow-wrap: anywhere;
+}
 dialog:has(.relation-conditions) {
   width: min(800px, calc(100vw - 28px));
   overflow: hidden;

@@ -139,9 +139,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         app.state.ready = False
-        planner = Planner(settings.max_concurrent_plans)
+        planner = Planner(settings.max_concurrent_plans, settings.queue_timeout_seconds)
         app.state.planner = planner
-        executor = SQLExecutor(settings.max_concurrent_executions)
+        executor = SQLExecutor(settings.max_concurrent_executions, settings.queue_timeout_seconds)
         app.state.executor = executor
         try:
             app.state.execution_sources = ExecutionSources(settings.execution_sources_path)
@@ -153,7 +153,18 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 app.state.studio_store = StudioStore(settings.studio_data_dir)
                 restore_releases(app.state.studio_store, registry)
             for bundle in registry.bundles.values():
-                await planner.run(bundle, None, settings.startup_timeout_seconds)
+                validated, _ = await planner.run(bundle, None, settings.startup_timeout_seconds)
+                from .semantic_catalog import semantic_issues
+                from .modeling import copy_manifest
+                issues = semantic_issues(copy_manifest(bundle), validated.get("output_columns", {}), require_outputs=True)
+                if issues:
+                    raise ValueError(f"Invalid published semantic outputs: {issues}")
+                # SDK output schema is validated once, never discovered with
+                # dozens of LIMIT 0 plans during each conversation.
+                for view in bundle.context.get("views", []):
+                    fields = validated.get("output_columns", {}).get(view["name"])
+                    if fields:
+                        view["columns"] = [{"name": field} for field in fields]
             app.state.registry = registry
             app.state.ready = True
             logger.info(
@@ -238,6 +249,34 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def context(bundle_id: str):
         bundle = app.state.registry.get(bundle_id)
         return {**bundle.summary(), **bundle.context}
+
+    @router.get("/bundles/{bundle_id}/semantic-catalog", tags=["models"])
+    async def semantic_catalog(bundle_id: str, objects: str = ""):
+        from .semantic_catalog import catalog_from_manifest
+        from .modeling import copy_manifest
+
+        bundle = app.state.registry.get(bundle_id)
+        requested = {name.strip() for name in objects.split(",") if name.strip()}
+        if requested - set(bundle.queryable_names):
+            raise ServiceError("UNKNOWN_OBJECT", "Unknown logical object", 422)
+        catalog = catalog_from_manifest(copy_manifest(bundle), {
+            "bundle_id": bundle.entry.bundle_id, "manifest_hash": bundle.entry.manifest_hash,
+        })
+        if requested:
+            # Details remain a valid catalog, including identity lookup closure.
+            sources = {s.object: s for s in catalog.sources}
+            included = set(requested)
+            pending = list(requested)
+            while pending:
+                source = sources.get(pending.pop())
+                if source:
+                    for dimension in source.dimensions:
+                        lookup = dimension.candidate_source
+                        if lookup and lookup.object not in included:
+                            included.add(lookup.object)
+                            pending.append(lookup.object)
+            catalog.sources = [s for s in catalog.sources if s.object in included]
+        return catalog.model_dump()
 
     @router.post("/plan", response_model=PlanResponse, tags=["planning"])
     async def plan(body: PlanRequest, request: Request):

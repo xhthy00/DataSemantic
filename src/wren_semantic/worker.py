@@ -40,12 +40,18 @@ def run(job: dict) -> dict:
             ),
         ) as engine:
             if job["operation"] == "validate":
+                output_columns = {}
                 for name in job["names"]:
                     escaped = name.replace('"', '""')
                     # Startup probes actually exercise native MDL planning, without a DB.
                     sql = f'SELECT * FROM "{escaped}" LIMIT 0'
-                    ensure_read_query(engine.dry_plan(sql), job["dialect"])
-                return {"ok": True}
+                    physical = engine.dry_plan(sql)
+                    ensure_read_query(physical, job["dialect"])
+                    from sqlglot import parse_one
+                    from sqlglot.optimizer.qualify import qualify
+                    tree = qualify(parse_one(physical, read=job["dialect"]), dialect=job["dialect"], validate_qualify_columns=False)
+                    output_columns[name] = tree.named_selects
+                return {"ok": True, "output_columns": output_columns}
             sql = job["sql"]
             ensure_read_query(sql, job["dialect"])
             physical_sql = engine.dry_plan(sql)

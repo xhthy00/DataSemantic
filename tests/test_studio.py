@@ -3,6 +3,7 @@ import json
 import re
 import zipfile
 from copy import deepcopy
+from pathlib import Path
 
 import duckdb
 import pytest
@@ -342,3 +343,194 @@ def test_workspace_mutations_require_csrf(studio):
     )
     assert studio.request("DELETE", path, json={"revision": 1}).status_code == 403
     assert studio.post(path + "/restore", json={"revision": 1}).status_code == 403
+
+
+def test_v2_semantic_preview_publication_discards_retired_metadata(studio):
+    manifest = template(studio)
+    legacy = {"schemaVersion": 1, "id": "legacy.scores", "requirements": []}
+    manifest["views"] = [
+        {
+            "name": "scores_v2",
+            "statement": (
+                "SELECT exam_batch_id AS exam_id, valid_score, 1 AS student_count, "
+                "1 AS score_rank FROM student_subject_score"
+            ),
+            "properties": {"analysisContract": legacy, "description": "保留说明"},
+        }
+    ]
+    d = draft(studio, manifest)
+    path = f"/studio/api/drafts/{d['id']}"
+    body = {"revision": d["revision"], "object_name": "scores_v2"}
+    fields = ["exam_id", "valid_score", "student_count", "score_rank"]
+    discovered = studio.post(path + "/semantic-preview", json=body)
+    assert discovered.status_code == 200 and discovered.json()["valid"], discovered.text
+    assert discovered.json()["output_columns"]["scores_v2"] == fields
+    semantic = {
+        "schema_version": 2,
+        "object": "scores_v2",
+        "columns": fields,
+        "grain": ["exam"],
+        "dimensions": [
+            {
+                "id": "exam",
+                "label": "考试",
+                "fields": ["exam_id"],
+                "candidate_source": {"object": "scores_v2", "fields": ["exam_id"]},
+            }
+        ],
+        "measures": [
+            {
+                "id": "average",
+                "label": "均分",
+                "field": "valid_score",
+                "description": "有效学生均分",
+                "operation": "weighted_mean",
+                "weight_field": "student_count",
+                "population": "valid_students",
+                "required_dimensions": ["exam"],
+            }
+        ],
+        "capabilities": [
+            {
+                "id": "ranking",
+                "measures": ["average"],
+                "population": "valid_students",
+                "operations": ["rank"],
+                "rank_field": "score_rank",
+                "rank_measure": "average",
+                "rank_partition": ["exam"],
+            }
+        ],
+    }
+
+    def preview(value):
+        result = studio.post(path + "/semantic-preview", json={**body, "semantic_model": value})
+        assert result.status_code == 200, result.text
+        return result.json()
+
+    assert preview(semantic)["valid"]
+    for edit in [
+        lambda s: s.update(grain=["exam_id"]),
+        lambda s: s["dimensions"][0].update(parents=["exam"]),
+        lambda s: s["measures"][0].update(weight_field=None),
+        lambda s: s["capabilities"][0].update(population="all_students"),
+        lambda s: s["capabilities"][0].update(rank_measure="absent"),
+        lambda s: s.update(columns=fields + ["ghost"]),
+        lambda s: s["dimensions"][0]["candidate_source"].update(object="schools"),
+    ]:
+        invalid = deepcopy(semantic)
+        edit(invalid)
+        assert not preview(invalid)["valid"]
+    assert studio.get(path).json() == d
+    assert studio.post(path + "/semantic-preview", json={**body, "revision": 99}).status_code == 409
+    assert (
+        studio.post(path + "/semantic-preview", json={**body, "object_name": "absent"}).status_code
+        == 422
+    )
+    manifest["views"][0]["properties"]["semanticModel"] = semantic
+    updated = studio.put(
+        path,
+        json={
+            "name": d["name"],
+            "dialect": d["dialect"],
+            "revision": d["revision"],
+            "manifest": manifest,
+        },
+    ).json()
+    result = studio.post(
+        path + "/publish", json={"revision": updated["revision"], "bundle_id": "studio-v2"}
+    )
+    assert result.status_code == 201, result.text
+    headers = {"Authorization": f"Bearer {TOKEN}"}
+    catalog = studio.get("/internal/v1/bundles/studio-v2/semantic-catalog", headers=headers).json()
+    assert catalog["sources"][0]["measures"][0]["operation"] == "weighted_mean"
+    assert catalog["sources"][0]["capabilities"][0]["rank_partition"] == ["exam"]
+    assert catalog["manifest_hash"] == result.json()["manifest_hash"]
+    assert "analysisContract" not in studio.get(path).json()["manifest"]["views"][0]["properties"]
+    assert "analysisContract" in manifest["views"][0]["properties"]  # Input remains untouched.
+
+
+def test_v2_field_discovery_repairs_metadata_and_supports_models(studio):
+    manifest = template(studio)
+    obj = manifest["models"][0]
+    obj["properties"]["semanticModel"] = {"schema_version": 99}
+    obj["properties"]["analysisContract"] = {"schemaVersion": 99}
+    d = draft(studio, manifest)
+    path = f"/studio/api/drafts/{d['id']}"
+    body = {"revision": d["revision"], "object_name": obj["name"]}
+    result = studio.post(path + "/semantic-preview", json=body)
+    assert result.status_code == 200 and result.json()["valid"], result.text
+    assert "exam_batch_id" in result.json()["output_columns"][obj["name"]]
+    assert studio.get(path).json() == d
+    studio.headers.pop("X-Studio-CSRF")
+    assert studio.post(path + "/semantic-preview", json=body).status_code == 403
+
+
+def test_retired_metadata_is_cleaned_on_import_save_and_old_routes_are_removed(studio):
+    manifest = template(studio)
+    properties = manifest["models"][0]["properties"]
+    properties["analysisContract"] = {"schemaVersion": 99}
+    properties["custom"] = {"keep": True}
+    d = draft(studio, manifest)
+    path = f"/studio/api/drafts/{d['id']}"
+    assert "analysisContract" not in d["manifest"]["models"][0]["properties"]
+    assert "analysisContract" in properties
+    result = studio.put(
+        path,
+        json={
+            "name": d["name"],
+            "dialect": d["dialect"],
+            "manifest": manifest,
+            "revision": d["revision"],
+        },
+    )
+    assert result.status_code == 200, result.text
+    saved = result.json()
+    assert "analysisContract" not in saved["manifest"]["models"][0]["properties"]
+    assert saved["manifest"]["models"][0]["properties"]["custom"] == {"keep": True}
+    assert studio.post(path + "/validate", json={"revision": saved["revision"]}).json()["valid"]
+    assert (
+        studio.post(
+            path + "/contract-preview", json={"revision": saved["revision"], "view_name": "unused"}
+        ).status_code
+        == 404
+    )
+
+
+def test_retired_draft_migration_is_idempotent_and_preserves_publications(tmp_path):
+    from wren_semantic.errors import ServiceError
+    from wren_semantic.modeling import authoring_bundle
+    from wren_semantic.studio_store import StudioStore
+
+    directory = tmp_path / "migration"
+    store = StudioStore(directory)
+    manifest = json.loads(
+        (Path(__file__).resolve().parents[1] / "models/education-demo-v1/mdl.json").read_text()
+    )
+    manifest["models"][0]["properties"]["analysisContract"] = {"schemaVersion": 99}
+    manifest["models"][0]["properties"]["custom"] = "keep"
+    # Simulate rows written by the previous release, bypassing import normalization.
+    active = store.create_draft("active", "postgres", manifest)
+    trashed = store.create_draft("trash", "postgres", manifest)
+    store.delete_draft(trashed["id"], trashed["revision"])
+    with store.connect() as db:
+        db.execute("UPDATE drafts SET manifest=?", (json.dumps(manifest),))
+    before = store.get_draft(active["id"])
+    old_bundle = authoring_bundle(manifest, "postgres", "historic-release")
+    store.publish(before, old_bundle)
+    released = store.releases()
+    store = StudioStore(directory)
+    current = store.get_draft(active["id"])
+    assert current["revision"] == before["revision"] + 1
+    assert "analysisContract" not in current["manifest"]["models"][0]["properties"]
+    assert current["manifest"]["models"][0]["properties"]["custom"] == "keep"
+    trash = store.list_drafts(deleted=True)[0]
+    assert trash["revision"] == 3 and trash["deleted_at"]
+    assert "analysisContract" not in trash["manifest"]["models"][0]["properties"]
+    assert store.releases() == released
+    assert "analysis_contract_schema_version" not in old_bundle.context
+    assert "analysis_contract_refs" not in old_bundle.context
+    assert StudioStore(directory).get_draft(active["id"]) == current
+    with pytest.raises(ServiceError) as conflict:
+        store.save_draft(active["id"], "stale", "postgres", manifest, before["revision"])
+    assert conflict.value.code == "DRAFT_CONFLICT"
